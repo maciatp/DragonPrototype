@@ -47,8 +47,26 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Camera"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""8445bb93-3df1-496c-8d8a-4f3fb942db6d"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Run"",
+                    ""type"": ""Button"",
+                    ""id"": ""04faa2f2-8125-4bc3-a118-24651ef09c29"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CallDragon"",
+                    ""type"": ""Button"",
+                    ""id"": ""4259fe48-3e52-4103-89d9-04ae7c15950a"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -191,11 +209,94 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""89b0a903-6a55-48e3-840f-8a8378e42b9a"",
-                    ""path"": """",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": ""InvertVector2(invertX=false)"",
+                    ""groups"": """",
+                    ""action"": ""Camera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1028088c-b0b4-474b-bf7b-8e0a6dca3019"",
+                    ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Camera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0a27cca4-ff3b-4534-9fc7-42fdd0078a43"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c87d81a6-f587-472c-a026-1d4ff715c8bf"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0167332b-8c6c-43c2-837f-d87883bc16e0"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CallDragon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fdc468fc-1167-41af-b16b-fc8a6247a2c8"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CallDragon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Dragon"",
+            ""id"": ""b6863d2e-51bb-4ebd-ba11-87efc995ca6c"",
+            ""actions"": [
+                {
+                    ""name"": ""New action"",
+                    ""type"": ""Button"",
+                    ""id"": ""9e3524b6-0c63-4784-b196-ff6dd05ce2e4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""83a569dd-a96e-4a4c-ae38-9efcb9ec4a4f"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""New action"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -209,11 +310,17 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Foot_Jump = m_Foot.FindAction("Jump", throwIfNotFound: true);
         m_Foot_Move = m_Foot.FindAction("Move", throwIfNotFound: true);
         m_Foot_Camera = m_Foot.FindAction("Camera", throwIfNotFound: true);
+        m_Foot_Run = m_Foot.FindAction("Run", throwIfNotFound: true);
+        m_Foot_CallDragon = m_Foot.FindAction("CallDragon", throwIfNotFound: true);
+        // Dragon
+        m_Dragon = asset.FindActionMap("Dragon", throwIfNotFound: true);
+        m_Dragon_Newaction = m_Dragon.FindAction("New action", throwIfNotFound: true);
     }
 
     ~@InputActions()
     {
         UnityEngine.Debug.Assert(!m_Foot.enabled, "This will cause a leak and performance issues, InputActions.Foot.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Dragon.enabled, "This will cause a leak and performance issues, InputActions.Dragon.Disable() has not been called.");
     }
 
     public void Dispose()
@@ -278,6 +385,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Foot_Jump;
     private readonly InputAction m_Foot_Move;
     private readonly InputAction m_Foot_Camera;
+    private readonly InputAction m_Foot_Run;
+    private readonly InputAction m_Foot_CallDragon;
     public struct FootActions
     {
         private @InputActions m_Wrapper;
@@ -285,6 +394,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Foot_Jump;
         public InputAction @Move => m_Wrapper.m_Foot_Move;
         public InputAction @Camera => m_Wrapper.m_Foot_Camera;
+        public InputAction @Run => m_Wrapper.m_Foot_Run;
+        public InputAction @CallDragon => m_Wrapper.m_Foot_CallDragon;
         public InputActionMap Get() { return m_Wrapper.m_Foot; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -303,6 +414,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Camera.started += instance.OnCamera;
             @Camera.performed += instance.OnCamera;
             @Camera.canceled += instance.OnCamera;
+            @Run.started += instance.OnRun;
+            @Run.performed += instance.OnRun;
+            @Run.canceled += instance.OnRun;
+            @CallDragon.started += instance.OnCallDragon;
+            @CallDragon.performed += instance.OnCallDragon;
+            @CallDragon.canceled += instance.OnCallDragon;
         }
 
         private void UnregisterCallbacks(IFootActions instance)
@@ -316,6 +433,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Camera.started -= instance.OnCamera;
             @Camera.performed -= instance.OnCamera;
             @Camera.canceled -= instance.OnCamera;
+            @Run.started -= instance.OnRun;
+            @Run.performed -= instance.OnRun;
+            @Run.canceled -= instance.OnRun;
+            @CallDragon.started -= instance.OnCallDragon;
+            @CallDragon.performed -= instance.OnCallDragon;
+            @CallDragon.canceled -= instance.OnCallDragon;
         }
 
         public void RemoveCallbacks(IFootActions instance)
@@ -333,10 +456,62 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         }
     }
     public FootActions @Foot => new FootActions(this);
+
+    // Dragon
+    private readonly InputActionMap m_Dragon;
+    private List<IDragonActions> m_DragonActionsCallbackInterfaces = new List<IDragonActions>();
+    private readonly InputAction m_Dragon_Newaction;
+    public struct DragonActions
+    {
+        private @InputActions m_Wrapper;
+        public DragonActions(@InputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Newaction => m_Wrapper.m_Dragon_Newaction;
+        public InputActionMap Get() { return m_Wrapper.m_Dragon; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(DragonActions set) { return set.Get(); }
+        public void AddCallbacks(IDragonActions instance)
+        {
+            if (instance == null || m_Wrapper.m_DragonActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_DragonActionsCallbackInterfaces.Add(instance);
+            @Newaction.started += instance.OnNewaction;
+            @Newaction.performed += instance.OnNewaction;
+            @Newaction.canceled += instance.OnNewaction;
+        }
+
+        private void UnregisterCallbacks(IDragonActions instance)
+        {
+            @Newaction.started -= instance.OnNewaction;
+            @Newaction.performed -= instance.OnNewaction;
+            @Newaction.canceled -= instance.OnNewaction;
+        }
+
+        public void RemoveCallbacks(IDragonActions instance)
+        {
+            if (m_Wrapper.m_DragonActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IDragonActions instance)
+        {
+            foreach (var item in m_Wrapper.m_DragonActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_DragonActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public DragonActions @Dragon => new DragonActions(this);
     public interface IFootActions
     {
         void OnJump(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
         void OnCamera(InputAction.CallbackContext context);
+        void OnRun(InputAction.CallbackContext context);
+        void OnCallDragon(InputAction.CallbackContext context);
+    }
+    public interface IDragonActions
+    {
+        void OnNewaction(InputAction.CallbackContext context);
     }
 }
