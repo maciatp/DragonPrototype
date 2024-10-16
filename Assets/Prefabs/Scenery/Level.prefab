@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7813785293789305806}
   - component: {fileID: 6234304358968530123}
   - component: {fileID: 5495216298355370422}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 3822507706390893158}
   - component: {fileID: 392482236283010403}
   - component: {fileID: 7323941395624083285}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -167,7 +167,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: bc40a11b3fbedaf42acfe7499216cb6a, type: 2}
+  - {fileID: 2100000, guid: eb5216db2509f514fac49a3a08c68481, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 1579651697333494097}
   - component: {fileID: 5993677175976884174}
   - component: {fileID: 5262647879141073732}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -272,7 +272,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: bc40a11b3fbedaf42acfe7499216cb6a, type: 2}
+  - {fileID: 2100000, guid: eb5216db2509f514fac49a3a08c68481, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -327,7 +327,7 @@ GameObject:
   - component: {fileID: 6786142518411412448}
   - component: {fileID: 5552909928851407266}
   - component: {fileID: 6175030189499899176}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Tower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -434,7 +434,7 @@ GameObject:
   - component: {fileID: 6148624394892928341}
   - component: {fileID: 412526760846915875}
   - component: {fileID: 3987508982134468536}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Teleporter_A (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -581,7 +581,7 @@ GameObject:
   - component: {fileID: 2415853125253166660}
   - component: {fileID: 6906079734733894009}
   - component: {fileID: 6119097393399575335}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Teleporter_A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -726,7 +726,7 @@ GameObject:
   - component: {fileID: 7083453381959362469}
   - component: {fileID: 6872022730170787418}
   - component: {fileID: 8152383819840979818}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -776,7 +776,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: bc40a11b3fbedaf42acfe7499216cb6a, type: 2}
+  - {fileID: 2100000, guid: eb5216db2509f514fac49a3a08c68481, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -828,7 +828,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 442617524372295592}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Level
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -869,7 +869,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3837153023845647196}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Teleporter_B
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -905,7 +905,7 @@ GameObject:
   - component: {fileID: 1692300337825390721}
   - component: {fileID: 3537319903706519096}
   - component: {fileID: 594517351956693184}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Teleporter_A (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1052,7 +1052,7 @@ GameObject:
   - component: {fileID: 523437108658868905}
   - component: {fileID: 902228502399112124}
   - component: {fileID: 8401844034452965186}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Teleporter_A (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
