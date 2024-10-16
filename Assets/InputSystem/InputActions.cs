@@ -71,6 +71,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dive"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""ac687b31-21cc-441e-bcb6-fd05af2f28d5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -271,6 +280,28 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""CallDragon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""13a6318c-e02b-46bd-907e-fc3ee7864cb8"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dive"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8e8d9ec0-76a1-4ea1-a7d6-a9254d712134"",
+                    ""path"": ""<Keyboard>/v"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dive"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -312,6 +343,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Foot_Camera = m_Foot.FindAction("Camera", throwIfNotFound: true);
         m_Foot_Run = m_Foot.FindAction("Run", throwIfNotFound: true);
         m_Foot_CallDragon = m_Foot.FindAction("CallDragon", throwIfNotFound: true);
+        m_Foot_Dive = m_Foot.FindAction("Dive", throwIfNotFound: true);
         // Dragon
         m_Dragon = asset.FindActionMap("Dragon", throwIfNotFound: true);
         m_Dragon_Newaction = m_Dragon.FindAction("New action", throwIfNotFound: true);
@@ -387,6 +419,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Foot_Camera;
     private readonly InputAction m_Foot_Run;
     private readonly InputAction m_Foot_CallDragon;
+    private readonly InputAction m_Foot_Dive;
     public struct FootActions
     {
         private @InputActions m_Wrapper;
@@ -396,6 +429,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Camera => m_Wrapper.m_Foot_Camera;
         public InputAction @Run => m_Wrapper.m_Foot_Run;
         public InputAction @CallDragon => m_Wrapper.m_Foot_CallDragon;
+        public InputAction @Dive => m_Wrapper.m_Foot_Dive;
         public InputActionMap Get() { return m_Wrapper.m_Foot; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -420,6 +454,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @CallDragon.started += instance.OnCallDragon;
             @CallDragon.performed += instance.OnCallDragon;
             @CallDragon.canceled += instance.OnCallDragon;
+            @Dive.started += instance.OnDive;
+            @Dive.performed += instance.OnDive;
+            @Dive.canceled += instance.OnDive;
         }
 
         private void UnregisterCallbacks(IFootActions instance)
@@ -439,6 +476,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @CallDragon.started -= instance.OnCallDragon;
             @CallDragon.performed -= instance.OnCallDragon;
             @CallDragon.canceled -= instance.OnCallDragon;
+            @Dive.started -= instance.OnDive;
+            @Dive.performed -= instance.OnDive;
+            @Dive.canceled -= instance.OnDive;
         }
 
         public void RemoveCallbacks(IFootActions instance)
@@ -509,6 +549,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnCamera(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
         void OnCallDragon(InputAction.CallbackContext context);
+        void OnDive(InputAction.CallbackContext context);
     }
     public interface IDragonActions
     {
