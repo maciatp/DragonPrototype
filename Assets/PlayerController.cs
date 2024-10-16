@@ -11,10 +11,8 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     private bool isDiving = false;
     
-    [SerializeField] Transform orientation; //transform que se usa para determinar la orientación. es hijo del gameobject que lleva este script.
-
     [SerializeField] private float moveSpeed = 12f;
-   
+    [SerializeField] private float rotationSpeed = 10f;
     [SerializeField] private float jumpHeight = 3f;
     [SerializeField] private float fallThreshold = -10f; // Umbral para activar BigFall
     [SerializeField] private float terminalVelocity = -20f;
@@ -23,14 +21,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask groundMask;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckRadius = 0.2f;
-    [SerializeField] private float rotationSpeed = 10f;
     [SerializeField] private Transform playerObj; // El modelo que rotará en BigFall. Es hijo del gameobject que lleva este script
+    [SerializeField] Transform orientation; //transform que se usa para determinar la orientación. es hijo del gameobject que lleva este script.
     [SerializeField] CinemachineFreeLook cinemachineFreeLookCamera;
-
 
     private Rigidbody rb;
 
-    //TESTING DIVE
+
+    //Debug DIVE
     TrailRenderer trail;
     Color normalColor;
     [SerializeField] Color diveColor;
@@ -55,6 +53,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        //Dive Debug
         trail = GetComponentInChildren<TrailRenderer>();
         normalColor = trail.startColor;
         trail.enabled = false;
@@ -67,19 +66,23 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext jumpContext)
     {
-        if (isGrounded)
+        if(jumpContext.action.triggered) //Sólo se llama una vez, cuando pulsas el botón
         {
-            Jump();
+           
+            if(isGrounded)
+            {
+                Jump();
+            }
         }
     }
 
     public void OnDive(InputAction.CallbackContext diveContext) //sólo true cuando el botón está pulsado (no hold)
     {
-        if(diveContext.action.IsPressed())
+        if(diveContext.action.IsPressed()) //mira si está presionado
         {
             isDiving = true;
         }
-        if(diveContext.action.WasReleasedThisFrame())
+        if(diveContext.action.WasReleasedThisFrame()) //mira si se ha soltado el botón
         {
             isDiving = false;
         }                
@@ -140,7 +143,7 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {   
-        rb.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange); //MODO CALCULAR CuÁNTA FUERZA TENGO QUE DARLE PARA QUE LLEGUE A LA ALTURA REQUERIDA
+        rb.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange); //MODO CALCULAR CuÁNTA FUERZA TENGO QUE DARLE PARA QUE LLEGUE A LA ALTURA REQUERIDA       
     }
 
     private void SetBigFall()
