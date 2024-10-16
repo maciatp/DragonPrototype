@@ -260,9 +260,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerState: 0
   orientation: {fileID: 3149757477344715767}
-  player: {fileID: 5683126473246551016}
   moveSpeed: 12
-  jumpForce: 7
   jumpHeight: 0.5
   fallThreshold: -15
   terminalVelocity: -20
@@ -272,12 +270,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   groundCheck: {fileID: 1196800077714257949}
-  groundCheckRadius: 0.1
+  groundCheckRadius: 1
   rotationSpeed: 10
   playerObj: {fileID: 3690482291780504614}
-  turnSmoothTime: 0.1
-  diveColor: {r: 1, g: 0.5280086, b: 0, a: 0.6117647}
   cinemachineFreeLookCamera: {fileID: 0}
+  diveColor: {r: 1, g: 0.5280086, b: 0, a: 0.6117647}
 --- !u!54 &3669470022926248162
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -302,9 +299,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 1
+  m_Interpolate: 0
   m_Constraints: 80
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
 --- !u!1 &6338208625448045019
 GameObject:
   m_ObjectHideFlags: 0
@@ -438,7 +435,7 @@ Transform:
   m_GameObject: {fileID: 7641858804975227091}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.008, z: 0.09}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

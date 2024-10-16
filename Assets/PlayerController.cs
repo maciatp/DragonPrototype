@@ -7,16 +7,14 @@ using Cinemachine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] PlayerStates playerState = PlayerStates.Normal;
-
-
-    //TUTORIAL CAMERA
-    [SerializeField] Transform orientation;
-    [SerializeField] Transform player;
-    //PlayerObj está abajo porque ya lo usaba
-    //
+    private Vector2 moveInput;
+    private bool isGrounded;
+    private bool isDiving = false;
+    
+    [SerializeField] Transform orientation; //transform que se usa para determinar la orientación. es hijo del gameobject que lleva este script.
 
     [SerializeField] private float moveSpeed = 12f;
-    [SerializeField] private float jumpForce = 7f;
+   
     [SerializeField] private float jumpHeight = 3f;
     [SerializeField] private float fallThreshold = -10f; // Umbral para activar BigFall
     [SerializeField] private float terminalVelocity = -20f;
@@ -26,22 +24,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckRadius = 0.2f;
     [SerializeField] private float rotationSpeed = 10f;
-    [SerializeField] private Transform playerObj; // El modelo que rotará en BigFall
+    [SerializeField] private Transform playerObj; // El modelo que rotará en BigFall. Es hijo del gameobject que lleva este script
+    [SerializeField] CinemachineFreeLook cinemachineFreeLookCamera;
 
-    [SerializeField] float turnSmoothTime = 0.1f;
-    float turnSmoothVelocity;
 
     private Rigidbody rb;
-    private Vector2 moveInput;
-    private bool isGrounded;
-    private bool isDiving = false;
-    private bool isBigFallRotationApplied = false;
+
+    //TESTING DIVE
     TrailRenderer trail;
     Color normalColor;
     [SerializeField] Color diveColor;
-    float rbYSpeed;
 
-    [SerializeField] CinemachineFreeLook cinemachineFreeLookCamera;
      
 
     public enum PlayerStates
@@ -97,16 +90,13 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundMask);
-        rbYSpeed = rb.velocity.y;
+       
 
         if (!isGrounded && playerState == PlayerStates.Normal && rb.velocity.y <= fallThreshold)
         {
             SetBigFall();
         }
-        if (playerState == PlayerStates.BigFall && !isBigFallRotationApplied)
-        {
-            ApplyBigFallRotation();
-        }
+       
 
         if(isGrounded && playerState == PlayerStates.BigFall)
         {
@@ -114,11 +104,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void SetBigFall()
-    {
-        playerState = PlayerStates.BigFall;
-        trail.enabled = true;
-    }
 
     private void FixedUpdate()
     {
@@ -158,6 +143,12 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange); //MODO CALCULAR CuÁNTA FUERZA TENGO QUE DARLE PARA QUE LLEGUE A LA ALTURA REQUERIDA
     }
 
+    private void SetBigFall()
+    {
+        playerObj.localRotation = Quaternion.Euler(90f, 0f, 0f);
+        playerState = PlayerStates.BigFall;
+        trail.enabled = true;
+    }
     private void BigFallVelocity()
     {
         float targetVelocity = isDiving ? terminalDiveVelocity : terminalVelocity;
@@ -171,14 +162,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void ApplyBigFallRotation()
-    {
-        if (playerObj != null)
-        {
-            playerObj.localRotation = Quaternion.Euler(90f, 0f, 0f);
-            isBigFallRotationApplied = true;
-        }
-    }
+   
     private void RestorePlayerRotation()
     {
         if(playerObj != null)
@@ -187,7 +171,7 @@ public class PlayerController : MonoBehaviour
             SetPlayerState(PlayerStates.Normal);
             
         }
-        if(trail != null)
+        if(trail != null) //DIVE TESTING
         {
             trail.enabled = false;
         }
