@@ -2,10 +2,47 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Cinemachine;
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] PlayerStates playerState = PlayerStates.Normal;
+
+
+    //TUTORIAL CAMERA
+    [SerializeField] Transform orientation;
+    [SerializeField] Transform player;
+    //PlayerObj está abajo porque ya lo usaba
+    //
+
+    [SerializeField] private float moveSpeed = 12f;
+    [SerializeField] private float jumpForce = 7f;
+    [SerializeField] private float jumpHeight = 3f;
+    [SerializeField] private float fallThreshold = -10f; // Umbral para activar BigFall
+    [SerializeField] private float terminalVelocity = -20f;
+    [SerializeField] private float terminalDiveVelocity = -50f;
+    [SerializeField] private float diveAcceleration = 10f;  // Rapidez para alcanzar terminalDiveVelocity
+    [SerializeField] private LayerMask groundMask;
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private float groundCheckRadius = 0.2f;
+    [SerializeField] private float rotationSpeed = 10f;
+    [SerializeField] private Transform playerObj; // El modelo que rotará en BigFall
+
+    [SerializeField] float turnSmoothTime = 0.1f;
+    float turnSmoothVelocity;
+
+    private Rigidbody rb;
+    private Vector2 moveInput;
+    private bool isGrounded;
+    private bool isDiving = false;
+    private bool isBigFallRotationApplied = false;
+    TrailRenderer trail;
+    Color normalColor;
+    [SerializeField] Color diveColor;
+    float rbYSpeed;
+
+    [SerializeField] CinemachineFreeLook cinemachineFreeLookCamera;
+     
 
     public enum PlayerStates
     {
@@ -18,32 +55,24 @@ public class PlayerController : MonoBehaviour
         get { return playerState; }
     }
 
-    [SerializeField] private float moveSpeed = 6f;
-    [SerializeField] private float jumpForce = 7f;
-    [SerializeField] private float terminalVelocity = -20f;
-    [SerializeField] private float terminalDiveVelocity = -50f;
-    [SerializeField] private float diveAcceleration = 10f;  // La rapidez con la que se alcanza terminalDiveVelocity
-    [SerializeField] private LayerMask groundMask;
-    [SerializeField] private Transform groundCheck;
-    [SerializeField] private float groundCheckRadius = 0.2f;
-    [SerializeField] private float rotationSpeed = 10f;
-
-    private Rigidbody rb;
-    private Vector2 moveInput;
-    private bool isGrounded;
-    private bool isDiving = false;
-
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
     }
 
-    void OnMove(InputValue movementValue)
+    private void Start()
     {
-        moveInput = movementValue.Get<Vector2>();
+        trail = GetComponentInChildren<TrailRenderer>();
+        normalColor = trail.startColor;
+        trail.enabled = false;
     }
 
-    void OnJump()
+    public void OnMove(InputAction.CallbackContext movementContext) //AÑADIDO A PLAYER INPUT MEDIANTE EVENTOS
+    {
+        moveInput = movementContext.ReadValue<Vector2>();
+    }
+
+    public void OnJump(InputAction.CallbackContext jumpContext)
     {
         if (isGrounded)
         {
@@ -51,54 +80,90 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnDive(InputValue diveValue)
+    public void OnDive(InputAction.CallbackContext diveContext) //sólo true cuando el botón está pulsado (no hold)
     {
-        isDiving = diveValue.isPressed;
+        if(diveContext.action.IsPressed())
+        {
+            isDiving = true;
+        }
+        if(diveContext.action.WasReleasedThisFrame())
+        {
+            isDiving = false;
+        }                
     }
+   
+
 
     private void Update()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundMask);
+        rbYSpeed = rb.velocity.y;
+
+        if (!isGrounded && playerState == PlayerStates.Normal && rb.velocity.y <= fallThreshold)
+        {
+            SetBigFall();
+        }
+        if (playerState == PlayerStates.BigFall && !isBigFallRotationApplied)
+        {
+            ApplyBigFallRotation();
+        }
+
+        if(isGrounded && playerState == PlayerStates.BigFall)
+        {
+            RestorePlayerRotation();
+        }
+    }
+
+    private void SetBigFall()
+    {
+        playerState = PlayerStates.BigFall;
+        trail.enabled = true;
     }
 
     private void FixedUpdate()
     {
-        Move();
-
-        if (!isGrounded)
+        if (playerState == PlayerStates.Normal)
         {
-            ApplyFallVelocity();
+            Move();
+        }
+
+
+
+        if (!isGrounded && playerState == PlayerStates.BigFall )
+        {
+            BigFallVelocity();
         }
     }
 
     private void Move()
     {
-        Vector3 moveDirection = new Vector3(moveInput.x, 0, moveInput.y).normalized;
-        moveDirection = Camera.main.transform.TransformDirection(moveDirection);
-        moveDirection.y = 0f;
-
-        Vector3 targetVelocity = moveDirection * moveSpeed;
-        rb.velocity = new Vector3(targetVelocity.x, rb.velocity.y, targetVelocity.z);
-
-        if (moveDirection != Vector3.zero)
+        if (moveInput.sqrMagnitude > 0.01f)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-            rb.rotation = Quaternion.Slerp(rb.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
+            //Rotación y movimiento respecto a cámara
+            Vector3 viewDir = transform.position - new Vector3(cinemachineFreeLookCamera.transform.position.x, transform.position.y, cinemachineFreeLookCamera.transform.position.z);
+            orientation.forward = viewDir.normalized;
+            Vector3 moveDirection = (orientation.right*moveInput.x)+(orientation.forward*moveInput.y);
+            if (moveDirection != Vector3.zero)
+            {
+                playerObj.forward = Vector3.Slerp(playerObj.forward, moveDirection.normalized, Time.deltaTime * rotationSpeed);
+            }
+
+            //MovePosition Method
+            rb.MovePosition(rb.position + moveDirection * moveSpeed * Time.fixedDeltaTime);           
         }
     }
 
     private void Jump()
-    {
-        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    {   
+        rb.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange); //MODO CALCULAR CuÁNTA FUERZA TENGO QUE DARLE PARA QUE LLEGUE A LA ALTURA REQUERIDA
     }
 
-    private void ApplyFallVelocity()
+    private void BigFallVelocity()
     {
-        // Si está en modo de caída normal
         float targetVelocity = isDiving ? terminalDiveVelocity : terminalVelocity;
+        trail.startColor = isDiving ? diveColor : normalColor;
         float currentYVelocity = rb.velocity.y;
 
-        // Aumentar la velocidad de caída si está en modo Dive
         if (currentYVelocity > targetVelocity)
         {
             float newFallSpeed = Mathf.MoveTowards(currentYVelocity, targetVelocity, diveAcceleration * Time.fixedDeltaTime);
@@ -106,7 +171,30 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void ApplyBigFallRotation()
+    {
+        if (playerObj != null)
+        {
+            playerObj.localRotation = Quaternion.Euler(90f, 0f, 0f);
+            isBigFallRotationApplied = true;
+        }
+    }
+    private void RestorePlayerRotation()
+    {
+        if(playerObj != null)
+        {
+            playerObj.localRotation = Quaternion.Euler(0, 0, 0);
+            SetPlayerState(PlayerStates.Normal);
+            
+        }
+        if(trail != null)
+        {
+            trail.enabled = false;
+        }
+    }
+
+    private void SetPlayerState(PlayerStates newPlayerState)
+    {
+        playerState = newPlayerState;
+    }
 }
-
-
-
