@@ -202,7 +202,7 @@ MonoBehaviour:
   spawnDistance: 3
   playerPos: {fileID: 6665944997430979271}
   pitchSpeed: 100
-  rollSpeed: 100
+  rollSpeed: 150
   yawSpeed: 15
   flyingSpeed: 50
   dragonVcam: {fileID: 0}
