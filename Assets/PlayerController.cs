@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float groundCheckRadius = 0.2f;
     [SerializeField] private Transform playerObj; // El modelo que rotará en BigFall. Es hijo del gameobject que lleva este script
     [SerializeField] Transform orientation; //transform que se usa para determinar la orientación. es hijo del gameobject que lleva este script.
-    [SerializeField] CinemachineFreeLook cinemachineFreeLookCamera;
+    [SerializeField] CinemachineFreeLook freeLookPlayerCamera;
 
     private Rigidbody rb;
 
@@ -144,7 +144,7 @@ public class PlayerController : MonoBehaviour
         if (moveInput.sqrMagnitude > 0.01f)
         {
             //Rotación y movimiento respecto a cámara
-            Vector3 viewDir = transform.position - new Vector3(cinemachineFreeLookCamera.transform.position.x, transform.position.y, cinemachineFreeLookCamera.transform.position.z);
+            Vector3 viewDir = transform.position - new Vector3(freeLookPlayerCamera.transform.position.x, transform.position.y, freeLookPlayerCamera.transform.position.z);
             orientation.forward = viewDir.normalized;
             Vector3 moveDirection = (orientation.right * moveInput.x) + (orientation.forward * moveInput.y);
             if (moveDirection != Vector3.zero)
@@ -175,7 +175,7 @@ public class PlayerController : MonoBehaviour
     private void BigFallMovement()
     {
         // Rotación gradual hacia la cámara
-        Vector3 viewDir = transform.position - new Vector3(cinemachineFreeLookCamera.transform.position.x, transform.position.y, cinemachineFreeLookCamera.transform.position.z);
+        Vector3 viewDir = transform.position - new Vector3(freeLookPlayerCamera.transform.position.x, transform.position.y, freeLookPlayerCamera.transform.position.z);
         orientation.forward = viewDir.normalized;
         Vector3 targetDirection = orientation.forward;
 
@@ -229,11 +229,9 @@ public class PlayerController : MonoBehaviour
         CapsuleCollider playerCollider = GetComponentInChildren<CapsuleCollider>();       
         playerCollider.enabled = false;
         playerInput.SwitchCurrentActionMap("Dragon");
-        //cinemachineFreeLookCamera.GetComponent<CinemachineInputProvider>().XYAxis = playerInput.actions.("Dragon/Camera");
+        //freeLookPlayerCamera.GetComponent<CinemachineInputProvider>().XYAxis = playerInput.actions.("Dragon/Camera"); NO he podido cambiarlo
+        freeLookPlayerCamera.gameObject.SetActive(false);
         
-       
-
-        // quizá con los eventos no hace falta mover el componente al dragón?? Sólo referenciarlos desde ahí.
     }
 
     public void DismountDragon()
@@ -247,6 +245,7 @@ public class PlayerController : MonoBehaviour
 
 
         playerInput.SwitchCurrentActionMap("Foot");
+        freeLookPlayerCamera.gameObject.SetActive(true);
     }
 
     private void SetPlayerState(PlayerStates newPlayerState)

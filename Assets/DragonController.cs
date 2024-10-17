@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,6 +29,7 @@ public class DragonController : MonoBehaviour
     private Vector2 moveInput; // Input del joystick izquierdo (pitch y roll)
     private float yawInput; // Input de los gatillos para el yaw
 
+    [SerializeField] CinemachineVirtualCamera dragonVcam;
 
     PlayerController playerController;
 
@@ -95,7 +97,7 @@ public class DragonController : MonoBehaviour
                 Fly();
                 break;
             case DragonStates.Dismounted:
-                //FLY AWAY
+                FlyAway();
                 break;
                 
         }
@@ -120,6 +122,19 @@ public class DragonController : MonoBehaviour
         transform.position += transform.forward * flyingSpeed * Time.deltaTime;
     }
 
+    //DISMOUNTED
+    void FlyAway()
+    {
+        transform.position += transform.forward * flyingSpeed * Time.deltaTime;
+        StartCoroutine(FlyAwayCooldown());
+    }
+    IEnumerator FlyAwayCooldown()
+    {
+        yield return new WaitForSecondsRealtime(2);
+        SetDragonState(DragonStates.Free);
+        //???? yield return null
+    }
+    
     //FREE
     private void FlyInCircle()
     {
@@ -178,6 +193,7 @@ public class DragonController : MonoBehaviour
         SetDragonState(DragonStates.Mounted);
         Debug.Log("MOUNTED from Dragon");
         playerController.MountDragon();
+        dragonVcam.gameObject.SetActive(true);
         
     }
 
@@ -186,6 +202,7 @@ public class DragonController : MonoBehaviour
     {
         SetDragonState(DragonStates.Dismounted);        
         Debug.Log("Dismount from Dragon");
+        dragonVcam.gameObject.SetActive(false);
         playerController.DismountDragon();
     }
 
