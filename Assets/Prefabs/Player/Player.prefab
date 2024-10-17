@@ -309,6 +309,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 74bb5139-f35f-4f85-8f44-b151e4624f2f
     m_ActionName: Dragon/Yaw[/XInputControllerWindows/leftShoulder,/XInputControllerWindows/rightShoulder,/Keyboard/q,/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 4116aeaa-e429-4e5f-af15-a077789e539c
+    m_ActionName: Dragon/Camera[/XInputControllerWindows/rightStick,/Mouse/delta]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Foot
@@ -335,8 +351,8 @@ MonoBehaviour:
   jumpHeight: 3
   fallThreshold: -15
   terminalVelocity: -30
-  terminalDiveVelocity: -60
-  diveAcceleration: 30
+  terminalDiveVelocity: -50
+  diveAcceleration: 60
   groundMask:
     serializedVersion: 2
     m_Bits: 256

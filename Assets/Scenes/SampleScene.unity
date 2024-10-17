@@ -1179,6 +1179,18 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 3733621922552275211, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
+      propertyPath: diveAcceleration
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733621922552275211, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
+      propertyPath: terminalVelocity
+      value: -30
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733621922552275211, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
+      propertyPath: terminalDiveVelocity
+      value: -50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733621922552275211, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
       propertyPath: cinemachineFreeLookCamera
       value: 
       objectReference: {fileID: 896707486}
@@ -1223,9 +1235,45 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7061159533216105747, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 7061159533216105747, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
+      propertyPath: m_ActionEvents.Array.data[12].m_ActionId
+      value: 4116aeaa-e429-4e5f-af15-a077789e539c
+      objectReference: {fileID: 0}
+    - target: {fileID: 7061159533216105747, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
+      propertyPath: m_ActionEvents.Array.data[12].m_ActionName
+      value: Dragon/Camera[/XInputControllerWindows/rightStick,/Mouse/delta]
+      objectReference: {fileID: 0}
+    - target: {fileID: 7061159533216105747, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
+      propertyPath: m_ActionEvents.Array.data[12].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7061159533216105747, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
+      propertyPath: m_ActionEvents.Array.data[12].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7061159533216105747, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
+      propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1025092430}
+    - target: {fileID: 7061159533216105747, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
       propertyPath: m_ActionEvents.Array.data[8].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1025092430}
+    - target: {fileID: 7061159533216105747, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
+      propertyPath: m_ActionEvents.Array.data[11].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1025092430}
+    - target: {fileID: 7061159533216105747, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
+      propertyPath: m_ActionEvents.Array.data[12].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7061159533216105747, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
+      propertyPath: m_ActionEvents.Array.data[12].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1296,6 +1344,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 487905241758311988, guid: 57cf50c187aff6745ac4ee585aa38a07, type: 3}
+      propertyPath: yawSpeed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 487905241758311988, guid: 57cf50c187aff6745ac4ee585aa38a07, type: 3}
+      propertyPath: rollSpeed
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 487905241758311988, guid: 57cf50c187aff6745ac4ee585aa38a07, type: 3}
+      propertyPath: pitchSpeed
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 487905241758311988, guid: 57cf50c187aff6745ac4ee585aa38a07, type: 3}
       propertyPath: playerTransform
       value: 

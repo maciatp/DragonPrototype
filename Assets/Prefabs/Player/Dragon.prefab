@@ -201,6 +201,10 @@ MonoBehaviour:
   calledSpeed: 150
   spawnDistance: 3
   playerPos: {fileID: 6665944997430979271}
+  pitchSpeed: 100
+  rollSpeed: 100
+  yawSpeed: 15
+  flyingSpeed: 50
   dragonState: 0
 --- !u!1 &7154037091161708813
 GameObject:
