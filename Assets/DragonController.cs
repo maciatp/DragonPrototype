@@ -24,7 +24,16 @@ public class DragonController : MonoBehaviour
     [SerializeField] private float pitchSpeed = 10f; // Velocidad de cabeceo (pitch)
     [SerializeField] private float rollSpeed = 10f; // Velocidad de alabeo (roll)
     [SerializeField] private float yawSpeed = 5f; // Velocidad de guiñada (yaw)
-    [SerializeField] private float flyingSpeed = 50f; // Velocidad de vuelo fija por ahora
+    [SerializeField] private float acceleration = 50f; // Tasa de aceleración
+    [SerializeField] private float deceleration = 50f; // Tasa de frenado
+    [SerializeField] private float maxFlyingSpeed = 100f; // Velocidad máxima
+    [SerializeField] private float idleFlyingSpeed = 50f; // Velocidad en estado idle
+    [SerializeField] private float idleForce = 20f; // Velocidad en estado idle
+
+    [SerializeField] float flyAwaySpeed = 70f; // velocidad de escape cuando unmounted
+    private float currentSpeed; // Velocidad actual del dragón
+    private bool isAccelerating = false;
+    private bool isBraking = false;
 
     //DISMOUNT
     bool isFlyAwayCoroutineCalled = false;
@@ -56,7 +65,6 @@ public class DragonController : MonoBehaviour
         get { return playerPos; }
     }
 
-
     // Input para mover el dragón (joystick izquierdo)
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -71,33 +79,35 @@ public class DragonController : MonoBehaviour
 
     public void OnDismount(InputAction.CallbackContext dismountContext)
     {
-        if(dismountContext.action.triggered && dragonState == DragonStates.Mounted)
+        if (dismountContext.action.triggered && dragonState == DragonStates.Mounted)
         {
-           DismountDragon();
+            DismountDragon();
         }
     }
 
+    // Input para acelerar
     public void OnAccelerate(InputAction.CallbackContext accelerateContext)
     {
-        if(accelerateContext.action.IsPressed())
+        if (accelerateContext.action.IsPressed())
         {
-            //MustAccelerate true
+            isAccelerating = true;
         }
-        if(accelerateContext.action.WasReleasedThisFrame())
+        if (accelerateContext.action.WasReleasedThisFrame())
         {
-            //MustAccelerate false
+            isAccelerating = false;
         }
     }
 
+    // Input para frenar
     public void OnBrake(InputAction.CallbackContext brakeContext)
     {
         if (brakeContext.action.IsPressed())
         {
-            //must brake true
+            isBraking = true;
         }
         if (brakeContext.action.WasReleasedThisFrame())
         {
-            //must brake false
+            isBraking = false;
         }
     }
 
@@ -107,6 +117,8 @@ public class DragonController : MonoBehaviour
         lastPosition = transform.position;
 
         playerController = playerTransform.GetComponent<PlayerController>();
+
+        
     }
 
     private void Update()
@@ -125,7 +137,7 @@ public class DragonController : MonoBehaviour
             case DragonStates.Dismounted:
                 FlyAway();
                 break;
-                
+
         }
 
         lastPosition = transform.position;
@@ -144,27 +156,57 @@ public class DragonController : MonoBehaviour
         // Aplicar las rotaciones
         transform.Rotate(pitch, yaw, -roll, Space.Self); // Invertimos el roll para que gire de manera correcta
 
-        // Mover hacia adelante
-        transform.position += transform.forward * flyingSpeed * Time.deltaTime;
+        // Actualizar la velocidad actual
+        if (isAccelerating)
+        {
+            currentSpeed += acceleration * Time.deltaTime;            
+        }
+        else if (isBraking)
+        {
+            currentSpeed -= deceleration * Time.deltaTime;
+        }
+        else
+        {
+            // Si no se está acelerando ni frenando, volver gradualmente a la velocidad idle
+            if (currentSpeed > idleFlyingSpeed)
+            {
+                currentSpeed -= idleForce * Time.deltaTime;
+                if (currentSpeed < idleFlyingSpeed)
+                    currentSpeed = idleFlyingSpeed;
+            }
+            else if (currentSpeed < idleFlyingSpeed)
+            {
+                currentSpeed += idleForce * Time.deltaTime;
+                if (currentSpeed > idleFlyingSpeed)
+                    currentSpeed = idleFlyingSpeed;
+            }
+        }
+
+        // Limitar la velocidad actual entre 0 y la velocidad máxima
+        currentSpeed = Mathf.Clamp(currentSpeed, 0f, maxFlyingSpeed);
+
+        // Mover hacia adelante con la velocidad actual
+        transform.position += transform.forward * currentSpeed * Time.deltaTime;
     }
 
     //DISMOUNTED
     void FlyAway()
     {
-        transform.position += transform.forward * flyingSpeed * Time.deltaTime;
-        if(!isFlyAwayCoroutineCalled)
+        transform.position += transform.forward * flyAwaySpeed * Time.deltaTime;
+        if (!isFlyAwayCoroutineCalled)
         {
             StartCoroutine(FlyAwayCooldown());
         }
     }
     IEnumerator FlyAwayCooldown()
     {
-        isFlyAwayCoroutineCalled = true;        
+        isFlyAwayCoroutineCalled = true;
         yield return new WaitForSecondsRealtime(2);
         SetDragonState(DragonStates.Free);
+        isFlyAwayCoroutineCalled = false;
         yield return null;
     }
-    
+
     //FREE
     private void FlyInCircle()
     {
@@ -196,7 +238,7 @@ public class DragonController : MonoBehaviour
     //CALLED
     public void CallDragon()
     {
-        SetDragonState(DragonStates.Called);        
+        SetDragonState(DragonStates.Called);
     }
     private void FlyTowardsPlayer()
     {
@@ -216,23 +258,22 @@ public class DragonController : MonoBehaviour
 
     }
 
-
     //MOUNT
     void MountDragon()
     {
-        SetDragonState(DragonStates.Mounted);        
+        SetDragonState(DragonStates.Mounted);
         playerController.MountDragon();
         //DRAGON CAM ON
         dragonVcam.gameObject.SetActive(true);
-        
+
     }
 
     //DISMOUNT
     void DismountDragon()
     {
-        SetDragonState(DragonStates.Dismounted);        
+        SetDragonState(DragonStates.Dismounted);
         playerController.DismountDragon();
-       
+
         //Dragon CAM OFF
         dragonVcam.gameObject.SetActive(false);
     }
@@ -243,15 +284,12 @@ public class DragonController : MonoBehaviour
         dragonState = _dragonState; // Método para cambiar el estado del dragón
     }
 
-
     //TRIGGERS
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player" && dragonState == DragonStates.Called)
         {
-            {
-                MountDragon();
-            }
+            MountDragon();
         }
     }
 }
