@@ -271,7 +271,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""0167332b-8c6c-43c2-837f-d87883bc16e0"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -282,7 +282,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""fdc468fc-1167-41af-b16b-fc8a6247a2c8"",
-                    ""path"": ""<Keyboard>/c"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -293,7 +293,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""13a6318c-e02b-46bd-907e-fc3ee7864cb8"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -304,7 +304,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""8e8d9ec0-76a1-4ea1-a7d6-a9254d712134"",
-                    ""path"": ""<Keyboard>/v"",
+                    ""path"": ""<Keyboard>/shift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -381,6 +381,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""type"": ""PassThrough"",
                     ""id"": ""74bb5139-f35f-4f85-8f44-b151e4624f2f"",
                     ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Camera"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""4116aeaa-e429-4e5f-af15-a077789e539c"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -577,7 +586,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""negative"",
                     ""id"": ""a19d452a-8556-47f9-b8c1-9eaded61b774"",
-                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -588,7 +597,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""positive"",
                     ""id"": ""2ea358ac-2930-40c6-a0ca-6d199425a472"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -628,6 +637,28 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Yaw"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e022be93-6418-45c6-85b4-5a692e60d0b6"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Camera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b7f98429-d2fd-4a1d-9620-18eedb4a9700"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Camera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -650,6 +681,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Dragon_Accelerate = m_Dragon.FindAction("Accelerate", throwIfNotFound: true);
         m_Dragon_Brake = m_Dragon.FindAction("Brake", throwIfNotFound: true);
         m_Dragon_Yaw = m_Dragon.FindAction("Yaw", throwIfNotFound: true);
+        m_Dragon_Camera = m_Dragon.FindAction("Camera", throwIfNotFound: true);
     }
 
     ~@InputActions()
@@ -816,6 +848,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Dragon_Accelerate;
     private readonly InputAction m_Dragon_Brake;
     private readonly InputAction m_Dragon_Yaw;
+    private readonly InputAction m_Dragon_Camera;
     public struct DragonActions
     {
         private @InputActions m_Wrapper;
@@ -825,6 +858,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Accelerate => m_Wrapper.m_Dragon_Accelerate;
         public InputAction @Brake => m_Wrapper.m_Dragon_Brake;
         public InputAction @Yaw => m_Wrapper.m_Dragon_Yaw;
+        public InputAction @Camera => m_Wrapper.m_Dragon_Camera;
         public InputActionMap Get() { return m_Wrapper.m_Dragon; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -849,6 +883,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Yaw.started += instance.OnYaw;
             @Yaw.performed += instance.OnYaw;
             @Yaw.canceled += instance.OnYaw;
+            @Camera.started += instance.OnCamera;
+            @Camera.performed += instance.OnCamera;
+            @Camera.canceled += instance.OnCamera;
         }
 
         private void UnregisterCallbacks(IDragonActions instance)
@@ -868,6 +905,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Yaw.started -= instance.OnYaw;
             @Yaw.performed -= instance.OnYaw;
             @Yaw.canceled -= instance.OnYaw;
+            @Camera.started -= instance.OnCamera;
+            @Camera.performed -= instance.OnCamera;
+            @Camera.canceled -= instance.OnCamera;
         }
 
         public void RemoveCallbacks(IDragonActions instance)
@@ -902,5 +942,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnAccelerate(InputAction.CallbackContext context);
         void OnBrake(InputAction.CallbackContext context);
         void OnYaw(InputAction.CallbackContext context);
+        void OnCamera(InputAction.CallbackContext context);
     }
 }
