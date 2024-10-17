@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Cinemachine;
+using JetBrains.Annotations;
 
 public class PlayerController : MonoBehaviour
 {
+    public float Yspeed;
     [SerializeField] PlayerStates playerState = PlayerStates.Normal;
     private Vector2 moveInput;
     private bool isGrounded;
@@ -28,6 +30,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] CinemachineFreeLook cinemachineFreeLookCamera;
 
     private Rigidbody rb;
+
+    [Header("Dragon")]
+    DragonController dragonController;
+
+    //INPUT
+    PlayerInput playerInput;
 
     //Debug DIVE
     TrailRenderer trail;
@@ -52,10 +60,18 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+
+        //INPUT
+        playerInput = GetComponent<PlayerInput>();
         //Dive Debug
         trail = GetComponentInChildren<TrailRenderer>();
         normalColor = trail.startColor;
         trail.enabled = false;
+
+        if(dragonController == null)
+        {
+            dragonController = GameObject.FindGameObjectWithTag("Dragon").GetComponent<DragonController>();
+        }
     }
 
     public void OnMove(InputAction.CallbackContext movementContext) //AÑADIDO A PLAYER INPUT MEDIANTE EVENTOS
@@ -86,6 +102,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void OnCallDragon(InputAction.CallbackContext callContext)
+    {
+        if (callContext.action.triggered && playerState == PlayerStates.BigFall)
+        {           
+            dragonController.CallDragon();
+        }
+    }
+
     private void Update()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundMask);
@@ -103,6 +127,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Yspeed = rb.velocity.y;
         if (playerState == PlayerStates.Normal)
         {
             Move();
@@ -137,6 +162,8 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange); //MODO CALCULAR CuÁNTA FUERZA TENGO QUE DARLE PARA QUE LLEGUE A LA ALTURA REQUERIDA       
     }
 
+
+    //BIG FALL
     private void SetBigFall()
     {
         playerObj.localRotation = Quaternion.Euler(90f, 0f, 0f);
@@ -157,6 +184,18 @@ public class PlayerController : MonoBehaviour
         // Movimiento paralelo al suelo
         Vector3 moveDirection = (orientation.right * moveInput.x) + (orientation.forward * moveInput.y);
         rb.MovePosition(rb.position + moveDirection * bigFallMoveSpeed * Time.fixedDeltaTime);
+
+
+        //FALL VELOCITY
+        float targetVelocity = isDiving ? terminalDiveVelocity : terminalVelocity;
+        trail.startColor = isDiving ? diveColor : normalColor;
+        float currentYVelocity = rb.velocity.y;
+
+        if (currentYVelocity > targetVelocity)
+        {
+            float newFallSpeed = Mathf.MoveTowards(currentYVelocity, targetVelocity, diveAcceleration * Time.fixedDeltaTime);
+            rb.velocity = new Vector3(rb.velocity.x, newFallSpeed, rb.velocity.z);
+        }
     }
 
     private void RestorePlayerRotation()
@@ -170,6 +209,38 @@ public class PlayerController : MonoBehaviour
         {
             trail.enabled = false;
         }
+    }
+
+    //DRAGON
+    public void MountDragon()
+    {
+        SetPlayerState(PlayerStates.OnDragon);
+        Transform playerPosOnDragon = dragonController.GetPlayerPos;
+        transform.SetParent(playerPosOnDragon);
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = playerPosOnDragon.localRotation;
+        rb.isKinematic = true;        
+        CapsuleCollider playerCollider = GetComponentInChildren<CapsuleCollider>();       
+        playerCollider.enabled = false;
+       
+        
+       
+        playerInput.SwitchCurrentActionMap("Dragon");
+
+        // quizá con los eventos no hace falta mover el componente al dragón?? Sólo referenciarlos desde ahí.
+    }
+
+    public void DismountDragon()
+    {
+        SetPlayerState(PlayerStates.Normal);
+        Debug.Log("Set Player for DISmount");
+        transform.SetParent(null);
+        rb.isKinematic = false;
+        CapsuleCollider playerCollider = GetComponentInChildren<CapsuleCollider>();
+        playerCollider.enabled = true;
+
+
+        playerInput.SwitchCurrentActionMap("Foot");
     }
 
     private void SetPlayerState(PlayerStates newPlayerState)
