@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 public class DragonController : MonoBehaviour
 {
+    private float currentDragonSpeed; // Velocidad actual del dragón
     //FREE
     [SerializeField] private Transform playerTransform; // El jugador al que el dragón sigue.
     [SerializeField] private float circleHeight = 20f; // Altura a la que vuela el dragón.
@@ -27,11 +28,11 @@ public class DragonController : MonoBehaviour
     [SerializeField] private float acceleration = 50f; // Tasa de aceleración
     [SerializeField] private float deceleration = 50f; // Tasa de frenado
     [SerializeField] private float maxFlyingSpeed = 100f; // Velocidad máxima
+    [SerializeField] private float minFlyingSpeed = 20f; // Velocidad mínima
     [SerializeField] private float idleFlyingSpeed = 50f; // Velocidad en estado idle
     [SerializeField] private float idleForce = 20f; // Velocidad en estado idle
 
     [SerializeField] float flyAwaySpeed = 70f; // velocidad de escape cuando unmounted
-    private float currentSpeed; // Velocidad actual del dragón
     private bool isAccelerating = false;
     private bool isBraking = false;
 
@@ -159,34 +160,34 @@ public class DragonController : MonoBehaviour
         // Actualizar la velocidad actual
         if (isAccelerating)
         {
-            currentSpeed += acceleration * Time.deltaTime;            
+            currentDragonSpeed += acceleration * Time.deltaTime;            
         }
         else if (isBraking)
         {
-            currentSpeed -= deceleration * Time.deltaTime;
+            currentDragonSpeed -= deceleration * Time.deltaTime;
         }
         else
         {
             // Si no se está acelerando ni frenando, volver gradualmente a la velocidad idle
-            if (currentSpeed > idleFlyingSpeed)
+            if (currentDragonSpeed > idleFlyingSpeed)
             {
-                currentSpeed -= idleForce * Time.deltaTime;
-                if (currentSpeed < idleFlyingSpeed)
-                    currentSpeed = idleFlyingSpeed;
+                currentDragonSpeed -= idleForce * Time.deltaTime;
+                if (currentDragonSpeed < idleFlyingSpeed)
+                    currentDragonSpeed = idleFlyingSpeed;
             }
-            else if (currentSpeed < idleFlyingSpeed)
+            else if (currentDragonSpeed < idleFlyingSpeed)
             {
-                currentSpeed += idleForce * Time.deltaTime;
-                if (currentSpeed > idleFlyingSpeed)
-                    currentSpeed = idleFlyingSpeed;
+                currentDragonSpeed += idleForce * Time.deltaTime;
+                if (currentDragonSpeed > idleFlyingSpeed)
+                    currentDragonSpeed = idleFlyingSpeed;
             }
         }
 
         // Limitar la velocidad actual entre 0 y la velocidad máxima
-        currentSpeed = Mathf.Clamp(currentSpeed, 0f, maxFlyingSpeed);
+        currentDragonSpeed = Mathf.Clamp(currentDragonSpeed, minFlyingSpeed, maxFlyingSpeed);
 
         // Mover hacia adelante con la velocidad actual
-        transform.position += transform.forward * currentSpeed * Time.deltaTime;
+        transform.position += transform.forward * currentDragonSpeed * Time.deltaTime;
     }
 
     //DISMOUNTED
@@ -239,17 +240,18 @@ public class DragonController : MonoBehaviour
     public void CallDragon()
     {
         SetDragonState(DragonStates.Called);
+        // Posicionar el dragón justo detrás del player cuando sea llamado
+        transform.position = playerTransform.position - playerTransform.forward * spawnDistance; // Dragón a 5 unidades detrás del player
     }
     private void FlyTowardsPlayer()
     {
-        // Posicionar el dragón justo detrás del player cuando sea llamado
-        Vector3 targetPosition = playerTransform.position - playerTransform.forward * spawnDistance; // Dragón a 5 unidades detrás del player
+       
 
         // Volar hacia el player
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, calledSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, playerTransform.position, calledSpeed * Time.deltaTime);
 
         // Rotar el dragón hacia la dirección en la que se mueve
-        Vector3 direction = (targetPosition - transform.position).normalized;
+        Vector3 direction = (playerTransform.position - transform.position).normalized;
         if (direction != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(direction);

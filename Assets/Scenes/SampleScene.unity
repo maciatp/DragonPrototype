@@ -1514,14 +1514,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 760217149}
     - target: {fileID: 487905241758311988, guid: 57cf50c187aff6745ac4ee585aa38a07, type: 3}
-      propertyPath: circleHeight
-      value: 17
-      objectReference: {fileID: 0}
-    - target: {fileID: 487905241758311988, guid: 57cf50c187aff6745ac4ee585aa38a07, type: 3}
-      propertyPath: circleRadius
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 487905241758311988, guid: 57cf50c187aff6745ac4ee585aa38a07, type: 3}
       propertyPath: playerTransform
       value: 
       objectReference: {fileID: 526801242}

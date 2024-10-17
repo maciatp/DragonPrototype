@@ -192,14 +192,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 0}
-  circleHeight: 14.5
-  circleRadius: 30
+  circleHeight: 17
+  circleRadius: 40
   circleSpeed: 1
   pitchAngle: 0
   yawAngle: 0
   rollAngle: 30
-  calledSpeed: 150
-  spawnDistance: 3
+  calledSpeed: 100
+  spawnDistance: 20
   playerPos: {fileID: 6665944997430979271}
   pitchSpeed: 100
   rollSpeed: 150
@@ -207,6 +207,7 @@ MonoBehaviour:
   acceleration: 40
   deceleration: 40
   maxFlyingSpeed: 100
+  minFlyingSpeed: 20
   idleFlyingSpeed: 50
   idleForce: 20
   flyAwaySpeed: 70
@@ -238,7 +239,7 @@ Transform:
   m_GameObject: {fileID: 7154037091161708813}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.137, y: 1.027, z: -1.204}
+  m_LocalPosition: {x: 8.562, y: 1.239, z: -1.589}
   m_LocalScale: {x: 0.06, y: 0.06, z: 0.06}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -383,7 +384,7 @@ Transform:
   m_GameObject: {fileID: 8358387875692519866}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.137, y: 1.027, z: -1.204}
+  m_LocalPosition: {x: -8.562, y: 1.239, z: -1.589}
   m_LocalScale: {x: 0.06, y: 0.06, z: 0.06}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -520,7 +521,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e7d56d076b6bc1047a89e2b7ff3ec6e8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -1.33
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e7d56d076b6bc1047a89e2b7ff3ec6e8, type: 3}
       propertyPath: m_LocalRotation.w
