@@ -169,6 +169,7 @@ public class PlayerController : MonoBehaviour
         playerObj.localRotation = Quaternion.Euler(90f, 0f, 0f);
         playerState = PlayerStates.BigFall;
         trail.enabled = true;
+        rb.useGravity = false;
     }
 
     private void BigFallMovement()
@@ -190,11 +191,13 @@ public class PlayerController : MonoBehaviour
         float targetVelocity = isDiving ? terminalDiveVelocity : terminalVelocity;
         trail.startColor = isDiving ? diveColor : normalColor;
         float currentYVelocity = rb.velocity.y;
+        Debug.Log("Target Velocity es " + targetVelocity);
 
-        if (currentYVelocity > targetVelocity)
+        if (currentYVelocity != targetVelocity)
         {
             float newFallSpeed = Mathf.MoveTowards(currentYVelocity, targetVelocity, diveAcceleration * Time.fixedDeltaTime);
             rb.velocity = new Vector3(rb.velocity.x, newFallSpeed, rb.velocity.z);
+           // Debug.Log("RB VELOCITY Y ES " + rb.velocity.y);
         }
     }
 
@@ -204,6 +207,7 @@ public class PlayerController : MonoBehaviour
         {
             playerObj.localRotation = Quaternion.Euler(0, 0, 0);
             SetPlayerState(PlayerStates.Normal);
+            rb.useGravity = true;
         }
         if (trail != null) //DIVE TESTING
         {
@@ -215,24 +219,26 @@ public class PlayerController : MonoBehaviour
     public void MountDragon()
     {
         SetPlayerState(PlayerStates.OnDragon);
+        trail.enabled = false;
         Transform playerPosOnDragon = dragonController.GetPlayerPos;
         transform.SetParent(playerPosOnDragon);
         transform.localPosition = Vector3.zero;
+        playerObj.localRotation = Quaternion.identity;
         transform.localRotation = playerPosOnDragon.localRotation;
         rb.isKinematic = true;        
         CapsuleCollider playerCollider = GetComponentInChildren<CapsuleCollider>();       
         playerCollider.enabled = false;
-       
+        playerInput.SwitchCurrentActionMap("Dragon");
+        //cinemachineFreeLookCamera.GetComponent<CinemachineInputProvider>().XYAxis = playerInput.actions.("Dragon/Camera");
         
        
-        playerInput.SwitchCurrentActionMap("Dragon");
 
         // quizá con los eventos no hace falta mover el componente al dragón?? Sólo referenciarlos desde ahí.
     }
 
     public void DismountDragon()
     {
-        SetPlayerState(PlayerStates.Normal);
+        RestorePlayerRotation();
         Debug.Log("Set Player for DISmount");
         transform.SetParent(null);
         rb.isKinematic = false;
