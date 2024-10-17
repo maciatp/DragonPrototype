@@ -178,6 +178,6 @@ public class DragonMovement_Script : MonoBehaviour
 
     public void CallDragon()
     {
-        dragonState = DragonStates.Called;
+        SetDragonState(DragonStates.Called);
     }
 }

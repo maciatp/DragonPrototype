@@ -80,6 +80,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LookDragon"",
+                    ""type"": ""Button"",
+                    ""id"": ""20b9523d-b2bc-45be-bbfb-b641dace3f17"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -302,6 +311,28 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Dive"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""08922969-3f0b-4ed8-a233-57e6f7115673"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LookDragon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b6afb643-671f-4a12-a9cb-b01ed2879ca8"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LookDragon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -310,10 +341,46 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             ""id"": ""b6863d2e-51bb-4ebd-ba11-87efc995ca6c"",
             ""actions"": [
                 {
-                    ""name"": ""New action"",
-                    ""type"": ""Button"",
+                    ""name"": ""PitchRoll"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""9e3524b6-0c63-4784-b196-ff6dd05ce2e4"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dismount"",
+                    ""type"": ""Button"",
+                    ""id"": ""e1680872-6aaa-4697-80dd-e713aac9912b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Accelerate"",
+                    ""type"": ""Button"",
+                    ""id"": ""57c28e49-3ac4-444f-afb1-ec7f225e22cd"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Brake"",
+                    ""type"": ""Button"",
+                    ""id"": ""3008ef14-c1d5-4594-a595-af88e6850e64"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Yaw"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""74bb5139-f35f-4f85-8f44-b151e4624f2f"",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -323,13 +390,244 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""83a569dd-a96e-4a4c-ae38-9efcb9ec4a4f"",
-                    ""path"": """",
+                    ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""New action"",
+                    ""action"": ""PitchRoll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""f20c3d65-da2d-4338-a014-76bef5106d4d"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PitchRoll"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""f9e70aac-5cb9-40fc-96ac-954ac848c154"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PitchRoll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""09f6ffd2-b04e-49ca-a599-bedeedd5f89d"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PitchRoll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""00e54380-db78-46c9-8c0d-2fea3b603583"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PitchRoll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""b0da32d6-7039-4b19-b797-502e0a06db6a"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PitchRoll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""4990af16-4476-4531-aed8-9b771b48ced8"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PitchRoll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""dd3f553b-3718-4c4d-9ab6-2200696fdb95"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PitchRoll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""334429b3-de2e-49de-af2e-482a5c375e8e"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PitchRoll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""63b4f1c4-4214-4db2-9279-13cf19337056"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PitchRoll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9b88d9ce-9318-477c-9e45-e53364489958"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dismount"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a4424552-1e32-432c-aa0f-be77ffe12d44"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dismount"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f5a77004-4377-4ddc-8ec3-dfa5f0d031a2"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Accelerate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4c407747-d014-4a2e-b52b-d8063ae0e691"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Accelerate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""42d62090-e67a-46ab-80ae-b09515f9aae9"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Brake"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a62793c2-a17a-4ed5-8337-6f3eac3322d1"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Brake"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis Gamepad Shoulders"",
+                    ""id"": ""ad346ec5-c62a-48f3-b541-e5d4a86080c4"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Yaw"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""a19d452a-8556-47f9-b8c1-9eaded61b774"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Yaw"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""2ea358ac-2930-40c6-a0ca-6d199425a472"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Yaw"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis Keyboard"",
+                    ""id"": ""cf553650-66a7-496d-9148-b1bb1f70a3cf"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Yaw"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""caf087d7-f680-4122-b9da-15ce5aa9875c"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Yaw"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""6b0a1f10-91e8-4d3b-8e9c-1ae473b0c519"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Yaw"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -344,9 +642,14 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Foot_Run = m_Foot.FindAction("Run", throwIfNotFound: true);
         m_Foot_CallDragon = m_Foot.FindAction("CallDragon", throwIfNotFound: true);
         m_Foot_Dive = m_Foot.FindAction("Dive", throwIfNotFound: true);
+        m_Foot_LookDragon = m_Foot.FindAction("LookDragon", throwIfNotFound: true);
         // Dragon
         m_Dragon = asset.FindActionMap("Dragon", throwIfNotFound: true);
-        m_Dragon_Newaction = m_Dragon.FindAction("New action", throwIfNotFound: true);
+        m_Dragon_PitchRoll = m_Dragon.FindAction("PitchRoll", throwIfNotFound: true);
+        m_Dragon_Dismount = m_Dragon.FindAction("Dismount", throwIfNotFound: true);
+        m_Dragon_Accelerate = m_Dragon.FindAction("Accelerate", throwIfNotFound: true);
+        m_Dragon_Brake = m_Dragon.FindAction("Brake", throwIfNotFound: true);
+        m_Dragon_Yaw = m_Dragon.FindAction("Yaw", throwIfNotFound: true);
     }
 
     ~@InputActions()
@@ -420,6 +723,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Foot_Run;
     private readonly InputAction m_Foot_CallDragon;
     private readonly InputAction m_Foot_Dive;
+    private readonly InputAction m_Foot_LookDragon;
     public struct FootActions
     {
         private @InputActions m_Wrapper;
@@ -430,6 +734,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Run => m_Wrapper.m_Foot_Run;
         public InputAction @CallDragon => m_Wrapper.m_Foot_CallDragon;
         public InputAction @Dive => m_Wrapper.m_Foot_Dive;
+        public InputAction @LookDragon => m_Wrapper.m_Foot_LookDragon;
         public InputActionMap Get() { return m_Wrapper.m_Foot; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -457,6 +762,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Dive.started += instance.OnDive;
             @Dive.performed += instance.OnDive;
             @Dive.canceled += instance.OnDive;
+            @LookDragon.started += instance.OnLookDragon;
+            @LookDragon.performed += instance.OnLookDragon;
+            @LookDragon.canceled += instance.OnLookDragon;
         }
 
         private void UnregisterCallbacks(IFootActions instance)
@@ -479,6 +787,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Dive.started -= instance.OnDive;
             @Dive.performed -= instance.OnDive;
             @Dive.canceled -= instance.OnDive;
+            @LookDragon.started -= instance.OnLookDragon;
+            @LookDragon.performed -= instance.OnLookDragon;
+            @LookDragon.canceled -= instance.OnLookDragon;
         }
 
         public void RemoveCallbacks(IFootActions instance)
@@ -500,12 +811,20 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     // Dragon
     private readonly InputActionMap m_Dragon;
     private List<IDragonActions> m_DragonActionsCallbackInterfaces = new List<IDragonActions>();
-    private readonly InputAction m_Dragon_Newaction;
+    private readonly InputAction m_Dragon_PitchRoll;
+    private readonly InputAction m_Dragon_Dismount;
+    private readonly InputAction m_Dragon_Accelerate;
+    private readonly InputAction m_Dragon_Brake;
+    private readonly InputAction m_Dragon_Yaw;
     public struct DragonActions
     {
         private @InputActions m_Wrapper;
         public DragonActions(@InputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Newaction => m_Wrapper.m_Dragon_Newaction;
+        public InputAction @PitchRoll => m_Wrapper.m_Dragon_PitchRoll;
+        public InputAction @Dismount => m_Wrapper.m_Dragon_Dismount;
+        public InputAction @Accelerate => m_Wrapper.m_Dragon_Accelerate;
+        public InputAction @Brake => m_Wrapper.m_Dragon_Brake;
+        public InputAction @Yaw => m_Wrapper.m_Dragon_Yaw;
         public InputActionMap Get() { return m_Wrapper.m_Dragon; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -515,16 +834,40 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_DragonActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_DragonActionsCallbackInterfaces.Add(instance);
-            @Newaction.started += instance.OnNewaction;
-            @Newaction.performed += instance.OnNewaction;
-            @Newaction.canceled += instance.OnNewaction;
+            @PitchRoll.started += instance.OnPitchRoll;
+            @PitchRoll.performed += instance.OnPitchRoll;
+            @PitchRoll.canceled += instance.OnPitchRoll;
+            @Dismount.started += instance.OnDismount;
+            @Dismount.performed += instance.OnDismount;
+            @Dismount.canceled += instance.OnDismount;
+            @Accelerate.started += instance.OnAccelerate;
+            @Accelerate.performed += instance.OnAccelerate;
+            @Accelerate.canceled += instance.OnAccelerate;
+            @Brake.started += instance.OnBrake;
+            @Brake.performed += instance.OnBrake;
+            @Brake.canceled += instance.OnBrake;
+            @Yaw.started += instance.OnYaw;
+            @Yaw.performed += instance.OnYaw;
+            @Yaw.canceled += instance.OnYaw;
         }
 
         private void UnregisterCallbacks(IDragonActions instance)
         {
-            @Newaction.started -= instance.OnNewaction;
-            @Newaction.performed -= instance.OnNewaction;
-            @Newaction.canceled -= instance.OnNewaction;
+            @PitchRoll.started -= instance.OnPitchRoll;
+            @PitchRoll.performed -= instance.OnPitchRoll;
+            @PitchRoll.canceled -= instance.OnPitchRoll;
+            @Dismount.started -= instance.OnDismount;
+            @Dismount.performed -= instance.OnDismount;
+            @Dismount.canceled -= instance.OnDismount;
+            @Accelerate.started -= instance.OnAccelerate;
+            @Accelerate.performed -= instance.OnAccelerate;
+            @Accelerate.canceled -= instance.OnAccelerate;
+            @Brake.started -= instance.OnBrake;
+            @Brake.performed -= instance.OnBrake;
+            @Brake.canceled -= instance.OnBrake;
+            @Yaw.started -= instance.OnYaw;
+            @Yaw.performed -= instance.OnYaw;
+            @Yaw.canceled -= instance.OnYaw;
         }
 
         public void RemoveCallbacks(IDragonActions instance)
@@ -550,9 +893,14 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnRun(InputAction.CallbackContext context);
         void OnCallDragon(InputAction.CallbackContext context);
         void OnDive(InputAction.CallbackContext context);
+        void OnLookDragon(InputAction.CallbackContext context);
     }
     public interface IDragonActions
     {
-        void OnNewaction(InputAction.CallbackContext context);
+        void OnPitchRoll(InputAction.CallbackContext context);
+        void OnDismount(InputAction.CallbackContext context);
+        void OnAccelerate(InputAction.CallbackContext context);
+        void OnBrake(InputAction.CallbackContext context);
+        void OnYaw(InputAction.CallbackContext context);
     }
 }

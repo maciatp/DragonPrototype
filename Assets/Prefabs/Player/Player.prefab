@@ -241,6 +241,26 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9e3524b6-0c63-4784-b196-ff6dd05ce2e4
     m_ActionName: Dragon/New action
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 20b9523d-b2bc-45be-bbfb-b641dace3f17
+    m_ActionName: Foot/LookDragon[/XInputControllerWindows/rightShoulder,/Keyboard/t]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e1680872-6aaa-4697-80dd-e713aac9912b
+    m_ActionName: Dragon/Dismount[/XInputControllerWindows/buttonNorth,/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 57c28e49-3ac4-444f-afb1-ec7f225e22cd
+    m_ActionName: Dragon/Accelerate[/XInputControllerWindows/buttonSouth,/Keyboard/shift]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3008ef14-c1d5-4594-a595-af88e6850e64
+    m_ActionName: Dragon/Brake[/XInputControllerWindows/buttonWest,/Keyboard/alt]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 74bb5139-f35f-4f85-8f44-b151e4624f2f
+    m_ActionName: Dragon/Yaw[/XInputControllerWindows/leftShoulder,/XInputControllerWindows/rightShoulder,/Keyboard/q,/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Foot
@@ -259,9 +279,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerState: 0
-  orientation: {fileID: 3149757477344715767}
   moveSpeed: 12
-  jumpHeight: 0.5
+  bigFallMoveSpeed: 6
+  rotationSpeed: 10
+  bigFallRotationSpeed: 5
+  jumpHeight: 3
   fallThreshold: -15
   terminalVelocity: -20
   terminalDiveVelocity: -50
@@ -270,9 +292,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   groundCheck: {fileID: 1196800077714257949}
-  groundCheckRadius: 1
-  rotationSpeed: 10
+  groundCheckRadius: 0.5
   playerObj: {fileID: 3690482291780504614}
+  orientation: {fileID: 3149757477344715767}
   cinemachineFreeLookCamera: {fileID: 0}
   diveColor: {r: 1, g: 0.5280086, b: 0, a: 0.6117647}
 --- !u!54 &3669470022926248162
@@ -435,7 +457,7 @@ Transform:
   m_GameObject: {fileID: 7641858804975227091}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalPosition: {x: 0, y: -0.65, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
