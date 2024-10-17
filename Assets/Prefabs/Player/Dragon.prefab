@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 9282700821826374}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.669, z: -0.005}
+  m_LocalPosition: {x: 0, y: 0.52, z: 0.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -86,14 +86,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5402162274042228837}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8495600248221828208}
   m_Father: {fileID: 5905171915170486461}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5590182492475420074
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,8 +177,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 4.7
-  m_Center: {x: 0, y: 1.96, z: 2.65}
+  m_Radius: 3.56
+  m_Center: {x: 0, y: 0.5, z: 2.65}
 --- !u!114 &487905241758311988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,6 +206,7 @@ MonoBehaviour:
   yawSpeed: 15
   flyingSpeed: 50
   dragonVcam: {fileID: 0}
+  cameraSincronizationSpeed: 2
   dragonState: 0
 --- !u!1 &7154037091161708813
 GameObject:
@@ -511,7 +512,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e7d56d076b6bc1047a89e2b7ff3ec6e8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1.243
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e7d56d076b6bc1047a89e2b7ff3ec6e8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -519,19 +520,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e7d56d076b6bc1047a89e2b7ff3ec6e8, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e7d56d076b6bc1047a89e2b7ff3ec6e8, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e7d56d076b6bc1047a89e2b7ff3ec6e8, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e7d56d076b6bc1047a89e2b7ff3ec6e8, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e7d56d076b6bc1047a89e2b7ff3ec6e8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -539,7 +540,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e7d56d076b6bc1047a89e2b7ff3ec6e8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e7d56d076b6bc1047a89e2b7ff3ec6e8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -624,7 +625,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.36
+  m_Radius: 0.59
   m_Height: 3.42
   m_Direction: 2
-  m_Center: {x: 0, y: 1, z: -0.25}
+  m_Center: {x: 0, y: 1.28, z: -0.25}
