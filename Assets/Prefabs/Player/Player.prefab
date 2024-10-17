@@ -218,7 +218,19 @@ MonoBehaviour:
     m_ActionId: 04faa2f2-8125-4bc3-a118-24651ef09c29
     m_ActionName: Foot/Run[/XInputControllerWindows/rightTrigger,/Keyboard/shift]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3733621922552275211}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnCallDragon
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 4259fe48-3e52-4103-89d9-04ae7c15950a
     m_ActionName: Foot/CallDragon[/XInputControllerWindows/buttonEast,/Keyboard/c]
   - m_PersistentCalls:
@@ -246,7 +258,19 @@ MonoBehaviour:
     m_ActionId: 20b9523d-b2bc-45be-bbfb-b641dace3f17
     m_ActionName: Foot/LookDragon[/XInputControllerWindows/rightShoulder,/Keyboard/t]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: DragonController, Assembly-CSharp
+        m_MethodName: OnDismount
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: e1680872-6aaa-4697-80dd-e713aac9912b
     m_ActionName: Dragon/Dismount[/XInputControllerWindows/buttonNorth,/Keyboard/space]
   - m_PersistentCalls:
@@ -278,16 +302,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28f04bebeca2a9d48ae2f9b82df091c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Yspeed: 0
   playerState: 0
   moveSpeed: 12
-  bigFallMoveSpeed: 6
+  bigFallMoveSpeed: 9
   rotationSpeed: 10
   bigFallRotationSpeed: 5
   jumpHeight: 3
   fallThreshold: -15
-  terminalVelocity: -20
-  terminalDiveVelocity: -50
-  diveAcceleration: 10
+  terminalVelocity: -30
+  terminalDiveVelocity: -60
+  diveAcceleration: 30
   groundMask:
     serializedVersion: 2
     m_Bits: 256
