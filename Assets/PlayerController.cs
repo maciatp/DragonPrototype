@@ -12,8 +12,10 @@ public class PlayerController : MonoBehaviour
     private Vector2 moveInput;
     private bool isGrounded;
     private bool isDiving = false;
+    private bool isRunning = false;
 
     [SerializeField] private float moveSpeed = 12f;
+    private float runSpeed; // que valga moveSpeed * 1.5;
     [SerializeField] private float bigFallMoveSpeed = 6f; // Velocidad de movimiento en BigFall
     [SerializeField] private float rotationSpeed = 10f;
     [SerializeField] private float bigFallRotationSpeed = 5f; // Velocidad de rotación gradual en BigFall
@@ -60,9 +62,10 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-
         //INPUT
         playerInput = GetComponent<PlayerInput>();
+        runSpeed = moveSpeed * 1.5f; //ESTABLEZCO RUN SPEED
+
         //Dive Debug
         trail = GetComponentInChildren<TrailRenderer>();
         normalColor = trail.startColor;
@@ -87,6 +90,17 @@ public class PlayerController : MonoBehaviour
             {
                 Jump();
             }
+        }
+    }
+    public void OnRun(InputAction.CallbackContext runContext)
+    {
+        if(runContext.action.IsPressed())
+        {
+            isRunning = true;
+        }
+        if(runContext.action.WasReleasedThisFrame())
+        {
+            isRunning = false;
         }
     }
 
@@ -153,7 +167,14 @@ public class PlayerController : MonoBehaviour
             }
 
             //MovePosition Method
-            rb.MovePosition(rb.position + moveDirection * moveSpeed * Time.fixedDeltaTime);
+            if(!isRunning)
+            {
+                rb.MovePosition(rb.position + moveDirection * moveSpeed * Time.fixedDeltaTime);               
+            }
+            else
+            {
+                rb.MovePosition(rb.position + moveDirection * runSpeed * Time.fixedDeltaTime);               
+            }
         }
     }
 
@@ -190,14 +211,12 @@ public class PlayerController : MonoBehaviour
         //FALL VELOCITY
         float targetVelocity = isDiving ? terminalDiveVelocity : terminalVelocity;
         trail.startColor = isDiving ? diveColor : normalColor;
-        float currentYVelocity = rb.velocity.y;
-        Debug.Log("Target Velocity es " + targetVelocity);
+        float currentYVelocity = rb.velocity.y;        
 
         if (currentYVelocity != targetVelocity)
         {
             float newFallSpeed = Mathf.MoveTowards(currentYVelocity, targetVelocity, diveAcceleration * Time.fixedDeltaTime);
             rb.velocity = new Vector3(rb.velocity.x, newFallSpeed, rb.velocity.z);
-           // Debug.Log("RB VELOCITY Y ES " + rb.velocity.y);
         }
     }
 
@@ -218,33 +237,45 @@ public class PlayerController : MonoBehaviour
     //DRAGON
     public void MountDragon()
     {
-        SetPlayerState(PlayerStates.OnDragon);
-        trail.enabled = false;
+        SetPlayerState(PlayerStates.OnDragon); //SET PLAYER STATE
+
+        //MOVE POSITION PLAYER ON DRAGON
         Transform playerPosOnDragon = dragonController.GetPlayerPos;
         transform.SetParent(playerPosOnDragon);
         transform.localPosition = Vector3.zero;
         playerObj.localRotation = Quaternion.identity;
         transform.localRotation = playerPosOnDragon.localRotation;
+
+        //PHYSICS and colliders
         rb.isKinematic = true;        
         CapsuleCollider playerCollider = GetComponentInChildren<CapsuleCollider>();       
         playerCollider.enabled = false;
+        
+        //INPUT MAP CHANGE
         playerInput.SwitchCurrentActionMap("Dragon");
-        //freeLookPlayerCamera.GetComponent<CinemachineInputProvider>().XYAxis = playerInput.actions.("Dragon/Camera"); NO he podido cambiarlo
+
+        //CAMERA CHANGE
         freeLookPlayerCamera.gameObject.SetActive(false);
         
+        //DIVE TESTING
+        trail.enabled = false;
     }
 
     public void DismountDragon()
     {
-        RestorePlayerRotation();
-        Debug.Log("Set Player for DISmount");
+        //RESTORE PLAYER ROTATION and set parent null
+        RestorePlayerRotation();       
         transform.SetParent(null);
+
+        //PHYSICS and colliders
         rb.isKinematic = false;
         CapsuleCollider playerCollider = GetComponentInChildren<CapsuleCollider>();
         playerCollider.enabled = true;
 
-
+        //Input map change
         playerInput.SwitchCurrentActionMap("Foot");
+
+        //Camera
         freeLookPlayerCamera.gameObject.SetActive(true);
     }
 

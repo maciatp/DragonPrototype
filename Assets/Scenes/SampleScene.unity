@@ -1322,10 +1322,6 @@ PrefabInstance:
       propertyPath: freeLookPlayerCamera
       value: 
       objectReference: {fileID: 896707486}
-    - target: {fileID: 3733621922552275211, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
-      propertyPath: cinemachineFreeLookCamera
-      value: 
-      objectReference: {fileID: 896707486}
     - target: {fileID: 5683126473246551016, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.64

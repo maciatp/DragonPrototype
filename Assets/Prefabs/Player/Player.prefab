@@ -214,7 +214,19 @@ MonoBehaviour:
     m_ActionId: 8445bb93-3df1-496c-8d8a-4f3fb942db6d
     m_ActionName: Foot/Camera[/XInputControllerWindows/rightStick,/Mouse/delta]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3733621922552275211}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnRun
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 04faa2f2-8125-4bc3-a118-24651ef09c29
     m_ActionName: Foot/Run[/XInputControllerWindows/rightTrigger,/Keyboard/shift]
   - m_PersistentCalls:
@@ -360,7 +372,7 @@ MonoBehaviour:
   groundCheckRadius: 0.5
   playerObj: {fileID: 3690482291780504614}
   orientation: {fileID: 3149757477344715767}
-  cinemachineFreeLookCamera: {fileID: 0}
+  freeLookPlayerCamera: {fileID: 0}
   diveColor: {r: 1, g: 0.5280086, b: 0, a: 0.6117647}
 --- !u!54 &3669470022926248162
 Rigidbody:
