@@ -250,7 +250,19 @@ MonoBehaviour:
     m_ActionId: ac687b31-21cc-441e-bcb6-fd05af2f28d5
     m_ActionName: Foot/Dive[/XInputControllerWindows/buttonEast,/Keyboard/v]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: DragonController, Assembly-CSharp
+        m_MethodName: OnMove
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 9e3524b6-0c63-4784-b196-ff6dd05ce2e4
     m_ActionName: Dragon/New action
   - m_PersistentCalls:
@@ -282,7 +294,19 @@ MonoBehaviour:
     m_ActionId: 3008ef14-c1d5-4594-a595-af88e6850e64
     m_ActionName: Dragon/Brake[/XInputControllerWindows/buttonWest,/Keyboard/alt]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: DragonController, Assembly-CSharp
+        m_MethodName: OnYaw
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 74bb5139-f35f-4f85-8f44-b151e4624f2f
     m_ActionName: Dragon/Yaw[/XInputControllerWindows/leftShoulder,/XInputControllerWindows/rightShoulder,/Keyboard/q,/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
