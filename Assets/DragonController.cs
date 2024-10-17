@@ -69,11 +69,35 @@ public class DragonController : MonoBehaviour
         yawInput = context.ReadValue<float>();
     }
 
-    public void OnDismount(InputAction.CallbackContext context)
+    public void OnDismount(InputAction.CallbackContext dismountContext)
     {
-        if(context.action.triggered && dragonState == DragonStates.Mounted)
+        if(dismountContext.action.triggered && dragonState == DragonStates.Mounted)
         {
            DismountDragon();
+        }
+    }
+
+    public void OnAccelerate(InputAction.CallbackContext accelerateContext)
+    {
+        if(accelerateContext.action.IsPressed())
+        {
+            //MustAccelerate true
+        }
+        if(accelerateContext.action.WasReleasedThisFrame())
+        {
+            //MustAccelerate false
+        }
+    }
+
+    public void OnBrake(InputAction.CallbackContext brakeContext)
+    {
+        if (brakeContext.action.IsPressed())
+        {
+            //must brake true
+        }
+        if (brakeContext.action.WasReleasedThisFrame())
+        {
+            //must brake false
         }
     }
 
