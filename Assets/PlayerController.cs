@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform playerObj; // El modelo que rotará en BigFall. Es hijo del gameobject que lleva este script
     [SerializeField] Transform orientation; //transform que se usa para determinar la orientación. es hijo del gameobject que lleva este script.
     [SerializeField] CinemachineFreeLook freeLookPlayerCamera;
-
+    float playerCameraOriginalPriority;
     private Rigidbody rb;
 
     [Header("Dragon")]
@@ -65,6 +65,9 @@ public class PlayerController : MonoBehaviour
         //INPUT
         playerInput = GetComponent<PlayerInput>();
         runSpeed = moveSpeed * 1.5f; //ESTABLEZCO RUN SPEED
+
+        //CAMERA
+        playerCameraOriginalPriority = freeLookPlayerCamera.Priority;
 
         //Dive Debug
         trail = GetComponentInChildren<TrailRenderer>();
@@ -255,7 +258,7 @@ public class PlayerController : MonoBehaviour
         playerInput.SwitchCurrentActionMap("Dragon");
 
         //CAMERA CHANGE
-        freeLookPlayerCamera.gameObject.SetActive(false);
+        freeLookPlayerCamera.Priority = 0;
         
         //DIVE TESTING
         trail.enabled = false;
@@ -276,7 +279,8 @@ public class PlayerController : MonoBehaviour
         playerInput.SwitchCurrentActionMap("Foot");
 
         //Camera
-        freeLookPlayerCamera.gameObject.SetActive(true);
+        //priority returns to original
+        freeLookPlayerCamera.Priority = (int)playerCameraOriginalPriority;
     }
 
     private void SetPlayerState(PlayerStates newPlayerState)

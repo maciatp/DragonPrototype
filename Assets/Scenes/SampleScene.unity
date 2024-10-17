@@ -194,7 +194,7 @@ Transform:
   m_GameObject: {fileID: 418039682}
   serializedVersion: 2
   m_LocalRotation: {x: 0.053429674, y: 0.38204327, z: 0.02213118, w: -0.9223331}
-  m_LocalPosition: {x: 0.0000000041004924, y: -0.00000011906817, z: -0.0000000041004853}
+  m_LocalPosition: {x: 0.0000006784496, y: -0.00000011906817, z: 0.0000006702496}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -445,7 +445,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &760217149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -462,7 +462,7 @@ MonoBehaviour:
   - m_Script
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
-  m_Priority: 10
+  m_Priority: 9
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 1025092429}
   m_Follow: {fileID: 1025092429}
@@ -493,8 +493,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 760217148}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0.6540433, y: 0, z: 0, w: 0.75645715}
+  m_LocalPosition: {x: 3.64, y: -11.031972, z: 2.6047049}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -606,7 +606,7 @@ Transform:
   m_GameObject: {fileID: 790481659}
   serializedVersion: 2
   m_LocalRotation: {x: 0.04446648, y: 0.3822403, z: 0.01841859, w: -0.9228087}
-  m_LocalPosition: {x: 0.0000000041004924, y: -0.00000011906817, z: -0.0000000041004853}
+  m_LocalPosition: {x: 0.0000006784496, y: -0.00000011906817, z: 0.0000006702496}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1042,8 +1042,8 @@ MonoBehaviour:
   m_UpdateMethod: 2
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
-    m_Style: 1
-    m_Time: 1.5
+    m_Style: 5
+    m_Time: 0.5
     m_CustomCurve:
       serializedVersion: 2
       m_Curve: []
@@ -1272,7 +1272,7 @@ Transform:
   m_GameObject: {fileID: 1871964040}
   serializedVersion: 2
   m_LocalRotation: {x: 0.025711648, y: 0.38253555, z: 0.010650215, w: -0.9235216}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.0000006784496, y: -0.00000011906817, z: 0.0000006702496}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1392,6 +1392,10 @@ PrefabInstance:
     - target: {fileID: 3610614473535673328, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733621922552275211, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
+      propertyPath: bigFallRotationSpeed
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3733621922552275211, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
       propertyPath: freeLookPlayerCamera
