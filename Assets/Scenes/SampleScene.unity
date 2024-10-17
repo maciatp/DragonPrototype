@@ -1253,7 +1253,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1871964040}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.025711648, y: 0.38253555, z: 0.010650215, w: -0.9235216}
   m_LocalPosition: {x: 0.0000006784496, y: -0.00000011906817, z: 0.0000006702496}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1513,6 +1513,14 @@ PrefabInstance:
       propertyPath: dragonVcam
       value: 
       objectReference: {fileID: 760217149}
+    - target: {fileID: 487905241758311988, guid: 57cf50c187aff6745ac4ee585aa38a07, type: 3}
+      propertyPath: circleHeight
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 487905241758311988, guid: 57cf50c187aff6745ac4ee585aa38a07, type: 3}
+      propertyPath: circleRadius
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 487905241758311988, guid: 57cf50c187aff6745ac4ee585aa38a07, type: 3}
       propertyPath: playerTransform
       value: 

@@ -126,6 +126,17 @@ public class PlayerController : MonoBehaviour
             dragonController.CallDragon();
         }
     }
+    public void OnLookDragon(InputAction.CallbackContext lookDragonContext)
+    {
+        if(lookDragonContext.action.IsPressed() && playerState == PlayerStates.Normal)
+        {
+            freeLookPlayerCamera.LookAt = dragonController.transform;
+        }
+        if(lookDragonContext.action.WasReleasedThisFrame())
+        {
+            freeLookPlayerCamera.LookAt = transform;
+        }
+    }
 
     private void Update()
     {
