@@ -298,11 +298,35 @@ MonoBehaviour:
     m_ActionId: e1680872-6aaa-4697-80dd-e713aac9912b
     m_ActionName: Dragon/Dismount[/XInputControllerWindows/buttonNorth,/Keyboard/space]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: DragonController, Assembly-CSharp
+        m_MethodName: OnAccelerate
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 57c28e49-3ac4-444f-afb1-ec7f225e22cd
     m_ActionName: Dragon/Accelerate[/XInputControllerWindows/buttonSouth,/Keyboard/shift]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: DragonController, Assembly-CSharp
+        m_MethodName: OnBrake
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 3008ef14-c1d5-4594-a595-af88e6850e64
     m_ActionName: Dragon/Brake[/XInputControllerWindows/buttonWest,/Keyboard/alt]
   - m_PersistentCalls:
@@ -359,7 +383,7 @@ MonoBehaviour:
   moveSpeed: 12
   bigFallMoveSpeed: 9
   rotationSpeed: 10
-  bigFallRotationSpeed: 5
+  bigFallRotationSpeed: 2
   jumpHeight: 3
   fallThreshold: -15
   terminalVelocity: -30
