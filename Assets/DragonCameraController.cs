@@ -29,7 +29,7 @@ public class DragonCameraController : MonoBehaviour
                                 + dragonTransform.up * height;       // Ajusta la altura de la cámara
 
         // Movemos la cámara suavemente a la posición deseada
-        transform.position = Vector3.Lerp(transform.position, desiredPosition, followSpeed * Time.deltaTime);
+        transform.position = Vector3.Slerp(transform.position, desiredPosition, followSpeed * Time.deltaTime) //EStaba con Lerp. ir Probando para suavidad de giro
 
         // Alineamos la rotación de la cámara con la del dragón
         Quaternion desiredRotation = Quaternion.LookRotation(dragonTransform.forward, dragonTransform.up);
