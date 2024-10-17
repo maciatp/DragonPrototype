@@ -26,6 +26,9 @@ public class DragonController : MonoBehaviour
     [SerializeField] private float yawSpeed = 5f; // Velocidad de guiñada (yaw)
     [SerializeField] private float flyingSpeed = 50f; // Velocidad de vuelo fija por ahora
 
+    //DISMOUNT
+    bool isFlyAwayCoroutineCalled = false;
+
     private Vector2 moveInput; // Input del joystick izquierdo (pitch y roll)
     private float yawInput; // Input de los gatillos para el yaw
 
@@ -70,8 +73,7 @@ public class DragonController : MonoBehaviour
     {
         if(context.action.triggered && dragonState == DragonStates.Mounted)
         {
-            Debug.Log("Pulso Botón desmontar");
-            DismountDragon();
+           DismountDragon();
         }
     }
 
@@ -126,13 +128,17 @@ public class DragonController : MonoBehaviour
     void FlyAway()
     {
         transform.position += transform.forward * flyingSpeed * Time.deltaTime;
-        StartCoroutine(FlyAwayCooldown());
+        if(!isFlyAwayCoroutineCalled)
+        {
+            StartCoroutine(FlyAwayCooldown());
+        }
     }
     IEnumerator FlyAwayCooldown()
     {
+        isFlyAwayCoroutineCalled = true;        
         yield return new WaitForSecondsRealtime(2);
         SetDragonState(DragonStates.Free);
-        //???? yield return null
+        yield return null;
     }
     
     //FREE
@@ -190,9 +196,9 @@ public class DragonController : MonoBehaviour
     //MOUNT
     void MountDragon()
     {
-        SetDragonState(DragonStates.Mounted);
-        Debug.Log("MOUNTED from Dragon");
+        SetDragonState(DragonStates.Mounted);        
         playerController.MountDragon();
+        //DRAGON CAM ON
         dragonVcam.gameObject.SetActive(true);
         
     }
@@ -201,9 +207,10 @@ public class DragonController : MonoBehaviour
     void DismountDragon()
     {
         SetDragonState(DragonStates.Dismounted);        
-        Debug.Log("Dismount from Dragon");
-        dragonVcam.gameObject.SetActive(false);
         playerController.DismountDragon();
+       
+        //Dragon CAM OFF
+        dragonVcam.gameObject.SetActive(false);
     }
 
     //SET DRAGON STATE
@@ -220,7 +227,6 @@ public class DragonController : MonoBehaviour
         {
             {
                 MountDragon();
-                Debug.Log("Dragon Trigger Entered");
             }
         }
     }
