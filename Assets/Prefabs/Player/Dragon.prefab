@@ -204,9 +204,13 @@ MonoBehaviour:
   pitchSpeed: 100
   rollSpeed: 150
   yawSpeed: 15
-  flyingSpeed: 50
+  acceleration: 40
+  deceleration: 40
+  maxFlyingSpeed: 100
+  idleFlyingSpeed: 50
+  idleForce: 20
+  flyAwaySpeed: 70
   dragonVcam: {fileID: 0}
-  cameraSincronizationSpeed: 2
   dragonState: 0
 --- !u!1 &7154037091161708813
 GameObject:

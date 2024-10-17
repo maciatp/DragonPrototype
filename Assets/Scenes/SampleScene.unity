@@ -437,7 +437,6 @@ GameObject:
   m_Component:
   - component: {fileID: 760217150}
   - component: {fileID: 760217149}
-  - component: {fileID: 760217151}
   - component: {fileID: 760217152}
   m_Layer: 0
   m_Name: dragonVCamera
@@ -501,23 +500,6 @@ Transform:
   - {fileID: 1900779101}
   m_Father: {fileID: 963194228}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &760217151
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 760217148}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f99469607278fe458d48f742b776083, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dragonTransform: {fileID: 1025092429}
-  distance: 20
-  height: 5
-  followSpeed: 100
-  rotationDamping: 50
 --- !u!114 &760217152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1271,7 +1253,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1871964040}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.025711648, y: 0.38253555, z: 0.010650215, w: -0.9235216}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.0000006784496, y: -0.00000011906817, z: 0.0000006702496}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1356,7 +1338,7 @@ MonoBehaviour:
   m_LookaheadIgnoreY: 1
   m_XDamping: 0
   m_YDamping: 0
-  m_ZDamping: 0
+  m_ZDamping: 0.3
   m_TargetMovementOnly: 1
   m_ScreenX: 0.5
   m_ScreenY: 0.5
@@ -1392,10 +1374,6 @@ PrefabInstance:
     - target: {fileID: 3610614473535673328, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 3733621922552275211, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
-      propertyPath: bigFallRotationSpeed
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3733621922552275211, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
       propertyPath: freeLookPlayerCamera
@@ -1447,6 +1425,14 @@ PrefabInstance:
       objectReference: {fileID: 1025092430}
     - target: {fileID: 7061159533216105747, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
       propertyPath: m_ActionEvents.Array.data[8].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1025092430}
+    - target: {fileID: 7061159533216105747, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
+      propertyPath: m_ActionEvents.Array.data[9].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1025092430}
+    - target: {fileID: 7061159533216105747, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
+      propertyPath: m_ActionEvents.Array.data[10].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1025092430}
     - target: {fileID: 7061159533216105747, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
