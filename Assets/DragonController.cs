@@ -32,7 +32,7 @@ public class DragonController : MonoBehaviour
     [SerializeField] private float idleFlyingSpeed = 50f; // Velocidad en estado idle
     [SerializeField] private float idleForce = 20f; // Velocidad en estado idle
 
-    [SerializeField] float flyAwaySpeed = 70f; // velocidad de escape cuando unmounted
+    [SerializeField] float flyAwayBoost = 20f; // velocidad que se añade a la current cuando unmounted
     private bool isAccelerating = false;
     private bool isBraking = false;
 
@@ -193,7 +193,7 @@ public class DragonController : MonoBehaviour
     //DISMOUNTED
     void FlyAway()
     {
-        transform.position += transform.forward * flyAwaySpeed * Time.deltaTime;
+        transform.position += transform.forward * (currentDragonSpeed + flyAwayBoost) * Time.deltaTime;
         if (!isFlyAwayCoroutineCalled)
         {
             StartCoroutine(FlyAwayCooldown());
