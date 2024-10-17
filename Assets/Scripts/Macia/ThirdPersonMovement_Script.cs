@@ -17,7 +17,7 @@ public class ThirdPersonMovement_Script : MonoBehaviour
 
     bool isGrounded;
     [SerializeField] float jumpForce = 3f;
-    float jumpHeight = 7f;
+    //float jumpHeight = 7f;
     [SerializeField] LayerMask groundMask;
    
     [SerializeField] float turnSmoothTime = 0.1f;
