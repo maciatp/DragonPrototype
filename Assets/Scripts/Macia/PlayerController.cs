@@ -278,8 +278,10 @@ public class PlayerController : MonoBehaviour
     {
         playerObj.localRotation = Quaternion.Euler(90f, 0f, 0f);
         SetPlayerState(PlayerStates.BigFall);
-        trail.enabled = true;
         rb.useGravity = false;
+        
+        //DIVE DEBUG
+        trail.enabled = true;
     }
 
     private void BigFallMovement()
