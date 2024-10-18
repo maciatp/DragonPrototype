@@ -33,6 +33,12 @@ public class PlayerController : MonoBehaviour
     float playerCameraOriginalPriority;
     private Rigidbody rb;
 
+
+    //Paravela
+    float currentParavelaStamina = 0f;
+    [SerializeField] float totalParavelaStamina = 2f;
+    [SerializeField] GameObject paravelaGO;
+
     [Header("Dragon")]
     DragonController dragonController;
 
@@ -49,6 +55,7 @@ public class PlayerController : MonoBehaviour
         Normal,
         BigFall,
         OnDragon,
+        Paravela
     }
     public PlayerStates GetPlayerState
     {
@@ -69,15 +76,19 @@ public class PlayerController : MonoBehaviour
         //CAMERA
         playerCameraOriginalPriority = freeLookPlayerCamera.Priority;
 
+        if (dragonController == null)
+        {
+            dragonController = GameObject.FindGameObjectWithTag("Dragon").GetComponent<DragonController>();
+        }
+
+        //PARAVELA
+        paravelaGO.SetActive(false);
+
         //Dive Debug
         trail = GetComponentInChildren<TrailRenderer>();
         normalColor = trail.startColor;
         trail.enabled = false;
 
-        if(dragonController == null)
-        {
-            dragonController = GameObject.FindGameObjectWithTag("Dragon").GetComponent<DragonController>();
-        }
     }
 
     public void OnMove(InputAction.CallbackContext movementContext) //AÑADIDO A PLAYER INPUT MEDIANTE EVENTOS
@@ -97,11 +108,11 @@ public class PlayerController : MonoBehaviour
     }
     public void OnRun(InputAction.CallbackContext runContext)
     {
-        if(runContext.action.IsPressed())
+        if (runContext.action.IsPressed())
         {
             isRunning = true;
         }
-        if(runContext.action.WasReleasedThisFrame())
+        if (runContext.action.WasReleasedThisFrame())
         {
             isRunning = false;
         }
@@ -122,36 +133,87 @@ public class PlayerController : MonoBehaviour
     public void OnCallDragon(InputAction.CallbackContext callContext)
     {
         if (callContext.action.triggered && playerState == PlayerStates.BigFall)
-        {           
+        {
             dragonController.CallDragon();
         }
     }
     public void OnLookDragon(InputAction.CallbackContext lookDragonContext)
     {
-        if(lookDragonContext.action.IsPressed() && playerState == PlayerStates.Normal)
+        if (lookDragonContext.action.IsPressed() && playerState == PlayerStates.Normal)
         {
             freeLookPlayerCamera.LookAt = dragonController.transform;
         }
-        if(lookDragonContext.action.WasReleasedThisFrame())
+        if (lookDragonContext.action.WasReleasedThisFrame())
         {
             freeLookPlayerCamera.LookAt = transform;
         }
     }
+    public void OnParavela(InputAction.CallbackContext paravelaContext)
+    {
+        //PARAVELA
+        if (paravelaContext.action.triggered)
+        {           
+            switch (playerState)
+            {
+                case PlayerStates.Normal:
+                    if (!isGrounded && currentParavelaStamina > 0)
+                    {
+                        ParavelaEnable();
+                    }
+                    break;
+                case PlayerStates.BigFall:
+                    if (currentParavelaStamina > 0)
+                    {
+                        ParavelaEnable();
+                    }
+                    break;
+                case PlayerStates.OnDragon:
+                    break;
+                case PlayerStates.Paravela:
+                    ParavelaDisable();
+                    break;
+                default:
+                    break;
+            }
+
+        }
+    }
+
 
     private void Update()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundMask);
+
+        if (isGrounded && playerState == PlayerStates.Normal)
+        {
+            if (currentParavelaStamina != totalParavelaStamina)
+            {
+                ChargeStamina();
+            }
+        }
 
         if (!isGrounded && playerState == PlayerStates.Normal && rb.velocity.y <= fallThreshold)
         {
             SetBigFall();
         }
 
-        if (isGrounded && playerState == PlayerStates.BigFall)
+        if (isGrounded && playerState != PlayerStates.Normal)
         {
-            RestorePlayerRotation();
+            RestorePlayerNormalState();           
+        }
+
+        
+        if (playerState == PlayerStates.Paravela)
+        {
+            Debug.Log("Consumiendo Stamina Paravela");
+            currentParavelaStamina -= Time.deltaTime;
+            if (currentParavelaStamina < 0)
+            {
+                ParavelaDisable();
+            }
         }
     }
+
 
     private void FixedUpdate()
     {
@@ -165,7 +227,15 @@ public class PlayerController : MonoBehaviour
         {
             BigFallMovement();
         }
+
+        if (playerState == PlayerStates.Paravela)
+        {
+            //PARAVELA MOVEMENT
+            ParavelaMovement();
+        }
     }
+
+    
 
     private void Move()
     {
@@ -192,6 +262,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //JUMP
     private void Jump()
     {
         rb.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange); //MODO CALCULAR CuÁNTA FUERZA TENGO QUE DARLE PARA QUE LLEGUE A LA ALTURA REQUERIDA       
@@ -202,7 +273,7 @@ public class PlayerController : MonoBehaviour
     private void SetBigFall()
     {
         playerObj.localRotation = Quaternion.Euler(90f, 0f, 0f);
-        playerState = PlayerStates.BigFall;
+        SetPlayerState(PlayerStates.BigFall);
         trail.enabled = true;
         rb.useGravity = false;
     }
@@ -233,8 +304,9 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector3(rb.velocity.x, newFallSpeed, rb.velocity.z);
         }
     }
-
-    private void RestorePlayerRotation()
+    
+    // Return to NORMAL STATE -> dismount, grounded, ParavelaDisable
+    private void RestorePlayerNormalState()
     {
         if (playerObj != null)
         {
@@ -242,6 +314,12 @@ public class PlayerController : MonoBehaviour
             SetPlayerState(PlayerStates.Normal);
             rb.useGravity = true;
         }
+
+        if(paravelaGO != null && paravelaGO.activeSelf)
+        {
+            ParavelaDisable();
+        }
+
         if (trail != null) //DIVE TESTING
         {
             trail.enabled = false;
@@ -278,7 +356,7 @@ public class PlayerController : MonoBehaviour
     public void DismountDragon()
     {
         //RESTORE PLAYER ROTATION and set parent null
-        RestorePlayerRotation();       
+        RestorePlayerNormalState();       
         transform.SetParent(null);
 
         //PHYSICS and colliders
@@ -292,6 +370,43 @@ public class PlayerController : MonoBehaviour
         //Camera
         //priority returns to original
         freeLookPlayerCamera.Priority = (int)playerCameraOriginalPriority;
+
+
+        //APPLY JUMP?
+        //Jump();
+    }
+
+    //PARAVELA
+    private void ParavelaEnable()
+    {
+        Debug.Log("Playerstate == Paravela");
+        SetPlayerState(PlayerStates.Paravela);
+        paravelaGO.SetActive(true);
+        //DEBUG
+       // rb.isKinematic = true;
+
+    }
+
+    private void ParavelaDisable()
+    {
+        SetPlayerState(PlayerStates.Normal);
+        paravelaGO.SetActive(false);
+        Debug.Log("Paravela desactivada");
+        //DEBUG
+        //rb.isKinematic = false;
+    }
+
+    private void ChargeStamina() //WHEN GROUNDED
+    {
+        currentParavelaStamina += Time.deltaTime;
+        if (currentParavelaStamina > totalParavelaStamina)
+        {
+            currentParavelaStamina = totalParavelaStamina;
+        }
+    }
+    private void ParavelaMovement()
+    {
+        //PARAVELA MOVEMENT HERE
     }
 
     private void SetPlayerState(PlayerStates newPlayerState)
