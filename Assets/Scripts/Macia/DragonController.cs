@@ -1,12 +1,15 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class DragonController : MonoBehaviour
 {
     private float currentDragonSpeed; // Velocidad actual del dragón
+    bool isMountable = false;
     //FREE
     [SerializeField] private Transform playerTransform; // El jugador al que el dragón sigue.
     [SerializeField] private float circleHeight = 20f; // Altura a la que vuela el dragón.
@@ -20,6 +23,7 @@ public class DragonController : MonoBehaviour
     [SerializeField] private float calledSpeed = 100f; // Velocidad del dragón cuando es llamado.
     [SerializeField] float spawnDistance = 5f; // Distancia a la que se posiciona el dragón al llamarlo
     [SerializeField] Transform playerPos; //Position when Mounting
+    [SerializeField] SphereCollider calledCollider;
 
     //FLYING
     [SerializeField] private float pitchSpeed = 10f; // Velocidad de cabeceo (pitch)
@@ -39,6 +43,9 @@ public class DragonController : MonoBehaviour
     //DISMOUNT
     bool isFlyAwayCoroutineCalled = false;
 
+    //LANDED
+    [SerializeField] BoxCollider landedCollider;
+
     private Vector2 moveInput; // Input del joystick izquierdo (pitch y roll)
     private float yawInput; // Input de los gatillos para el yaw
 
@@ -55,7 +62,8 @@ public class DragonController : MonoBehaviour
         Mounted,
         Dismounted,
         Landing,
-        Landed
+        Landed,
+        MountedLanded
     }
     public DragonStates GetDragonState
     {
@@ -120,8 +128,7 @@ public class DragonController : MonoBehaviour
         lastPosition = transform.position;
 
         playerController = playerTransform.GetComponent<PlayerController>();
-
-        
+                       
     }
 
     private void Update()
@@ -145,6 +152,9 @@ public class DragonController : MonoBehaviour
                 break;
             case DragonStates.Landed:
                 //LANDED
+                break;
+            case DragonStates.MountedLanded:
+                //MOUNTED ON LAND MOVEMENT
                 break;
 
         }
@@ -250,10 +260,10 @@ public class DragonController : MonoBehaviour
         SetDragonState(DragonStates.Called);
         // Posicionar el dragón justo detrás del player cuando sea llamado
         transform.position = playerTransform.position - playerTransform.forward * spawnDistance; // Dragón a 5 unidades detrás del player
+        calledCollider.enabled = true;
     }
     private void FlyTowardsPlayer()
     {
-
 
         // Volar hacia el player
         transform.position = Vector3.MoveTowards(transform.position, playerTransform.position, calledSpeed * Time.deltaTime);
@@ -301,6 +311,7 @@ public class DragonController : MonoBehaviour
         transform.eulerAngles = new Vector3(0, transform.rotation.eulerAngles.y, 0); //SETEO rotación al aterrizar
 
         SetDragonState(DragonStates.Landed); // O cualquier otro estado
+        landedCollider.enabled = true;
     }
 
     private Vector3 GetRandomPointInCone(Transform player)
@@ -328,6 +339,16 @@ public class DragonController : MonoBehaviour
         //DRAGON CAM ON
         dragonVcam.gameObject.SetActive(true);
 
+        //DEACTIVATE TRIGGERS
+        if(landedCollider.enabled)
+        {
+            landedCollider.enabled = false;
+        }
+        if(calledCollider.enabled)
+        {
+            calledCollider.enabled = false;
+        }
+
     }
 
     //DISMOUNT
@@ -349,9 +370,23 @@ public class DragonController : MonoBehaviour
     //TRIGGERS
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player" && dragonState == DragonStates.Called)
+        if (other.transform.parent.tag == "Player" && dragonState == DragonStates.Called)
         {
             MountDragon();
         }
+        if(other.transform.parent.tag == "Player" && dragonState == DragonStates.Landed)
+        {
+            //CAN MOUNT
+            isMountable = true;
+        }
     }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.transform.parent.tag == "Player" && dragonState == DragonStates.Landed)
+        {
+            //CAN'T MOUNT
+            isMountable = false;
+        }
+    }
+
 }
