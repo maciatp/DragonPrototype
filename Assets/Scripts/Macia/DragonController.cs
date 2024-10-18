@@ -53,7 +53,9 @@ public class DragonController : MonoBehaviour
         Free,
         Called,
         Mounted,
-        Dismounted
+        Dismounted,
+        Landing,
+        Landed
     }
     public DragonStates GetDragonState
     {
@@ -137,6 +139,12 @@ public class DragonController : MonoBehaviour
                 break;
             case DragonStates.Dismounted:
                 FlyAway();
+                break;
+            case DragonStates.Landing:
+                //LANDING
+                break;
+            case DragonStates.Landed:
+                //LANDED
                 break;
 
         }
@@ -245,19 +253,71 @@ public class DragonController : MonoBehaviour
     }
     private void FlyTowardsPlayer()
     {
-       
+
 
         // Volar hacia el player
         transform.position = Vector3.MoveTowards(transform.position, playerTransform.position, calledSpeed * Time.deltaTime);
+        RotateTowardsMovement(playerTransform.position);
 
+    }
+
+    private void RotateTowardsMovement(Vector3 target)
+    {
         // Rotar el dragón hacia la dirección en la que se mueve
-        Vector3 direction = (playerTransform.position - transform.position).normalized;
+        Vector3 direction = (target - transform.position).normalized;
         if (direction != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             transform.rotation = targetRotation;
         }
+    }
 
+    //LAND
+    public void CallDragonToLand()
+    {
+
+        // Selecciona un punto aleatorio en un cono frente al player
+        Vector3 randomPointInView = GetRandomPointInCone(playerTransform);
+        
+        SetDragonState(DragonStates.Landing);
+        StartCoroutine(LandAtPoint(randomPointInView));
+    }
+
+    private IEnumerator LandAtPoint(Vector3 targetPosition)
+    {
+        RotateTowardsMovement(targetPosition);
+        float landDuration = 2f; // Duración del aterrizaje
+        float elapsedTime = 0f;
+
+        Vector3 startPosition = transform.position;
+        while (elapsedTime < landDuration)
+        {
+            transform.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / landDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = targetPosition; // Asegura que llegue al punto exacto al final
+        transform.eulerAngles = new Vector3(0, transform.rotation.eulerAngles.y, 0); //SETEO rotación al aterrizar
+
+        SetDragonState(DragonStates.Landed); // O cualquier otro estado
+    }
+
+    private Vector3 GetRandomPointInCone(Transform player)
+    {
+        float angle = 45f; // Ángulo del cono
+        float distance = 10f; // Distancia máxima del aterrizaje
+        Vector3 forward = player.forward;
+
+        Vector3 randomDirection = Quaternion.Euler(
+            Random.Range(-angle / 2, angle / 2),
+            Random.Range(-angle / 2, angle / 2),
+            0) * forward;
+
+        Vector3 randomPoint = player.position + randomDirection * Random.Range(5f, distance);
+        randomPoint.y = player.position.y; // Mantén la altura similar al jugador
+
+        return randomPoint;
     }
 
     //MOUNT

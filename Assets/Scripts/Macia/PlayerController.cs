@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using Cinemachine;
 using JetBrains.Annotations;
 using UnityEditor;
+using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class PlayerController : MonoBehaviour
 {
@@ -146,6 +147,10 @@ public class PlayerController : MonoBehaviour
 
     public void OnCallDragon(InputAction.CallbackContext callContext)
     {
+        if (callContext.performed && playerState == PlayerStates.Normal)
+        {
+            dragonController.CallDragonToLand();
+        }
         if (callContext.action.triggered && playerState == PlayerStates.BigFall)
         {
             dragonController.CallDragon();
