@@ -47,7 +47,7 @@
                     "id": "4259fe48-3e52-4103-89d9-04ae7c15950a",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Hold",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
@@ -75,6 +75,15 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "LandDragon",
+                    "type": "Button",
+                    "id": "dbdd069c-c408-4a21-bb06-de2f2ce060fd",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Hold",
                     "initialStateCheck": false
                 }
             ],
@@ -340,6 +349,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Paravela",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "84fae8ff-43eb-4bf7-8dfe-1247f4377454",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LandDragon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "345c6ce4-9354-4c2d-b439-f24c9a1eaa4b",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LandDragon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
