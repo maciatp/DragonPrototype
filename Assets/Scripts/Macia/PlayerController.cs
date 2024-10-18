@@ -411,6 +411,10 @@ public class PlayerController : MonoBehaviour
         SetPlayerState(PlayerStates.Paravela);
         paravelaGO.SetActive(true);
         rb.useGravity = true;
+        if(trail.enabled)
+        {
+            trail.enabled = false;
+        }
         //DEBUG
        // rb.isKinematic = true;
 
