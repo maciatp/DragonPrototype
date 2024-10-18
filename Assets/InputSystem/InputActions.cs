@@ -89,6 +89,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Paravela"",
+                    ""type"": ""Button"",
+                    ""id"": ""dfd0bfb8-88f1-4e36-a15a-1e27205497eb"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -331,6 +340,28 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""LookDragon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b92751ca-5829-41a2-8ab0-be01b3fb13b2"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Paravela"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6445d735-e93b-4f6b-a041-03e3414c5234"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Paravela"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -674,6 +705,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Foot_CallDragon = m_Foot.FindAction("CallDragon", throwIfNotFound: true);
         m_Foot_Dive = m_Foot.FindAction("Dive", throwIfNotFound: true);
         m_Foot_LookDragon = m_Foot.FindAction("LookDragon", throwIfNotFound: true);
+        m_Foot_Paravela = m_Foot.FindAction("Paravela", throwIfNotFound: true);
         // Dragon
         m_Dragon = asset.FindActionMap("Dragon", throwIfNotFound: true);
         m_Dragon_PitchRoll = m_Dragon.FindAction("PitchRoll", throwIfNotFound: true);
@@ -756,6 +788,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Foot_CallDragon;
     private readonly InputAction m_Foot_Dive;
     private readonly InputAction m_Foot_LookDragon;
+    private readonly InputAction m_Foot_Paravela;
     public struct FootActions
     {
         private @InputActions m_Wrapper;
@@ -767,6 +800,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @CallDragon => m_Wrapper.m_Foot_CallDragon;
         public InputAction @Dive => m_Wrapper.m_Foot_Dive;
         public InputAction @LookDragon => m_Wrapper.m_Foot_LookDragon;
+        public InputAction @Paravela => m_Wrapper.m_Foot_Paravela;
         public InputActionMap Get() { return m_Wrapper.m_Foot; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -797,6 +831,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @LookDragon.started += instance.OnLookDragon;
             @LookDragon.performed += instance.OnLookDragon;
             @LookDragon.canceled += instance.OnLookDragon;
+            @Paravela.started += instance.OnParavela;
+            @Paravela.performed += instance.OnParavela;
+            @Paravela.canceled += instance.OnParavela;
         }
 
         private void UnregisterCallbacks(IFootActions instance)
@@ -822,6 +859,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @LookDragon.started -= instance.OnLookDragon;
             @LookDragon.performed -= instance.OnLookDragon;
             @LookDragon.canceled -= instance.OnLookDragon;
+            @Paravela.started -= instance.OnParavela;
+            @Paravela.performed -= instance.OnParavela;
+            @Paravela.canceled -= instance.OnParavela;
         }
 
         public void RemoveCallbacks(IFootActions instance)
@@ -934,6 +974,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnCallDragon(InputAction.CallbackContext context);
         void OnDive(InputAction.CallbackContext context);
         void OnLookDragon(InputAction.CallbackContext context);
+        void OnParavela(InputAction.CallbackContext context);
     }
     public interface IDragonActions
     {
