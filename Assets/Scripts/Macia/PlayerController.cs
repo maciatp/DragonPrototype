@@ -35,8 +35,11 @@ public class PlayerController : MonoBehaviour
 
 
     //Paravela
+    [SerializeField] float paravelaMovementSpeed = 6f;
+    [SerializeField] float paravelaFallingSpeed = -2f;
     float currentParavelaStamina = 0f;
     [SerializeField] float totalParavelaStamina = 2f;
+
     [SerializeField] GameObject paravelaGO;
 
     [Header("Dragon")]
@@ -83,6 +86,7 @@ public class PlayerController : MonoBehaviour
 
         //PARAVELA
         paravelaGO.SetActive(false);
+        currentParavelaStamina = totalParavelaStamina;
 
         //Dive Debug
         trail = GetComponentInChildren<TrailRenderer>();
@@ -184,7 +188,8 @@ public class PlayerController : MonoBehaviour
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundMask);
 
-        if (isGrounded && playerState == PlayerStates.Normal)
+        //CHARGE STAMINA
+        if ((isGrounded && playerState == PlayerStates.Normal) || playerState == PlayerStates.OnDragon)
         {
             if (currentParavelaStamina != totalParavelaStamina)
             {
@@ -230,7 +235,6 @@ public class PlayerController : MonoBehaviour
 
         if (playerState == PlayerStates.Paravela)
         {
-            //PARAVELA MOVEMENT
             ParavelaMovement();
         }
     }
@@ -382,6 +386,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Playerstate == Paravela");
         SetPlayerState(PlayerStates.Paravela);
         paravelaGO.SetActive(true);
+        rb.useGravity = true;
         //DEBUG
        // rb.isKinematic = true;
 
@@ -406,8 +411,25 @@ public class PlayerController : MonoBehaviour
     }
     private void ParavelaMovement()
     {
-        //PARAVELA MOVEMENT HERE
+        // Rotación gradual del modelo para que quede vertical
+        playerObj.localRotation = Quaternion.Slerp(playerObj.localRotation, Quaternion.Euler(0, 0, 0), Time.deltaTime * rotationSpeed);
+
+        // Rotación del jugador hacia donde mira la cámara (horizontalmente)
+        Vector3 viewDir = transform.position - new Vector3(freeLookPlayerCamera.transform.position.x, transform.position.y, freeLookPlayerCamera.transform.position.z);
+        orientation.forward = viewDir.normalized;
+        Vector3 targetDirection = orientation.forward;
+
+        // Rotación gradual hacia la cámara
+        transform.forward = Vector3.Slerp(transform.forward, targetDirection, Time.deltaTime * bigFallRotationSpeed);
+
+        // Movimiento paralelo al suelo en la dirección del joystick
+        Vector3 moveDirection = (orientation.right * moveInput.x) + (orientation.forward * moveInput.y);
+        rb.MovePosition(rb.position + moveDirection * paravelaMovementSpeed * Time.fixedDeltaTime);
+
+        // Limitar la velocidad de caída para simular que está usando la paravela
+        rb.velocity = new Vector3(rb.velocity.x, Mathf.Max(rb.velocity.y, paravelaFallingSpeed), rb.velocity.z); // Limita la caída para que no baje rápido
     }
+
 
     private void SetPlayerState(PlayerStates newPlayerState)
     {
