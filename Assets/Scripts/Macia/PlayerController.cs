@@ -66,6 +66,15 @@ public class PlayerController : MonoBehaviour
         get { return playerState; }
     }
 
+    public float GetCurrentStamina
+    {
+        get { return currentParavelaStamina; }
+    }
+    public float GetMaxStamina
+    {
+        get { return totalParavelaStamina; }
+    }
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
