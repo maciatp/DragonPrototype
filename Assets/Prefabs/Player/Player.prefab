@@ -427,7 +427,7 @@ MonoBehaviour:
   freeLookPlayerCamera: {fileID: 0}
   paravelaMovementSpeed: 6
   paravelaFallingSpeed: -2
-  totalParavelaStamina: 2
+  totalParavelaStamina: 5
   paravelaGO: {fileID: 3782575770865407869}
   diveColor: {r: 1, g: 0.5280086, b: 0, a: 0.6117647}
 --- !u!54 &3669470022926248162
