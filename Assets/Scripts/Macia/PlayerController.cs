@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Cinemachine;
 using JetBrains.Annotations;
+using UnityEditor;
 
 public class PlayerController : MonoBehaviour
 {
@@ -216,13 +217,14 @@ public class PlayerController : MonoBehaviour
             {
                 ParavelaDisable();
             }
-        }
+        }        
     }
 
 
     private void FixedUpdate()
     {
-        Yspeed = rb.velocity.y;
+        Yspeed = rb.velocity.y; //DEBUG
+
         if (playerState == PlayerStates.Normal)
         {
             Move();
@@ -251,7 +253,7 @@ public class PlayerController : MonoBehaviour
             Vector3 moveDirection = (orientation.right * moveInput.x) + (orientation.forward * moveInput.y);
             if (moveDirection != Vector3.zero)
             {
-                playerObj.forward = Vector3.Slerp(playerObj.forward, moveDirection.normalized, Time.deltaTime * rotationSpeed);
+                playerObj.forward = Vector3.Slerp(playerObj.forward, moveDirection.normalized, Time.deltaTime * rotationSpeed);               
             }
 
             //MovePosition Method
@@ -276,7 +278,10 @@ public class PlayerController : MonoBehaviour
     //BIG FALL
     private void SetBigFall()
     {
-        playerObj.localRotation = Quaternion.Euler(90f, 0f, 0f);
+       
+        transform.rotation = Quaternion.Euler(0, playerObj.transform.eulerAngles.y, 0); //igualo la rotación del Player Padre a PlayerObj para el salto
+        playerObj.localRotation = Quaternion.Euler(90f, 0f, 0f); //seteo rotación del playerObj a paralelo al suelo. TO DO: hacer que sea gradual.
+        
         SetPlayerState(PlayerStates.BigFall);
         rb.useGravity = false;
         
@@ -285,7 +290,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void BigFallMovement()
-    {
+    {        
         // Rotación gradual hacia la cámara
         Vector3 viewDir = transform.position - new Vector3(freeLookPlayerCamera.transform.position.x, transform.position.y, freeLookPlayerCamera.transform.position.z);
         orientation.forward = viewDir.normalized;
@@ -302,7 +307,7 @@ public class PlayerController : MonoBehaviour
         //FALL VELOCITY
         float targetVelocity = isDiving ? terminalDiveVelocity : terminalVelocity;
         trail.startColor = isDiving ? diveColor : normalColor;
-        float currentYVelocity = rb.velocity.y;        
+        float currentYVelocity = rb.velocity.y;
 
         if (currentYVelocity != targetVelocity)
         {
@@ -313,10 +318,10 @@ public class PlayerController : MonoBehaviour
     
     // Return to NORMAL STATE -> dismount, grounded, ParavelaDisable
     private void RestorePlayerNormalState()
-    {
+    { 
         if (playerObj != null)
         {
-            playerObj.localRotation = Quaternion.Euler(0, 0, 0);
+            playerObj.transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);  // Devuelvo la rotación de Y de Player a PlayerObj    
             SetPlayerState(PlayerStates.Normal);
             rb.useGravity = true;
         }
@@ -385,7 +390,6 @@ public class PlayerController : MonoBehaviour
     //PARAVELA
     private void ParavelaEnable()
     {
-        Debug.Log("Playerstate == Paravela");
         SetPlayerState(PlayerStates.Paravela);
         paravelaGO.SetActive(true);
         rb.useGravity = true;
