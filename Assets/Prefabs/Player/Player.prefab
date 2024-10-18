@@ -410,7 +410,7 @@ MonoBehaviour:
   playerState: 0
   moveSpeed: 12
   bigFallMoveSpeed: 9
-  rotationSpeed: 10
+  rotationSpeed: 20
   bigFallRotationSpeed: 2
   jumpHeight: 3
   fallThreshold: -15
