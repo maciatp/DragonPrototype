@@ -372,8 +372,8 @@ public class PlayerController : MonoBehaviour
         freeLookPlayerCamera.Priority = (int)playerCameraOriginalPriority;
 
 
-        //APPLY JUMP?
-        //Jump();
+        //APPLY JUMP
+        Jump();
     }
 
     //PARAVELA
