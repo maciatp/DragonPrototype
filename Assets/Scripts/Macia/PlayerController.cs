@@ -163,10 +163,18 @@ public class PlayerController : MonoBehaviour
 
     public void OnLandDragon(InputAction.CallbackContext landDragonContext)
     { 
-        if (landDragonContext.performed && playerState == PlayerStates.Normal)
+        if (landDragonContext.performed)
         {
-            dragonController.CallDragonToLand();
+            if(playerState == PlayerStates.Normal && dragonController.GetDragonState == DragonController.DragonStates.Free)
+            {
+                dragonController.CallDragonToLand();
+            }
+            if(dragonController.GetDragonState == DragonController.DragonStates.Landed)
+            {
+                dragonController.SetDragonState(DragonController.DragonStates.Free);
+            }
         }
+        
     }
     public void OnLookDragon(InputAction.CallbackContext lookDragonContext)
     {

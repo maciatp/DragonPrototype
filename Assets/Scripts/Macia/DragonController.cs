@@ -107,7 +107,7 @@ public class DragonController : MonoBehaviour
         {
             DismountDragon();
         }
-        if(dismountContext.action.triggered && dragonState == DragonStates.MountedLanded)
+        if (dismountContext.action.triggered && dragonState == DragonStates.MountedLanded)
         {
             DismountDragonOnLand();
         }
@@ -143,6 +143,15 @@ public class DragonController : MonoBehaviour
     public void OnMoveLanded(InputAction.CallbackContext moveLandedContext)
     {
         moveInput = moveLandedContext.ReadValue<Vector2>();
+    }
+
+    public void OnTakeOff(InputAction.CallbackContext takeOffContext)
+    {
+        if(takeOffContext.performed)
+        {
+            SetDragonState(DragonStates.Mounted);
+            dragonObj.transform.localRotation = Quaternion.Euler(0, 0, 0);
+        }
     }
 
     private void Start()
@@ -335,6 +344,7 @@ public class DragonController : MonoBehaviour
         Vector3 randomPointInView = GetRandomPointInCone(playerTransform);
         
         SetDragonState(DragonStates.Landing);
+        calledCollider.enabled = false;
         StartCoroutine(LandAtPoint(randomPointInView));
     }
 
@@ -379,32 +389,42 @@ public class DragonController : MonoBehaviour
     //MOUNT
     public void MountDragon()
     {
-            SetDragonState(DragonStates.Mounted);
+        SetDragonState(DragonStates.Mounted);
 
-       
+
         playerController.MountDragon();
         //DRAGON CAM ON
         dragonVcam.gameObject.SetActive(true);
 
         //DEACTIVATE TRIGGERS
-        if(landedCollider.enabled)
-        {
-            landedCollider.enabled = false;
-        }
-        if(calledCollider.enabled)
-        {
-            calledCollider.enabled = false;
-        }
+        DeactivateTriggers();
 
     }
+
+
     public void MountDragonOnLand()
-    {        
+    {
+        isMountable = false;
         SetDragonState(DragonStates.MountedLanded);
         playerController.MountDragon();
+
+
+
+        //Igualo rotación del gameobject padre al interno        
+        dragonObj.localRotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
+        transform.rotation = Quaternion.Euler(0,0,0);
+
+
         //DRAGON CAM ON
         dragonVcam.gameObject.SetActive(true);
 
         //DEACTIVATE TRIGGERS
+        DeactivateTriggers();
+
+    }
+
+    private void DeactivateTriggers()
+    {
         if (landedCollider.enabled)
         {
             landedCollider.enabled = false;
@@ -413,9 +433,7 @@ public class DragonController : MonoBehaviour
         {
             calledCollider.enabled = false;
         }
-
     }
-
 
     //DISMOUNT
     void DismountDragon()
@@ -431,8 +449,17 @@ public class DragonController : MonoBehaviour
         SetDragonState(DragonStates.Landed);
         playerController.DismountDragon();
 
+        //NOT WORKING AS INTENDED
+        
+        //Igualo rotación del gameobject padre al interno
+        Debug.Log("DragonOBJ Euler angles es " + dragonObj.rotation.eulerAngles);
+        transform.rotation = Quaternion.Euler(0, dragonObj.rotation.eulerAngles.y, 0);
+        dragonObj.rotation = Quaternion.Euler(0,0,0);
+        Debug.Log("Dragon Euler angles es " + transform.rotation.eulerAngles);
+
         //Dragon CAM OFF
         dragonVcam.gameObject.SetActive(false);
+        landedCollider.enabled = true;
     }
 
     //SET DRAGON STATE
@@ -456,7 +483,7 @@ public class DragonController : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.transform.parent.tag == "Player" && dragonState == DragonStates.Landed)
+        if (other.transform.parent.tag == "Player")
         {
             //CAN'T MOUNT
             isMountable = false;
