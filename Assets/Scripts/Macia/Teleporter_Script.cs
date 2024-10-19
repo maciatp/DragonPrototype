@@ -19,7 +19,7 @@ public class Teleporter_Script : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player")
+        if(other.transform.parent.tag == "Player")
         {
             Debug.Log("Me muevo");
             other.GetComponentInParent<Rigidbody>().MovePosition(teleporter_B.position);
