@@ -10,6 +10,7 @@ public class DragonController : MonoBehaviour
 {
     private float currentDragonSpeed; // Velocidad actual del dragón
     bool isMountable = false;
+    bool isGrounded = false;
     //FREE
     [SerializeField] private Transform playerTransform; // El jugador al que el dragón sigue.
     [SerializeField] private float circleHeight = 20f; // Altura a la que vuela el dragón.
@@ -45,6 +46,9 @@ public class DragonController : MonoBehaviour
 
     //LANDED
     [SerializeField] BoxCollider landedCollider;
+    [SerializeField] private LayerMask groundMask;
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private float groundCheckRadius = 0.2f;
 
     private Vector2 moveInput; // Input del joystick izquierdo (pitch y roll)
     private float yawInput; // Input de los gatillos para el yaw
@@ -75,6 +79,10 @@ public class DragonController : MonoBehaviour
     {
         get { return playerPos; }
     }
+    public bool IsMountable
+    {
+        get { return isMountable; }
+    }
 
     // Input para mover el dragón (joystick izquierdo)
     public void OnMove(InputAction.CallbackContext context)
@@ -93,6 +101,10 @@ public class DragonController : MonoBehaviour
         if (dismountContext.action.triggered && dragonState == DragonStates.Mounted)
         {
             DismountDragon();
+        }
+        if(dismountContext.action.triggered && dragonState == DragonStates.MountedLanded)
+        {
+            DismountDragonOnLand();
         }
     }
 
@@ -133,6 +145,8 @@ public class DragonController : MonoBehaviour
 
     private void Update()
     {
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundMask);
+
         switch (dragonState)
         {
             case DragonStates.Free:
@@ -332,9 +346,11 @@ public class DragonController : MonoBehaviour
     }
 
     //MOUNT
-    void MountDragon()
+    public void MountDragon()
     {
-        SetDragonState(DragonStates.Mounted);
+            SetDragonState(DragonStates.Mounted);
+
+       
         playerController.MountDragon();
         //DRAGON CAM ON
         dragonVcam.gameObject.SetActive(true);
@@ -350,11 +366,38 @@ public class DragonController : MonoBehaviour
         }
 
     }
+    public void MountDragonOnLand()
+    {        
+        SetDragonState(DragonStates.MountedLanded);
+        playerController.MountDragon();
+        //DRAGON CAM ON
+        dragonVcam.gameObject.SetActive(true);
+
+        //DEACTIVATE TRIGGERS
+        if (landedCollider.enabled)
+        {
+            landedCollider.enabled = false;
+        }
+        if (calledCollider.enabled)
+        {
+            calledCollider.enabled = false;
+        }
+
+    }
+
 
     //DISMOUNT
     void DismountDragon()
     {
         SetDragonState(DragonStates.Dismounted);
+        playerController.DismountDragon();
+
+        //Dragon CAM OFF
+        dragonVcam.gameObject.SetActive(false);
+    }
+    void DismountDragonOnLand()
+    {
+        SetDragonState(DragonStates.Landed);
         playerController.DismountDragon();
 
         //Dragon CAM OFF

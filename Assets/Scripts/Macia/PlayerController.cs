@@ -147,10 +147,18 @@ public class PlayerController : MonoBehaviour
 
     public void OnCallDragon(InputAction.CallbackContext callContext)
     {
-        if (callContext.action.triggered && playerState == PlayerStates.BigFall)
-        {
-            dragonController.CallDragon();
+        if (callContext.action.triggered )
+        {            
+            if (playerState == PlayerStates.BigFall)
+            {
+                dragonController.CallDragon();
+            }
+            if(playerState == PlayerStates.Normal && dragonController.IsMountable)
+            {
+                dragonController.MountDragonOnLand();
+            }
         }
+        
     }
 
     public void OnLandDragon(InputAction.CallbackContext landDragonContext)
