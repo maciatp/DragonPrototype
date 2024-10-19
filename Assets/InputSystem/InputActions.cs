@@ -455,6 +455,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MoveLanded"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""f84a19c1-ff8f-4c19-b4b4-146d6d1a7e0b"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -721,6 +730,116 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Camera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4df30c55-1927-4849-92e5-c46c050a6097"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveLanded"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""4bd6b07e-67d9-4aa5-834f-68576ab89125"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveLanded"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""8364948f-4b6a-46f6-a33d-24c9ad0b424f"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveLanded"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""2fef3903-00c1-4326-b493-7bc3587cabfb"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveLanded"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""b056384a-5866-44c1-9feb-25f7af3a9edf"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveLanded"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""f20571e5-48b6-4c3d-9295-3e7209cc6d57"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveLanded"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""3baa0ffa-3b96-4d13-a0b1-b2776d0b4c41"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveLanded"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""15ce7d18-cfd5-4dca-9ed7-8bf6a8e96b0f"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveLanded"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""0c58af0a-4f5b-4c86-be2f-f44583ce5135"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveLanded"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""5143a299-15bb-4d84-8f9d-34258b8a01a7"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveLanded"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -746,6 +865,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Dragon_Brake = m_Dragon.FindAction("Brake", throwIfNotFound: true);
         m_Dragon_Yaw = m_Dragon.FindAction("Yaw", throwIfNotFound: true);
         m_Dragon_Camera = m_Dragon.FindAction("Camera", throwIfNotFound: true);
+        m_Dragon_MoveLanded = m_Dragon.FindAction("MoveLanded", throwIfNotFound: true);
     }
 
     ~@InputActions()
@@ -929,6 +1049,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Dragon_Brake;
     private readonly InputAction m_Dragon_Yaw;
     private readonly InputAction m_Dragon_Camera;
+    private readonly InputAction m_Dragon_MoveLanded;
     public struct DragonActions
     {
         private @InputActions m_Wrapper;
@@ -939,6 +1060,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Brake => m_Wrapper.m_Dragon_Brake;
         public InputAction @Yaw => m_Wrapper.m_Dragon_Yaw;
         public InputAction @Camera => m_Wrapper.m_Dragon_Camera;
+        public InputAction @MoveLanded => m_Wrapper.m_Dragon_MoveLanded;
         public InputActionMap Get() { return m_Wrapper.m_Dragon; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -966,6 +1088,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Camera.started += instance.OnCamera;
             @Camera.performed += instance.OnCamera;
             @Camera.canceled += instance.OnCamera;
+            @MoveLanded.started += instance.OnMoveLanded;
+            @MoveLanded.performed += instance.OnMoveLanded;
+            @MoveLanded.canceled += instance.OnMoveLanded;
         }
 
         private void UnregisterCallbacks(IDragonActions instance)
@@ -988,6 +1113,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Camera.started -= instance.OnCamera;
             @Camera.performed -= instance.OnCamera;
             @Camera.canceled -= instance.OnCamera;
+            @MoveLanded.started -= instance.OnMoveLanded;
+            @MoveLanded.performed -= instance.OnMoveLanded;
+            @MoveLanded.canceled -= instance.OnMoveLanded;
         }
 
         public void RemoveCallbacks(IDragonActions instance)
@@ -1025,5 +1153,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnBrake(InputAction.CallbackContext context);
         void OnYaw(InputAction.CallbackContext context);
         void OnCamera(InputAction.CallbackContext context);
+        void OnMoveLanded(InputAction.CallbackContext context);
     }
 }

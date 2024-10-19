@@ -49,6 +49,10 @@ public class DragonController : MonoBehaviour
     [SerializeField] private LayerMask groundMask;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckRadius = 0.2f;
+    [SerializeField] float speedOnLand = 14f;
+    [SerializeField] Transform orientation;
+    [SerializeField] private float rotationSpeed = 20f;
+    [SerializeField] Transform dragonObj;
 
     private Vector2 moveInput; // Input del joystick izquierdo (pitch y roll)
     private float yawInput; // Input de los gatillos para el yaw
@@ -56,6 +60,7 @@ public class DragonController : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera dragonVcam;
 
     PlayerController playerController;
+    Rigidbody dragonRB;
 
     [SerializeField] DragonStates dragonState;
 
@@ -134,12 +139,19 @@ public class DragonController : MonoBehaviour
         }
     }
 
+    //LANDED MOVEMENT
+    public void OnMoveLanded(InputAction.CallbackContext moveLandedContext)
+    {
+        moveInput = moveLandedContext.ReadValue<Vector2>();
+    }
+
     private void Start()
     {
         // Guardamos la posición inicial del dragón para calcular la dirección de movimiento
         lastPosition = transform.position;
 
         playerController = playerTransform.GetComponent<PlayerController>();
+        dragonRB = GetComponent<Rigidbody>();
                        
     }
 
@@ -168,7 +180,7 @@ public class DragonController : MonoBehaviour
                 //LANDED
                 break;
             case DragonStates.MountedLanded:
-                //MOUNTED ON LAND MOVEMENT
+                LandedMove();
                 break;
 
         }
@@ -176,6 +188,25 @@ public class DragonController : MonoBehaviour
         lastPosition = transform.position;
     }
 
+
+    void LandedMove()
+    {
+        if (moveInput.sqrMagnitude > 0.01f)
+        {
+            //Rotación y movimiento respecto a cámara
+            Vector3 viewDir = transform.position - new Vector3(dragonVcam.transform.position.x, transform.position.y, dragonVcam.transform.position.z);
+            orientation.forward = viewDir.normalized;
+            Vector3 moveDirection = (orientation.right * moveInput.x) + (orientation.forward * moveInput.y);
+            if (moveDirection != Vector3.zero)
+            {
+                dragonObj.forward = Vector3.Slerp(dragonObj.forward, moveDirection.normalized, Time.deltaTime * rotationSpeed);
+            }
+
+            //MovePosition Method
+            dragonRB.MovePosition(dragonRB.position + moveDirection * speedOnLand * Time.fixedDeltaTime);
+            
+        }
+    }
     // Método para volar
     private void Fly()
     {
