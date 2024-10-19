@@ -464,6 +464,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TakeOff"",
+                    ""type"": ""Button"",
+                    ""id"": ""0a80c458-13dd-4679-ad2c-37cb40b9b353"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Hold"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -840,6 +849,28 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""MoveLanded"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""951f7809-fd4b-4ef5-a4b1-ca6cb8107877"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TakeOff"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7b414a36-0c3c-4189-bc01-76ac665df768"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TakeOff"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -866,6 +897,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Dragon_Yaw = m_Dragon.FindAction("Yaw", throwIfNotFound: true);
         m_Dragon_Camera = m_Dragon.FindAction("Camera", throwIfNotFound: true);
         m_Dragon_MoveLanded = m_Dragon.FindAction("MoveLanded", throwIfNotFound: true);
+        m_Dragon_TakeOff = m_Dragon.FindAction("TakeOff", throwIfNotFound: true);
     }
 
     ~@InputActions()
@@ -1050,6 +1082,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Dragon_Yaw;
     private readonly InputAction m_Dragon_Camera;
     private readonly InputAction m_Dragon_MoveLanded;
+    private readonly InputAction m_Dragon_TakeOff;
     public struct DragonActions
     {
         private @InputActions m_Wrapper;
@@ -1061,6 +1094,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Yaw => m_Wrapper.m_Dragon_Yaw;
         public InputAction @Camera => m_Wrapper.m_Dragon_Camera;
         public InputAction @MoveLanded => m_Wrapper.m_Dragon_MoveLanded;
+        public InputAction @TakeOff => m_Wrapper.m_Dragon_TakeOff;
         public InputActionMap Get() { return m_Wrapper.m_Dragon; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1091,6 +1125,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @MoveLanded.started += instance.OnMoveLanded;
             @MoveLanded.performed += instance.OnMoveLanded;
             @MoveLanded.canceled += instance.OnMoveLanded;
+            @TakeOff.started += instance.OnTakeOff;
+            @TakeOff.performed += instance.OnTakeOff;
+            @TakeOff.canceled += instance.OnTakeOff;
         }
 
         private void UnregisterCallbacks(IDragonActions instance)
@@ -1116,6 +1153,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @MoveLanded.started -= instance.OnMoveLanded;
             @MoveLanded.performed -= instance.OnMoveLanded;
             @MoveLanded.canceled -= instance.OnMoveLanded;
+            @TakeOff.started -= instance.OnTakeOff;
+            @TakeOff.performed -= instance.OnTakeOff;
+            @TakeOff.canceled -= instance.OnTakeOff;
         }
 
         public void RemoveCallbacks(IDragonActions instance)
@@ -1154,5 +1194,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnYaw(InputAction.CallbackContext context);
         void OnCamera(InputAction.CallbackContext context);
         void OnMoveLanded(InputAction.CallbackContext context);
+        void OnTakeOff(InputAction.CallbackContext context);
     }
 }
