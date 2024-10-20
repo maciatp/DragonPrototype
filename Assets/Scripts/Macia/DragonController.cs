@@ -404,7 +404,6 @@ public class DragonController : MonoBehaviour
 
     public void MountDragonOnLand()
     {
-        isMountable = false;
         SetDragonState(DragonStates.MountedLanded);
         playerController.MountDragon();
 
@@ -421,6 +420,7 @@ public class DragonController : MonoBehaviour
         //DEACTIVATE TRIGGERS
         DeactivateTriggers();
 
+        isMountable = false;
     }
 
     private void DeactivateTriggers()
@@ -448,14 +448,12 @@ public class DragonController : MonoBehaviour
     {
         SetDragonState(DragonStates.Landed);
         playerController.DismountDragon();
-
-        //NOT WORKING AS INTENDED
+       
         
-        //Igualo rotación del gameobject padre al interno
-        Debug.Log("DragonOBJ Euler angles es " + dragonObj.rotation.eulerAngles);
+        //Igualo rotación del gameobject padre al interno       
         transform.rotation = Quaternion.Euler(0, dragonObj.rotation.eulerAngles.y, 0);
-        dragonObj.rotation = Quaternion.Euler(0,0,0);
-        Debug.Log("Dragon Euler angles es " + transform.rotation.eulerAngles);
+        dragonObj.localRotation = Quaternion.Euler(0,0,0);
+        
 
         //Dragon CAM OFF
         dragonVcam.gameObject.SetActive(false);
