@@ -242,7 +242,8 @@ MonoBehaviour:
   orientation: {fileID: 2344993397021916337}
   rotationSpeed: 20
   dragonObj: {fileID: 2968217381820319155}
-  dragonVcam: {fileID: 0}
+  dragonFlyingVcam: {fileID: 0}
+  dragonLandVcam: {fileID: 0}
   dragonState: 0
 --- !u!54 &731856674143684758
 Rigidbody:
