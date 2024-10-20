@@ -115,8 +115,8 @@ public class PlayerController : MonoBehaviour
     {
         if (jumpContext.action.triggered) //Sólo se llama una vez, cuando pulsas el botón
         {
-            if (isGrounded)
-            {
+            if (isGrounded && playerState == PlayerStates.Normal)
+            {                
                 Jump();
             }
         }
@@ -221,7 +221,14 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundMask);
+        if(playerState != PlayerStates.OnDragon)
+        {
+            isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundMask);
+        }
+        else
+        {
+            isGrounded = false; //para todo lo demás
+        }
 
         //CHARGE STAMINA
         if ((isGrounded && playerState == PlayerStates.Normal) || playerState == PlayerStates.OnDragon)
@@ -237,7 +244,7 @@ public class PlayerController : MonoBehaviour
             SetBigFall();
         }
 
-        if (isGrounded && playerState != PlayerStates.Normal)
+        if (isGrounded && playerState != PlayerStates.Normal) //&& playerState != PlayerStates.OnDragon //probar método de seguridad para volver a grounded
         {
             RestorePlayerNormalState();           
         }
@@ -305,7 +312,7 @@ public class PlayerController : MonoBehaviour
     //JUMP
     private void Jump()
     {
-        rb.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange); //MODO CALCULAR CuÁNTA FUERZA TENGO QUE DARLE PARA QUE LLEGUE A LA ALTURA REQUERIDA       
+        rb.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange); //MODO CALCULAR CuÁNTA FUERZA TENGO QUE DARLE PARA QUE LLEGUE A LA ALTURA REQUERIDA
     }
 
 
@@ -401,8 +408,8 @@ public class PlayerController : MonoBehaviour
     public void DismountDragon()
     {
         //RESTORE PLAYER ROTATION and set parent null
+        transform.SetParent(null); //va Primero para que el player se salga de la posición de Mounted
         RestorePlayerNormalState();       
-        transform.SetParent(null);
 
         //PHYSICS and colliders
         rb.isKinematic = false;
