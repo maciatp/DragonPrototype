@@ -167,7 +167,12 @@ public class DragonController : MonoBehaviour
     private void Update()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundMask);
-
+        
+        lastPosition = transform.position;
+    }
+    private void FixedUpdate()
+    {
+       
         switch (dragonState)
         {
             case DragonStates.Free:
@@ -189,20 +194,10 @@ public class DragonController : MonoBehaviour
                 //LANDED
                 break;
             case DragonStates.MountedLanded:
-                
+                LandedMove();
                 break;
 
         }
-
-        lastPosition = transform.position;
-    }
-    private void FixedUpdate()
-    {
-        if(dragonState == DragonStates.MountedLanded)
-        {
-            LandedMove();
-        }
-
 
     }
 
