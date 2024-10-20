@@ -193,7 +193,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 208455031}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.51764, y: 0.31697562, z: -0.2144135, w: -0.7652465}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -877,7 +877,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 682273164}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.5176402, y: 0.3169752, z: -0.21441284, w: -0.7652467}
   m_LocalPosition: {x: 0.000020289299, y: -0.000010436575, z: -0.000020289266}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1663,7 +1663,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1021690194}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.5027313, y: 0.3210663, z: -0.20823807, w: -0.7751223}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2851,10 +2851,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 487905241758311988, guid: 57cf50c187aff6745ac4ee585aa38a07, type: 3}
-      propertyPath: dragonVcam
-      value: 
-      objectReference: {fileID: 760217149}
-    - target: {fileID: 487905241758311988, guid: 57cf50c187aff6745ac4ee585aa38a07, type: 3}
       propertyPath: dragonLandVcam
       value: 
       objectReference: {fileID: 525940843}
@@ -2866,10 +2862,6 @@ PrefabInstance:
       propertyPath: dragonFlyingVcam
       value: 
       objectReference: {fileID: 760217149}
-    - target: {fileID: 731856674143684758, guid: 57cf50c187aff6745ac4ee585aa38a07, type: 3}
-      propertyPath: m_Constraints
-      value: 126
-      objectReference: {fileID: 0}
     - target: {fileID: 5590182492475420074, guid: 57cf50c187aff6745ac4ee585aa38a07, type: 3}
       propertyPath: m_Name
       value: Dragon
