@@ -238,7 +238,7 @@ MonoBehaviour:
     m_Bits: 256
   groundCheck: {fileID: 8621544202487438284}
   groundCheckRadius: 0.2
-  speedOnLand: 14
+  speedOnLand: 20
   orientation: {fileID: 2344993397021916337}
   rotationSpeed: 20
   dragonObj: {fileID: 2968217381820319155}
