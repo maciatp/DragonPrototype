@@ -476,7 +476,7 @@ public class DragonController : MonoBehaviour
         playerController.DismountDragon();
 
         //Dragon CAM OFF
-        dragonFlyingVcam.gameObject.SetActive(false);
+        SetDragonCamera();
     }
     void DismountDragonOnLand()
     {
