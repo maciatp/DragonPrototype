@@ -71,6 +71,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2968217381820319155}
+  - component: {fileID: 5353475368085749859}
+  - component: {fileID: 7210446605006281887}
+  - component: {fileID: 6130779027030264635}
   m_Layer: 7
   m_Name: Model
   m_TagString: Untagged
@@ -95,6 +98,71 @@ Transform:
   - {fileID: 6665944997430979271}
   m_Father: {fileID: 5905171915170486461}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &5353475368085749859
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5402162274042228837}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.59
+  m_Height: 3.91
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: -0.84}
+--- !u!135 &7210446605006281887
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5402162274042228837}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 3.56
+  m_Center: {x: 0, y: 0.5, z: 2.65}
+--- !u!65 &6130779027030264635
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5402162274042228837}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 7.01, y: 2, z: 7.58}
+  m_Center: {x: 0, y: 0, z: -1.04}
 --- !u!1 &5590182492475420074
 GameObject:
   m_ObjectHideFlags: 0
@@ -104,9 +172,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5905171915170486461}
-  - component: {fileID: 731856674143684758}
-  - component: {fileID: 700188528404225573}
   - component: {fileID: 487905241758311988}
+  - component: {fileID: 731856674143684758}
   m_Layer: 7
   m_Name: Dragon
   m_TagString: Dragon
@@ -132,6 +199,51 @@ Transform:
   - {fileID: 2344993397021916337}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &487905241758311988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5590182492475420074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f09119306d8ad4741b90740788f08c62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTransform: {fileID: 0}
+  circleHeight: 17
+  circleRadius: 40
+  circleSpeed: 1
+  pitchAngle: 0
+  yawAngle: 0
+  rollAngle: 30
+  calledSpeed: 100
+  spawnDistance: 20
+  playerPos: {fileID: 6665944997430979271}
+  calledCollider: {fileID: 7210446605006281887}
+  pitchSpeed: 100
+  rollSpeed: 150
+  yawSpeed: 15
+  acceleration: 40
+  deceleration: 40
+  maxFlyingSpeed: 100
+  minFlyingSpeed: 35
+  idleFlyingSpeed: 50
+  idleForce: 20
+  flyAwayBoost: 20
+  landedCollider: {fileID: 6130779027030264635}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 256
+  groundCheck: {fileID: 8621544202487438284}
+  groundCheckRadius: 0.2
+  speedOnLand: 14
+  orientation: {fileID: 2344993397021916337}
+  rotationSpeed: 20
+  dragonObj: {fileID: 2968217381820319155}
+  dragonVcam: {fileID: 0}
+  dragonState: 0
 --- !u!54 &731856674143684758
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -155,76 +267,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
---- !u!135 &700188528404225573
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5590182492475420074}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 3.56
-  m_Center: {x: 0, y: 0.5, z: 2.65}
---- !u!114 &487905241758311988
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5590182492475420074}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f09119306d8ad4741b90740788f08c62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerTransform: {fileID: 0}
-  circleHeight: 17
-  circleRadius: 40
-  circleSpeed: 1
-  pitchAngle: 0
-  yawAngle: 0
-  rollAngle: 30
-  calledSpeed: 100
-  spawnDistance: 20
-  playerPos: {fileID: 6665944997430979271}
-  calledCollider: {fileID: 700188528404225573}
-  pitchSpeed: 100
-  rollSpeed: 150
-  yawSpeed: 15
-  acceleration: 40
-  deceleration: 40
-  maxFlyingSpeed: 100
-  minFlyingSpeed: 35
-  idleFlyingSpeed: 50
-  idleForce: 20
-  flyAwayBoost: 20
-  landedCollider: {fileID: 6010659836834119477}
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 256
-  groundCheck: {fileID: 8621544202487438284}
-  groundCheckRadius: 0.2
-  speedOnLand: 14
-  orientation: {fileID: 2344993397021916337}
-  rotationSpeed: 20
-  dragonObj: {fileID: 2968217381820319155}
-  dragonVcam: {fileID: 0}
-  dragonState: 0
 --- !u!1 &5849192489050281968
 GameObject:
   m_ObjectHideFlags: 0
@@ -639,65 +685,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: e7d56d076b6bc1047a89e2b7ff3ec6e8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2397919323118624455}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e7d56d076b6bc1047a89e2b7ff3ec6e8, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8436554255977159849}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e7d56d076b6bc1047a89e2b7ff3ec6e8, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6010659836834119477}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e7d56d076b6bc1047a89e2b7ff3ec6e8, type: 3}
 --- !u!4 &8495600248221828208 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e7d56d076b6bc1047a89e2b7ff3ec6e8, type: 3}
   m_PrefabInstance: {fileID: 8245200414132593563}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &9128162879530065610 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e7d56d076b6bc1047a89e2b7ff3ec6e8, type: 3}
-  m_PrefabInstance: {fileID: 8245200414132593563}
-  m_PrefabAsset: {fileID: 0}
---- !u!136 &8436554255977159849
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9128162879530065610}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.59
-  m_Height: 3.42
-  m_Direction: 2
-  m_Center: {x: 0, y: 1.28, z: -0.25}
---- !u!65 &6010659836834119477
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9128162879530065610}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 7.01, y: 2, z: 7.58}
-  m_Center: {x: 0, y: 1.28, z: 0}
