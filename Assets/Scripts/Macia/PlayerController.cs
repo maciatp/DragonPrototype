@@ -252,7 +252,6 @@ public class PlayerController : MonoBehaviour
         
         if (playerState == PlayerStates.Paravela)
         {
-            Debug.Log("Consumiendo Stamina Paravela");
             currentParavelaStamina -= Time.deltaTime;
             if (currentParavelaStamina < 0)
             {
@@ -449,7 +448,7 @@ public class PlayerController : MonoBehaviour
     {
         SetPlayerState(PlayerStates.Normal);
         paravelaGO.SetActive(false);
-        Debug.Log("Paravela desactivada");
+        
         //DEBUG
         //rb.isKinematic = false;
     }
