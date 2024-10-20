@@ -472,8 +472,11 @@ public class DragonController : MonoBehaviour
         if (other.transform.parent.tag == "Player" && dragonState == DragonStates.Called)
         {
             MountDragon();
-        }
-        if(other.transform.parent.tag == "Player" && dragonState == DragonStates.Landed)
+        }        
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.transform.parent.tag == "Player" && dragonState == DragonStates.Landed && !isMountable)
         {
             //CAN MOUNT
             isMountable = true;
