@@ -150,7 +150,7 @@ public class DragonController : MonoBehaviour
         if(takeOffContext.performed)
         {
             SetDragonState(DragonStates.Mounted);
-            dragonObj.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            dragonObj.transform.localRotation = Quaternion.Euler(0, 0, 0); //CAMBIAR A CALCULAR Forward con la cámara y rotar el dragón hacia donde apunte la cámara.
         }
     }
 
@@ -189,12 +189,21 @@ public class DragonController : MonoBehaviour
                 //LANDED
                 break;
             case DragonStates.MountedLanded:
-                LandedMove();
+                
                 break;
 
         }
 
         lastPosition = transform.position;
+    }
+    private void FixedUpdate()
+    {
+        if(dragonState == DragonStates.MountedLanded)
+        {
+            LandedMove();
+        }
+
+
     }
 
 
@@ -212,7 +221,7 @@ public class DragonController : MonoBehaviour
             }
 
             //MovePosition Method
-            dragonRB.MovePosition(dragonRB.position + moveDirection * speedOnLand * Time.fixedDeltaTime);
+            dragonRB.MovePosition(dragonRB.position + (moveDirection * speedOnLand) * Time.fixedDeltaTime);
             
         }
     }
