@@ -400,6 +400,7 @@ public class PlayerController : MonoBehaviour
 
         //CAMERA CHANGE
         freeLookPlayerCamera.Priority = 0;
+        dragonController.SetDragonCamera();
         
         //DIVE TESTING
         trail.enabled = false;
@@ -422,6 +423,7 @@ public class PlayerController : MonoBehaviour
         //Camera
         //priority returns to original
         freeLookPlayerCamera.Priority = (int)playerCameraOriginalPriority;
+        dragonController.SetDragonCamera();
 
 
         //APPLY JUMP

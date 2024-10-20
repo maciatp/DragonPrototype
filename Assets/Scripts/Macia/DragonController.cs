@@ -57,7 +57,8 @@ public class DragonController : MonoBehaviour
     private Vector2 moveInput; // Input del joystick izquierdo (pitch y roll)
     private float yawInput; // Input de los gatillos para el yaw
 
-    [SerializeField] CinemachineVirtualCamera dragonVcam;
+    [SerializeField] CinemachineVirtualCamera dragonFlyingVcam;
+    [SerializeField] CinemachineFreeLook dragonLandVcam;
 
     PlayerController playerController;
     Rigidbody dragonRB;
@@ -149,8 +150,14 @@ public class DragonController : MonoBehaviour
     {
         if(takeOffContext.performed)
         {
+            //TAKE OFF
             SetDragonState(DragonStates.Mounted);
-            dragonObj.transform.localRotation = Quaternion.Euler(0, 0, 0); //CAMBIAR A CALCULAR Forward con la cámara y rotar el dragón hacia donde apunte la cámara.
+            //dragonObj.transform.localRotation = Quaternion.Euler(0, 0, 0); //CAMBIAR A CALCULAR Forward con la cámara y rotar el dragón hacia donde apunte la cámara.
+
+            //Igualo rotación del gameobject padre al interno para que el dragón despegue en la dirección que mira.
+            transform.rotation = Quaternion.Euler(0, dragonObj.rotation.eulerAngles.y, 0);
+            dragonObj.localRotation = Quaternion.Euler(0, 0, 0);
+            SetDragonCamera();
         }
     }
 
@@ -207,7 +214,7 @@ public class DragonController : MonoBehaviour
         if (moveInput.sqrMagnitude > 0.01f)
         {
             //Rotación y movimiento respecto a cámara
-            Vector3 viewDir = transform.position - new Vector3(dragonVcam.transform.position.x, transform.position.y, dragonVcam.transform.position.z);
+            Vector3 viewDir = transform.position - new Vector3(dragonLandVcam.transform.position.x, transform.position.y, dragonLandVcam.transform.position.z);
             orientation.forward = viewDir.normalized;
             Vector3 moveDirection = (orientation.right * moveInput.x) + (orientation.forward * moveInput.y);
             if (moveDirection != Vector3.zero)
@@ -398,11 +405,30 @@ public class DragonController : MonoBehaviour
 
         playerController.MountDragon();
         //DRAGON CAM ON
-        dragonVcam.gameObject.SetActive(true);
+        SetDragonCamera();
 
         //DEACTIVATE TRIGGERS
         DeactivateTriggers();
 
+    }
+
+    public void SetDragonCamera()
+    {
+        if(dragonState == DragonStates.Mounted)
+        {
+            dragonLandVcam.Priority = 0;
+            dragonFlyingVcam.Priority = 10;
+        }
+        else if(dragonState == DragonStates.MountedLanded)
+        {
+            dragonFlyingVcam.Priority = 0;
+            dragonLandVcam.Priority = 10;
+        }
+        else //Player cam enabled
+        {
+            dragonFlyingVcam.Priority = 0;
+            dragonLandVcam.Priority = 0;
+        }
     }
 
 
@@ -419,7 +445,7 @@ public class DragonController : MonoBehaviour
 
 
         //DRAGON CAM ON
-        dragonVcam.gameObject.SetActive(true);
+        SetDragonCamera();
 
         //DEACTIVATE TRIGGERS
         DeactivateTriggers();
@@ -446,7 +472,7 @@ public class DragonController : MonoBehaviour
         playerController.DismountDragon();
 
         //Dragon CAM OFF
-        dragonVcam.gameObject.SetActive(false);
+        dragonFlyingVcam.gameObject.SetActive(false);
     }
     void DismountDragonOnLand()
     {
@@ -457,10 +483,10 @@ public class DragonController : MonoBehaviour
         //Igualo rotación del gameobject padre al interno       
         transform.rotation = Quaternion.Euler(0, dragonObj.rotation.eulerAngles.y, 0);
         dragonObj.localRotation = Quaternion.Euler(0,0,0);
-        
+
 
         //Dragon CAM OFF
-        dragonVcam.gameObject.SetActive(false);
+        SetDragonCamera();
         landedCollider.enabled = true;
     }
 
