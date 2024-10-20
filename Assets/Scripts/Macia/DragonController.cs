@@ -148,17 +148,21 @@ public class DragonController : MonoBehaviour
 
     public void OnTakeOff(InputAction.CallbackContext takeOffContext)
     {
-        if(takeOffContext.performed)
+        if(takeOffContext.performed && (dragonState == DragonStates.Landed || dragonState == DragonStates.MountedLanded))
         {
             //TAKE OFF
-            SetDragonState(DragonStates.Mounted);
-            //dragonObj.transform.localRotation = Quaternion.Euler(0, 0, 0); //CAMBIAR A CALCULAR Forward con la cámara y rotar el dragón hacia donde apunte la cámara.
-
-            //Igualo rotación del gameobject padre al interno para que el dragón despegue en la dirección que mira.
-            transform.rotation = Quaternion.Euler(0, dragonObj.rotation.eulerAngles.y, 0);
-            dragonObj.localRotation = Quaternion.Euler(0, 0, 0);
-            SetDragonCamera();
+            TakeOff();
         }
+    }
+
+    private void TakeOff()
+    {
+        SetDragonState(DragonStates.Mounted);
+
+        //Igualo rotación del gameobject padre al interno para que el dragón despegue en la dirección que mira.
+        transform.rotation = Quaternion.Euler(0, dragonObj.rotation.eulerAngles.y, 0);
+        dragonObj.localRotation = Quaternion.Euler(0, 0, 0);
+        SetDragonCamera();
     }
 
     private void Start()
@@ -499,25 +503,34 @@ public class DragonController : MonoBehaviour
     //TRIGGERS
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.parent.tag == "Player" && dragonState == DragonStates.Called)
+        if(other.transform.parent != null)
         {
-            MountDragon();
-        }        
+            if (other.transform.parent.tag == "Player" && dragonState == DragonStates.Called)
+            {
+                MountDragon();
+            }        
+        }
     }
     private void OnTriggerStay(Collider other)
     {
-        if (other.transform.parent.tag == "Player" && dragonState == DragonStates.Landed && !isMountable)
+        if(other.transform.parent != null)
         {
-            //CAN MOUNT
-            isMountable = true;
+            if (other.transform.parent.tag == "Player" && dragonState == DragonStates.Landed && !isMountable)
+            {
+                //CAN MOUNT
+                isMountable = true;
+            }
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.transform.parent.tag == "Player")
+        if(other.transform.parent != null)
         {
-            //CAN'T MOUNT
-            isMountable = false;
+            if (other.transform.parent.tag == "Player")
+            {
+                //CAN'T MOUNT
+                isMountable = false;
+            }
         }
     }
 
