@@ -205,24 +205,6 @@ public class DragonController : MonoBehaviour
     }
 
 
-    void LandedMove()
-    {
-        if (moveInput.sqrMagnitude > 0.01f)
-        {
-            //Rotación y movimiento respecto a cámara
-            Vector3 viewDir = transform.position - new Vector3(dragonLandVcam.transform.position.x, transform.position.y, dragonLandVcam.transform.position.z);
-            orientation.forward = viewDir.normalized;
-            Vector3 moveDirection = (orientation.right * moveInput.x) + (orientation.forward * moveInput.y);
-            if (moveDirection != Vector3.zero)
-            {
-                dragonObj.forward = Vector3.Slerp(dragonObj.forward, moveDirection.normalized, Time.deltaTime * rotationSpeed);
-            }
-
-            //MovePosition Method
-            dragonRB.MovePosition(dragonRB.position + (moveDirection * speedOnLand) * Time.fixedDeltaTime);
-            
-        }
-    }
     // Método para volar
     private void Fly()
     {
@@ -267,7 +249,7 @@ public class DragonController : MonoBehaviour
 
         // Mover hacia adelante con la velocidad actual
         transform.position += transform.forward * currentDragonSpeed * Time.deltaTime;
-        //Probar con DragonRb.MovePosition
+        //Probar con DragonRb.MovePosition, puede que así no cruce los colliders.
     }
 
     //DISMOUNTED
@@ -282,6 +264,15 @@ public class DragonController : MonoBehaviour
     IEnumerator FlyAwayCooldown()
     {
         isFlyAwayCoroutineCalled = true;
+        if(isAccelerating)
+        {
+            isAccelerating = false;
+        }
+        if(isBraking)
+        {
+            isBraking = false;
+        }
+        currentDragonSpeed = idleFlyingSpeed;
         yield return new WaitForSecondsRealtime(2);
         SetDragonState(DragonStates.Free);
         isFlyAwayCoroutineCalled = false;
@@ -345,6 +336,24 @@ public class DragonController : MonoBehaviour
     }
 
     //LAND
+    void LandedMove()
+    {
+        if (moveInput.sqrMagnitude > 0.01f)
+        {
+            //Rotación y movimiento respecto a cámara
+            Vector3 viewDir = transform.position - new Vector3(dragonLandVcam.transform.position.x, transform.position.y, dragonLandVcam.transform.position.z);
+            orientation.forward = viewDir.normalized;
+            Vector3 moveDirection = (orientation.right * moveInput.x) + (orientation.forward * moveInput.y);
+            if (moveDirection != Vector3.zero)
+            {
+                dragonObj.forward = Vector3.Slerp(dragonObj.forward, moveDirection.normalized, Time.deltaTime * rotationSpeed);
+            }
+
+            //MovePosition Method
+            dragonRB.MovePosition(dragonRB.position + (moveDirection * speedOnLand) * Time.fixedDeltaTime);
+            
+        }
+    }
     public void CallDragonToLand()
     {
 
