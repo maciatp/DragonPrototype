@@ -251,6 +251,7 @@ public class PlayerController : MonoBehaviour
 
         if (isGrounded && playerState != PlayerStates.Normal) //&& playerState != PlayerStates.OnDragon //probar método de seguridad para volver a grounded
         {
+            Debug.Log("TIERRA");
             RestorePlayerNormalState();           
         }
 
@@ -364,13 +365,13 @@ public class PlayerController : MonoBehaviour
     // Return to NORMAL STATE -> dismount, grounded, ParavelaDisable
     private void RestorePlayerNormalState()
     { 
-        if (playerObj != null)
+        if (playerObj != null && playerState != PlayerStates.Paravela)
         {
-            //playerObj.localRotation = Quaternion.identity;
             playerObj.transform.localRotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);  // Devuelvo la rotación de Y de Player a PlayerObj    
             transform.rotation = Quaternion.identity;
             SetPlayerState(PlayerStates.Normal);
             rb.useGravity = true;
+            Debug.Log("Grounded from BigFall");
         }
 
         if(paravelaGO != null && paravelaGO.activeSelf)
@@ -439,7 +440,17 @@ public class PlayerController : MonoBehaviour
     //PARAVELA
     private void ParavelaEnable()
     {
+        
+        if(playerState != PlayerStates.BigFall) //por el tema de cómo funciona la orientación del player
+        {
+            //ROTATION
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, playerObj.transform.localEulerAngles.y, transform.rotation.eulerAngles.z);        
+        }
+        
+        playerObj.localRotation = Quaternion.identity;
+        
         SetPlayerState(PlayerStates.Paravela);
+
         paravelaGO.SetActive(true);
         rb.useGravity = true;
         if(trail.enabled)
@@ -455,7 +466,11 @@ public class PlayerController : MonoBehaviour
     {
         SetPlayerState(PlayerStates.Normal);
         paravelaGO.SetActive(false);
+
+        playerObj.transform.localRotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);  // Devuelvo la rotación de Y de Player a PlayerObj    
+        transform.rotation = Quaternion.identity;
         
+
         //DEBUG
         //rb.isKinematic = false;
     }
@@ -470,9 +485,6 @@ public class PlayerController : MonoBehaviour
     }
     private void ParavelaMovement()
     {
-        // Rotación gradual del modelo para que quede vertical
-        playerObj.localRotation = Quaternion.Slerp(playerObj.localRotation, Quaternion.Euler(0, 0, 0), Time.deltaTime * rotationSpeed);
-
         // Rotación del jugador hacia donde mira la cámara (horizontalmente)
         Vector3 viewDir = transform.position - new Vector3(freeLookPlayerCamera.transform.position.x, transform.position.y, freeLookPlayerCamera.transform.position.z);
         orientation.forward = viewDir.normalized;
