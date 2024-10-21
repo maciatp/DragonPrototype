@@ -366,7 +366,9 @@ public class PlayerController : MonoBehaviour
     { 
         if (playerObj != null)
         {
-            playerObj.transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);  // Devuelvo la rotación de Y de Player a PlayerObj    
+            //playerObj.localRotation = Quaternion.identity;
+            playerObj.transform.localRotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);  // Devuelvo la rotación de Y de Player a PlayerObj    
+            transform.rotation = Quaternion.identity;
             SetPlayerState(PlayerStates.Normal);
             rb.useGravity = true;
         }
