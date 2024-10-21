@@ -296,19 +296,22 @@ public class PlayerController : MonoBehaviour
             Vector3 viewDir = transform.position - new Vector3(freeLookPlayerCamera.transform.position.x, transform.position.y, freeLookPlayerCamera.transform.position.z);
             orientation.forward = viewDir.normalized;
             Vector3 moveDirection = (orientation.right * moveInput.x) + (orientation.forward * moveInput.y);
-            if (moveDirection != Vector3.zero)
+            if(isGrounded) //sólo se gira y mueve si está grounded
             {
-                playerObj.forward = Vector3.Slerp(playerObj.forward, moveDirection.normalized, Time.deltaTime * rotationSpeed);               
-            }
+                if (moveDirection != Vector3.zero)
+                {
+                    playerObj.forward = Vector3.Slerp(playerObj.forward, moveDirection.normalized, Time.deltaTime * rotationSpeed);               
+                }
 
-            //MovePosition Method
-            if(!isRunning)
-            {
-                rb.MovePosition(rb.position + moveDirection * moveSpeed * Time.fixedDeltaTime);               
-            }
-            else
-            {
-                rb.MovePosition(rb.position + moveDirection * runSpeed * Time.fixedDeltaTime);               
+                //MovePosition Method
+                if(!isRunning)
+                {
+                    rb.MovePosition(rb.position + moveDirection * moveSpeed * Time.fixedDeltaTime);               
+                }
+                else
+                {
+                    rb.MovePosition(rb.position + moveDirection * runSpeed * Time.fixedDeltaTime);               
+                }
             }
         }
     }
@@ -316,7 +319,14 @@ public class PlayerController : MonoBehaviour
     //JUMP
     private void Jump()
     {
-        rb.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange); //MODO CALCULAR CuÁNTA FUERZA TENGO QUE DARLE PARA QUE LLEGUE A LA ALTURA REQUERIDA
+        // Obtener la dirección en la que mira la cámara, sin afectar el eje Y (plano horizontal)
+        Vector3 jumpDirection = (Camera.main.transform.right * moveInput.x) + (Camera.main.transform.forward * moveInput.y);
+        jumpDirection.y = 0; // Asegurarse de que la dirección sea sólo en el plano XZ
+        //jumpDirection.Normalize(); // Normalizar para evitar saltos demasiado largos si el input no está completamente presionado
+
+        // Aplicar la fuerza hacia arriba y hacia adelante
+        rb.AddForce(jumpDirection * moveSpeed + Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
+
     }
 
 
@@ -342,7 +352,7 @@ public class PlayerController : MonoBehaviour
         Vector3 targetDirection = orientation.forward;
 
         // Rotación gradual
-        transform.forward = Vector3.Slerp(transform.forward, targetDirection, Time.deltaTime * bigFallRotationSpeed);
+        transform.forward = Vector3.Slerp(transform.forward, targetDirection, Time.fixedDeltaTime * bigFallRotationSpeed);
 
         // Movimiento paralelo al suelo
         Vector3 moveDirection = (orientation.right * moveInput.x) + (orientation.forward * moveInput.y);
@@ -494,7 +504,7 @@ public class PlayerController : MonoBehaviour
         Vector3 targetDirection = orientation.forward;
 
         // Rotación gradual hacia la cámara
-        transform.forward = Vector3.Slerp(transform.forward, targetDirection, Time.deltaTime * paravelaRotationSpeed);
+        transform.forward = Vector3.Slerp(transform.forward, targetDirection, Time.fixedDeltaTime * paravelaRotationSpeed);
 
         // Movimiento paralelo al suelo en la dirección del joystick
         Vector3 moveDirection = (orientation.right * moveInput.x) + (orientation.forward * moveInput.y);
