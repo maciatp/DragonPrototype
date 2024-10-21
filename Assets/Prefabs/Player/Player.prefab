@@ -437,6 +437,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 0a80c458-13dd-4679-ad2c-37cb40b9b353
     m_ActionName: Dragon/TakeOff[/XInputControllerWindows/buttonSouth,/Keyboard/shift]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: DragonController, Assembly-CSharp
+        m_MethodName: OnLandDragon
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 25d4d8cc-7213-49e0-a8fc-b888971d273c
+    m_ActionName: Dragon/LandDragon[/XInputControllerWindows/buttonEast,/Keyboard/r]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Foot
@@ -460,7 +476,7 @@ MonoBehaviour:
   bigFallMoveSpeed: 9
   rotationSpeed: 20
   bigFallRotationSpeed: 2
-  jumpHeight: 3
+  jumpHeight: 1.5
   fallThreshold: -10
   terminalVelocity: -30
   terminalDiveVelocity: -50
