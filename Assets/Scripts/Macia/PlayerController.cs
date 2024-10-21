@@ -414,7 +414,8 @@ public class PlayerController : MonoBehaviour
         transform.localRotation = playerPosOnDragon.localRotation;
 
         //PHYSICS and colliders
-        rb.isKinematic = true;        
+        rb.isKinematic = true;
+        rb.useGravity = false;
         CapsuleCollider playerCollider = GetComponentInChildren<CapsuleCollider>();       
         playerCollider.enabled = false;
         
@@ -437,6 +438,7 @@ public class PlayerController : MonoBehaviour
 
         //PHYSICS and colliders
         rb.isKinematic = false;
+        rb.useGravity = true;
         CapsuleCollider playerCollider = GetComponentInChildren<CapsuleCollider>();
         playerCollider.enabled = true;
 
@@ -466,9 +468,9 @@ public class PlayerController : MonoBehaviour
         playerObj.localRotation = Quaternion.identity;
         
         SetPlayerState(PlayerStates.Paravela);
+        rb.useGravity = true; // para que caiga
 
         paravelaGO.SetActive(true);
-        rb.useGravity = true; // PROBAR SIN GRAVITY porque tengo paravelaFallingSpeed
         if(trail.enabled)
         {
             trail.enabled = false;
@@ -483,8 +485,10 @@ public class PlayerController : MonoBehaviour
         if(playerState != PlayerStates.OnDragon)
         {
             SetPlayerState(PlayerStates.Normal);
+            rb.useGravity = true;
         }
         paravelaGO.SetActive(false);
+
 
         playerObj.transform.localRotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);  // Devuelvo la rotación de Y de Player a PlayerObj    
         transform.rotation = Quaternion.identity;
