@@ -21,8 +21,7 @@ public class Teleporter_Script : MonoBehaviour
     {
         if(other.transform.parent.tag == "Player")
         {
-            Debug.Log("Me muevo");
-            other.GetComponentInParent<Rigidbody>().MovePosition(teleporter_B.position);
+           other.GetComponentInParent<Rigidbody>().MovePosition(teleporter_B.position);
         }
     }
 }
