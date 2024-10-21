@@ -250,7 +250,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 208455031}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.51763976, y: 0.31697613, z: -0.21441425, w: -0.7652463}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -689,7 +689,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerIndex: -1
   AutoEnableInputs: 1
-  XYAxis: {fileID: 8748316311080592402, guid: 9bc353024b7a09047aabb42291514339, type: 3}
+  XYAxis: {fileID: 2547642144658400602, guid: 9bc353024b7a09047aabb42291514339, type: 3}
   ZAxis: {fileID: 0}
 --- !u!4 &525940846
 Transform:
@@ -991,7 +991,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 682273164}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.51763976, y: 0.31697613, z: -0.21441425, w: -0.7652463}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1749,7 +1749,7 @@ MonoBehaviour:
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
     m_Style: 5
-    m_Time: 0.5
+    m_Time: 0.25
     m_CustomCurve:
       serializedVersion: 2
       m_Curve: []
@@ -2940,10 +2940,6 @@ PrefabInstance:
       propertyPath: freeLookPlayerCamera
       value: 
       objectReference: {fileID: 896707486}
-    - target: {fileID: 3733621922552275211, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
-      propertyPath: paravelaRotationSpeed
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 5683126473246551016, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 500
