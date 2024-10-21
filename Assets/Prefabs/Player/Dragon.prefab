@@ -317,9 +317,9 @@ MonoBehaviour:
   idleForce: 20
   flyAwayBoost: 20
   landingForwardOffset: 10
-  landMountedDuration: 2
+  landMountedDuration: 0.5
   landingSpeedThreshold: 40
-  distanceToLand: 10
+  distanceToLand: 20
   landingDebug: {fileID: 4628283897446805177}
   landUnmountedDuration: 2
   landedCollider: {fileID: 6130779027030264635}
