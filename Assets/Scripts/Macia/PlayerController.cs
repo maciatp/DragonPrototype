@@ -243,7 +243,10 @@ public class PlayerController : MonoBehaviour
                 ChargeStamina();
             }
         }
-
+        if(isGrounded && playerState == PlayerStates.Normal && rb.velocity.y < 0)
+        {
+            rb.velocity = Vector3.zero;
+        }
         if (!isGrounded && playerState == PlayerStates.Normal && rb.velocity.y <= fallThreshold)
         {
             SetBigFall();
@@ -322,7 +325,7 @@ public class PlayerController : MonoBehaviour
         // Obtener la dirección en la que mira la cámara, sin afectar el eje Y (plano horizontal)
         Vector3 jumpDirection = (Camera.main.transform.right * moveInput.x) + (Camera.main.transform.forward * moveInput.y);
         jumpDirection.y = 0; // Asegurarse de que la dirección sea sólo en el plano XZ
-        //jumpDirection.Normalize(); // Normalizar para evitar saltos demasiado largos si el input no está completamente presionado
+        
 
         // Aplicar la fuerza hacia arriba y hacia adelante
         rb.AddForce(jumpDirection * moveSpeed + Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
