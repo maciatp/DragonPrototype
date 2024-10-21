@@ -251,7 +251,6 @@ public class PlayerController : MonoBehaviour
 
         if (isGrounded && playerState != PlayerStates.Normal) //&& playerState != PlayerStates.OnDragon //probar método de seguridad para volver a grounded
         {
-            Debug.Log("TIERRA");
             RestorePlayerNormalState();           
         }
 
@@ -371,7 +370,6 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.identity;
             SetPlayerState(PlayerStates.Normal);
             rb.useGravity = true;
-            Debug.Log("Grounded from BigFall");
         }
 
         if(paravelaGO != null && paravelaGO.activeSelf)
