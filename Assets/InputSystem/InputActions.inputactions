@@ -102,7 +102,7 @@
                 {
                     "name": "",
                     "id": "c3dc8584-90b1-43db-b20e-42bd1451a71f",
-                    "path": "<Gamepad>/buttonSouth",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -392,6 +392,15 @@
                 {
                     "name": "Dismount",
                     "type": "Button",
+                    "id": "61957cb9-f97e-4dd5-83ea-876d9f2a4daa",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Hold",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "DismountJump",
+                    "type": "Button",
                     "id": "e1680872-6aaa-4697-80dd-e713aac9912b",
                     "expectedControlType": "",
                     "processors": "",
@@ -580,7 +589,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Dismount",
+                    "action": "DismountJump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -591,7 +600,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Dismount",
+                    "action": "DismountJump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -878,6 +887,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "LandDragon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a5bf3d59-649a-46be-86db-b4417316712c",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dismount",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "04d8e749-a7e0-40db-b5ab-cb56a72e35d1",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dismount",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

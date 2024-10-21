@@ -124,7 +124,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""c3dc8584-90b1-43db-b20e-42bd1451a71f"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -414,6 +414,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Dismount"",
                     ""type"": ""Button"",
+                    ""id"": ""61957cb9-f97e-4dd5-83ea-876d9f2a4daa"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Hold"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DismountJump"",
+                    ""type"": ""Button"",
                     ""id"": ""e1680872-6aaa-4697-80dd-e713aac9912b"",
                     ""expectedControlType"": """",
                     ""processors"": """",
@@ -602,7 +611,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Dismount"",
+                    ""action"": ""DismountJump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -613,7 +622,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Dismount"",
+                    ""action"": ""DismountJump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -902,6 +911,28 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""LandDragon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a5bf3d59-649a-46be-86db-b4417316712c"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dismount"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""04d8e749-a7e0-40db-b5ab-cb56a72e35d1"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dismount"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -923,6 +954,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Dragon = asset.FindActionMap("Dragon", throwIfNotFound: true);
         m_Dragon_PitchRoll = m_Dragon.FindAction("PitchRoll", throwIfNotFound: true);
         m_Dragon_Dismount = m_Dragon.FindAction("Dismount", throwIfNotFound: true);
+        m_Dragon_DismountJump = m_Dragon.FindAction("DismountJump", throwIfNotFound: true);
         m_Dragon_Accelerate = m_Dragon.FindAction("Accelerate", throwIfNotFound: true);
         m_Dragon_Brake = m_Dragon.FindAction("Brake", throwIfNotFound: true);
         m_Dragon_Yaw = m_Dragon.FindAction("Yaw", throwIfNotFound: true);
@@ -1109,6 +1141,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private List<IDragonActions> m_DragonActionsCallbackInterfaces = new List<IDragonActions>();
     private readonly InputAction m_Dragon_PitchRoll;
     private readonly InputAction m_Dragon_Dismount;
+    private readonly InputAction m_Dragon_DismountJump;
     private readonly InputAction m_Dragon_Accelerate;
     private readonly InputAction m_Dragon_Brake;
     private readonly InputAction m_Dragon_Yaw;
@@ -1122,6 +1155,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public DragonActions(@InputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @PitchRoll => m_Wrapper.m_Dragon_PitchRoll;
         public InputAction @Dismount => m_Wrapper.m_Dragon_Dismount;
+        public InputAction @DismountJump => m_Wrapper.m_Dragon_DismountJump;
         public InputAction @Accelerate => m_Wrapper.m_Dragon_Accelerate;
         public InputAction @Brake => m_Wrapper.m_Dragon_Brake;
         public InputAction @Yaw => m_Wrapper.m_Dragon_Yaw;
@@ -1144,6 +1178,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Dismount.started += instance.OnDismount;
             @Dismount.performed += instance.OnDismount;
             @Dismount.canceled += instance.OnDismount;
+            @DismountJump.started += instance.OnDismountJump;
+            @DismountJump.performed += instance.OnDismountJump;
+            @DismountJump.canceled += instance.OnDismountJump;
             @Accelerate.started += instance.OnAccelerate;
             @Accelerate.performed += instance.OnAccelerate;
             @Accelerate.canceled += instance.OnAccelerate;
@@ -1175,6 +1212,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Dismount.started -= instance.OnDismount;
             @Dismount.performed -= instance.OnDismount;
             @Dismount.canceled -= instance.OnDismount;
+            @DismountJump.started -= instance.OnDismountJump;
+            @DismountJump.performed -= instance.OnDismountJump;
+            @DismountJump.canceled -= instance.OnDismountJump;
             @Accelerate.started -= instance.OnAccelerate;
             @Accelerate.performed -= instance.OnAccelerate;
             @Accelerate.canceled -= instance.OnAccelerate;
@@ -1229,6 +1269,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     {
         void OnPitchRoll(InputAction.CallbackContext context);
         void OnDismount(InputAction.CallbackContext context);
+        void OnDismountJump(InputAction.CallbackContext context);
         void OnAccelerate(InputAction.CallbackContext context);
         void OnBrake(InputAction.CallbackContext context);
         void OnYaw(InputAction.CallbackContext context);
