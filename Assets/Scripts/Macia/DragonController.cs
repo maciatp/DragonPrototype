@@ -2,6 +2,7 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using TreeEditor;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -197,7 +198,7 @@ public class DragonController : MonoBehaviour
         
         lastPosition = transform.position;
 
-        if (dragonState == DragonStates.Mounted && currentDragonSpeed < landingSpeedThreshold)
+        if (dragonState == DragonStates.Mounted && currentDragonSpeed < landingSpeedThreshold && isBraking)
         {
             // Selecciona un punto en el suelo delante del dragón.
             Vector3 forwardDirection = transform.forward;
@@ -207,30 +208,35 @@ public class DragonController : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(landingPoint, Vector3.down, out hit, distanceToLand, groundMask))
             {
+                if(!landingDebug.activeSelf)
+                {
+                    landingDebug.SetActive(true);
+                }
                 // Si el raycast encuentra el suelo, ajusta la altura del punto de aterrizaje.
                 landingPoint.y = hit.point.y - dragonObj.transform.GetChild(0).transform.localPosition.y;
                 landingDebug.transform.position = landingPoint;
+                landingDebug.transform.localRotation = Quaternion.Euler(-transform.rotation.eulerAngles.x,0,-transform.rotation.eulerAngles.z);
                 // Ahora puedes aterrizar
-                canLand = true;
-                Debug.Log("canLand es " + canLand + ", y landingPoint es " + landingPoint);
+                canLand = true;                
             }
             else
             {
                 canLand = false;
-                //landingPoint = Vector3.zero; //probar con esta línea si algo da problemas en el aterrizaje
-                Debug.Log("canLand es " + canLand);
+
                 //DEBUG
                 landingDebug.transform.localPosition = Vector3.zero;
-
+                landingDebug.transform.localRotation = Quaternion.identity;
+                landingDebug.SetActive(false);
             }
         }
         else
         {            
-            canLand = false;
-            //landingPoint = Vector3.zero; //probar con esta línea si algo da problemas en el aterrizaje
-            Debug.Log("canLand es " + canLand);
+            canLand = false;            
+            
             //DEBUG
             landingDebug.transform.localPosition = Vector3.zero;
+            landingDebug.transform.localRotation = Quaternion.identity;
+            landingDebug.SetActive(false);
         }
        
     }
@@ -560,7 +566,8 @@ public class DragonController : MonoBehaviour
         
         // Obtener la dirección en la que está mirando la cámara (sin afectar el eje vertical)
         Vector3 cameraForward = Camera.main.transform.forward;
-        cameraForward.y = 0; // Asegurarse de que el dragón no cambie en el eje Y (vertical)
+
+        //cameraForward.y = 0; // Asegurarse de que el dragón no cambie en el eje Y (vertical)
         Quaternion cameraRotation = Quaternion.LookRotation(cameraForward);
 
         // Rotar el dragón para que mire en la misma dirección que la cámara
