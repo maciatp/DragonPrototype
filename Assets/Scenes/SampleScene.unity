@@ -260,7 +260,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 208455031}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.51763976, y: 0.31697613, z: -0.21441425, w: -0.7652463}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1854,7 +1854,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1021690194}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.5027313, y: 0.32106635, z: -0.20823818, w: -0.7751222}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3082,30 +3082,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7061159533216105747, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
-      propertyPath: m_ActionEvents.Array.size
-      value: 19
-      objectReference: {fileID: 0}
-    - target: {fileID: 7061159533216105747, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
-      propertyPath: m_ActionEvents.Array.data[18].m_ActionId
-      value: 61957cb9-f97e-4dd5-83ea-876d9f2a4daa
-      objectReference: {fileID: 0}
-    - target: {fileID: 7061159533216105747, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
-      propertyPath: m_ActionEvents.Array.data[18].m_ActionName
-      value: Dragon/Dismount[/XInputControllerWindows/buttonEast,/Keyboard/r]
-      objectReference: {fileID: 0}
-    - target: {fileID: 7061159533216105747, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
-      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7061159533216105747, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
-      propertyPath: m_ActionEvents.Array.data[8].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7061159533216105747, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
-      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7061159533216105747, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
       propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1025092430}
@@ -3141,26 +3117,6 @@ PrefabInstance:
       propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1025092430}
-    - target: {fileID: 7061159533216105747, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
-      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7061159533216105747, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
-      propertyPath: m_ActionEvents.Array.data[8].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnDismountJump
-      objectReference: {fileID: 0}
-    - target: {fileID: 7061159533216105747, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
-      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnDismount
-      objectReference: {fileID: 0}
-    - target: {fileID: 7061159533216105747, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
-      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: DragonController, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 7061159533216105747, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
-      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3312,14 +3268,6 @@ PrefabInstance:
       propertyPath: dragonFlyingVcam
       value: 
       objectReference: {fileID: 760217149}
-    - target: {fileID: 487905241758311988, guid: 57cf50c187aff6745ac4ee585aa38a07, type: 3}
-      propertyPath: landUnmountedDuration
-      value: 1.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4628283897446805177, guid: 57cf50c187aff6745ac4ee585aa38a07, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5590182492475420074, guid: 57cf50c187aff6745ac4ee585aa38a07, type: 3}
       propertyPath: m_Name
       value: Dragon
