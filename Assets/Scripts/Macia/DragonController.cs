@@ -122,7 +122,6 @@ public class DragonController : MonoBehaviour
     {
         if (dismountContext.action.triggered && dragonState == DragonStates.MountedLanded)
         {
-            Debug.Log("acción Dismount en Dragon. No debería salir");
             DismountDragonOnLand();
         }
     }
@@ -329,6 +328,11 @@ public class DragonController : MonoBehaviour
     //DISMOUNTED
     void FlyAway()
     {
+        if(dragonObj.transform.localRotation != Quaternion.Euler(0,0,0))
+        {
+            dragonObj.localRotation = Quaternion.Euler(0,0,0);
+            Debug.Log("Esto de llama?? Rotation dragonOBJ");
+        }
         transform.position += transform.forward * (currentDragonSpeed + flyAwayBoost) * Time.deltaTime;
         if (!isFlyAwayCoroutineCalled)
         {
@@ -387,6 +391,7 @@ public class DragonController : MonoBehaviour
     {
         SetDragonState(DragonStates.Called);
         // Posicionar el dragón justo detrás del player cuando sea llamado
+        dragonObj.localRotation = Quaternion.Euler(0,0,0);
         transform.position = playerTransform.position - playerTransform.forward * spawnDistance; // Dragón a 5 unidades detrás del player
         calledCollider.enabled = true;
     }
@@ -511,8 +516,8 @@ public class DragonController : MonoBehaviour
         SetDragonCamera();
     }
 
-    //MOUNT
-    public void MountDragon()
+    //MOUNT FLYING (CATCHED)
+    public void MountDragonFlying()
     {
         SetDragonState(DragonStates.Mounted);
 
@@ -549,13 +554,12 @@ public class DragonController : MonoBehaviour
     public void MountDragonOnLand()
     {
         SetDragonState(DragonStates.MountedLanded);
-        Debug.Log("MountDragon on Land (Dragon)");
         playerController.MountDragon();
 
-
+        
 
         //Igualo rotación del gameobject padre al interno        
-        dragonObj.localRotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
+        dragonObj.localRotation = Quaternion.Euler(0, transform.localEulerAngles.y, 0);
         transform.rotation = Quaternion.Euler(0,0,0);
 
 
@@ -568,7 +572,7 @@ public class DragonController : MonoBehaviour
         isMountable = false;
     }
 
-    private void TakeOff()
+    private void TakeOff() //WHEN MOUNTED
     {
         SetDragonState(DragonStates.Mounted);
         
@@ -586,6 +590,13 @@ public class DragonController : MonoBehaviour
         dragonObj.localRotation = Quaternion.Euler(0, 0, 0);
         SetDragonCamera();
     }
+
+    public void SendTakeOff()
+    {
+        SetDragonState(DragonController.DragonStates.Free);
+        dragonObj.localRotation = Quaternion.Euler(0, 0, 0);
+    }
+
 
 
     //DISMOUNT
@@ -613,11 +624,13 @@ public class DragonController : MonoBehaviour
             default:
                 break;
         }
-        
+        //Igualo rotación del gameobject padre al interno       
+        transform.rotation = Quaternion.Euler(0, dragonObj.rotation.eulerAngles.y, 0);
+        dragonObj.localRotation = Quaternion.Euler(0, 0, 0);
 
 
         playerController.DismountDragon();
-        playerController.Jump();
+        playerController.Jump(7.5f);
 
         //Dragon CAM OFF
         SetDragonCamera();
@@ -664,7 +677,7 @@ public class DragonController : MonoBehaviour
         {
             if (other.transform.parent.tag == "Player" && dragonState == DragonStates.Called)
             {
-                MountDragon();
+                MountDragonFlying();
             }        
         }
     }
