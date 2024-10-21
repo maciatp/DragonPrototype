@@ -468,7 +468,7 @@ public class PlayerController : MonoBehaviour
         SetPlayerState(PlayerStates.Paravela);
 
         paravelaGO.SetActive(true);
-        rb.useGravity = true;
+        rb.useGravity = true; // PROBAR SIN GRAVITY porque tengo paravelaFallingSpeed
         if(trail.enabled)
         {
             trail.enabled = false;
@@ -480,7 +480,10 @@ public class PlayerController : MonoBehaviour
 
     private void ParavelaDisable()
     {
-        SetPlayerState(PlayerStates.Normal);
+        if(playerState != PlayerStates.OnDragon)
+        {
+            SetPlayerState(PlayerStates.Normal);
+        }
         paravelaGO.SetActive(false);
 
         playerObj.transform.localRotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);  // Devuelvo la rotación de Y de Player a PlayerObj    
