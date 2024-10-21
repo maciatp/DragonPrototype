@@ -3253,6 +3253,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 487905241758311988, guid: 57cf50c187aff6745ac4ee585aa38a07, type: 3}
+      propertyPath: distanceToLand
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 487905241758311988, guid: 57cf50c187aff6745ac4ee585aa38a07, type: 3}
       propertyPath: dragonLandVcam
       value: 
       objectReference: {fileID: 525940843}
@@ -3264,6 +3268,10 @@ PrefabInstance:
       propertyPath: dragonFlyingVcam
       value: 
       objectReference: {fileID: 760217149}
+    - target: {fileID: 487905241758311988, guid: 57cf50c187aff6745ac4ee585aa38a07, type: 3}
+      propertyPath: landMountedDuration
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5590182492475420074, guid: 57cf50c187aff6745ac4ee585aa38a07, type: 3}
       propertyPath: m_Name
       value: Dragon
