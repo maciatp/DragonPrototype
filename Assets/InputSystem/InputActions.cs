@@ -723,7 +723,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""id"": ""e022be93-6418-45c6-85b4-5a692e60d0b6"",
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""InvertVector2(invertX=false)"",
                     ""groups"": """",
                     ""action"": ""Camera"",
                     ""isComposite"": false,
