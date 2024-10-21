@@ -150,7 +150,7 @@ public class PlayerController : MonoBehaviour
     {
         if (callContext.action.triggered )
         {            
-            if (playerState == PlayerStates.BigFall)
+            if (playerState == PlayerStates.BigFall || playerState == PlayerStates.Paravela)
             {
                 dragonController.CallDragon();
             }
@@ -387,6 +387,11 @@ public class PlayerController : MonoBehaviour
     public void MountDragon()
     {
         SetPlayerState(PlayerStates.OnDragon); //SET PLAYER STATE
+        //Paravela Disable
+        if(paravelaGO.gameObject.activeSelf)
+        {
+            ParavelaDisable();
+        }
 
         //MOVE POSITION PLAYER ON DRAGON
         Transform playerPosOnDragon = dragonController.GetPlayerPos;
@@ -406,7 +411,7 @@ public class PlayerController : MonoBehaviour
         //CAMERA CHANGE
         freeLookPlayerCamera.Priority = 0;
         dragonController.SetDragonCamera();
-        
+
         //DIVE TESTING
         trail.enabled = false;
     }
