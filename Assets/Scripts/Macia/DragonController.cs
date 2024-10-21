@@ -264,6 +264,7 @@ public class DragonController : MonoBehaviour
     IEnumerator FlyAwayCooldown()
     {
         isFlyAwayCoroutineCalled = true;
+        //SOME CODE CLEANING
         if(isAccelerating)
         {
             isAccelerating = false;
