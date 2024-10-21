@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
     //Paravela
     [SerializeField] float paravelaMovementSpeed = 6f;
     [SerializeField] float paravelaFallingSpeed = -2f;
+    [SerializeField] float paravelaRotationSpeed = 10f;
     float currentParavelaStamina = 0f;
     [SerializeField] float totalParavelaStamina = 2f;
 
@@ -105,7 +106,7 @@ public class PlayerController : MonoBehaviour
         trail.enabled = false;
 
     }
-
+    //CONTROLS
     public void OnMove(InputAction.CallbackContext movementContext) //AÑADIDO A PLAYER INPUT MEDIANTE EVENTOS
     {
         moveInput = movementContext.ReadValue<Vector2>();
@@ -204,6 +205,10 @@ public class PlayerController : MonoBehaviour
                     if (currentParavelaStamina > 0)
                     {
                         ParavelaEnable();
+                        if(isDiving)
+                        {
+                            isDiving = false;
+                        }
                     }
                     break;
                 case PlayerStates.OnDragon:
@@ -218,7 +223,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
+    //UPDATE
     private void Update()
     {
         if(playerState != PlayerStates.OnDragon)
@@ -455,7 +460,7 @@ public class PlayerController : MonoBehaviour
 
     private void ChargeStamina() //WHEN GROUNDED
     {
-        currentParavelaStamina += Time.deltaTime;
+        currentParavelaStamina += (Time.deltaTime*1.75f);
         if (currentParavelaStamina > totalParavelaStamina)
         {
             currentParavelaStamina = totalParavelaStamina;
@@ -472,7 +477,7 @@ public class PlayerController : MonoBehaviour
         Vector3 targetDirection = orientation.forward;
 
         // Rotación gradual hacia la cámara
-        transform.forward = Vector3.Slerp(transform.forward, targetDirection, Time.deltaTime * bigFallRotationSpeed);
+        transform.forward = Vector3.Slerp(transform.forward, targetDirection, Time.deltaTime * paravelaRotationSpeed);
 
         // Movimiento paralelo al suelo en la dirección del joystick
         Vector3 moveDirection = (orientation.right * moveInput.x) + (orientation.forward * moveInput.y);
