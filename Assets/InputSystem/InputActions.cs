@@ -473,6 +473,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Hold"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LandDragon"",
+                    ""type"": ""Button"",
+                    ""id"": ""25d4d8cc-7213-49e0-a8fc-b888971d273c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Hold"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -871,6 +880,28 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""TakeOff"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""546268bf-ee58-4049-9dad-fe09d8a74c71"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LandDragon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""45677596-ae99-466f-a5a2-81606a21d770"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LandDragon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -898,6 +929,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Dragon_Camera = m_Dragon.FindAction("Camera", throwIfNotFound: true);
         m_Dragon_MoveLanded = m_Dragon.FindAction("MoveLanded", throwIfNotFound: true);
         m_Dragon_TakeOff = m_Dragon.FindAction("TakeOff", throwIfNotFound: true);
+        m_Dragon_LandDragon = m_Dragon.FindAction("LandDragon", throwIfNotFound: true);
     }
 
     ~@InputActions()
@@ -1083,6 +1115,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Dragon_Camera;
     private readonly InputAction m_Dragon_MoveLanded;
     private readonly InputAction m_Dragon_TakeOff;
+    private readonly InputAction m_Dragon_LandDragon;
     public struct DragonActions
     {
         private @InputActions m_Wrapper;
@@ -1095,6 +1128,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Camera => m_Wrapper.m_Dragon_Camera;
         public InputAction @MoveLanded => m_Wrapper.m_Dragon_MoveLanded;
         public InputAction @TakeOff => m_Wrapper.m_Dragon_TakeOff;
+        public InputAction @LandDragon => m_Wrapper.m_Dragon_LandDragon;
         public InputActionMap Get() { return m_Wrapper.m_Dragon; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1128,6 +1162,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @TakeOff.started += instance.OnTakeOff;
             @TakeOff.performed += instance.OnTakeOff;
             @TakeOff.canceled += instance.OnTakeOff;
+            @LandDragon.started += instance.OnLandDragon;
+            @LandDragon.performed += instance.OnLandDragon;
+            @LandDragon.canceled += instance.OnLandDragon;
         }
 
         private void UnregisterCallbacks(IDragonActions instance)
@@ -1156,6 +1193,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @TakeOff.started -= instance.OnTakeOff;
             @TakeOff.performed -= instance.OnTakeOff;
             @TakeOff.canceled -= instance.OnTakeOff;
+            @LandDragon.started -= instance.OnLandDragon;
+            @LandDragon.performed -= instance.OnLandDragon;
+            @LandDragon.canceled -= instance.OnLandDragon;
         }
 
         public void RemoveCallbacks(IDragonActions instance)
@@ -1195,5 +1235,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnCamera(InputAction.CallbackContext context);
         void OnMoveLanded(InputAction.CallbackContext context);
         void OnTakeOff(InputAction.CallbackContext context);
+        void OnLandDragon(InputAction.CallbackContext context);
     }
 }

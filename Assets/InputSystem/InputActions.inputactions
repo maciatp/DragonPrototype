@@ -451,6 +451,15 @@
                     "processors": "",
                     "interactions": "Hold",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "LandDragon",
+                    "type": "Button",
+                    "id": "25d4d8cc-7213-49e0-a8fc-b888971d273c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Hold",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -847,6 +856,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "TakeOff",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "546268bf-ee58-4049-9dad-fe09d8a74c71",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LandDragon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "45677596-ae99-466f-a5a2-81606a21d770",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LandDragon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
