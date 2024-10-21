@@ -156,6 +156,7 @@ public class PlayerController : MonoBehaviour
             }
             if(playerState == PlayerStates.Normal && dragonController.IsMountable)
             {
+                Debug.Log("Acción de subir al dragón (player)");
                 dragonController.MountDragonOnLand();
             }
         }
@@ -320,7 +321,7 @@ public class PlayerController : MonoBehaviour
     }
 
     //JUMP
-    private void Jump()
+    public void Jump()
     {
         // Obtener la dirección en la que mira la cámara, sin afectar el eje Y (plano horizontal)
         Vector3 jumpDirection = (Camera.main.transform.right * moveInput.x) + (Camera.main.transform.forward * moveInput.y);
@@ -399,6 +400,7 @@ public class PlayerController : MonoBehaviour
     //DRAGON
     public void MountDragon()
     {
+        Debug.Log("MountDragon (Player)");
         SetPlayerState(PlayerStates.OnDragon); //SET PLAYER STATE
         //Paravela Disable
         if(paravelaGO.gameObject.activeSelf)
@@ -451,8 +453,7 @@ public class PlayerController : MonoBehaviour
         dragonController.SetDragonCamera();
 
 
-        //APPLY JUMP
-        Jump();
+       
     }
 
     //PARAVELA

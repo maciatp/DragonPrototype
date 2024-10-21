@@ -42,8 +42,10 @@ public class DragonController : MonoBehaviour
     private bool isAccelerating = false;
     private bool isBraking = false;
 
-    //DISMOUNT
+    //DISMOUNT MOUNTED JUMP
     bool isFlyAwayCoroutineCalled = false;
+    //DISMOUNT LANDED
+    [SerializeField] Transform dismountTransform;
 
     //LANDING MOUNTED
     private bool canLand = false; // Define si es posible aterrizar
@@ -118,14 +120,20 @@ public class DragonController : MonoBehaviour
 
     public void OnDismount(InputAction.CallbackContext dismountContext)
     {
-        if (dismountContext.action.triggered && dragonState == DragonStates.Mounted)
-        {
-            DismountDragon();
-        }
         if (dismountContext.action.triggered && dragonState == DragonStates.MountedLanded)
         {
+            Debug.Log("acción Dismount en Dragon. No debería salir");
             DismountDragonOnLand();
         }
+    }
+
+    public void OnDismountJump(InputAction.CallbackContext dismountJumpContext)
+    {
+        if (dismountJumpContext.action.triggered && (dragonState == DragonStates.Mounted || dragonState == DragonStates.MountedLanded))
+        {
+            DismountJump();
+        }
+
     }
 
     // Input para acelerar
@@ -158,8 +166,7 @@ public class DragonController : MonoBehaviour
     public void OnLandDragon(InputAction.CallbackContext landDragonContext)
     {
         if (landDragonContext.performed && dragonState == DragonStates.Mounted)
-        {
-            Debug.Log("Acción de LAND Dragon");
+        {            
             PrepareLandingMounted();
         }
     }
@@ -542,6 +549,7 @@ public class DragonController : MonoBehaviour
     public void MountDragonOnLand()
     {
         SetDragonState(DragonStates.MountedLanded);
+        Debug.Log("MountDragon on Land (Dragon)");
         playerController.MountDragon();
 
 
@@ -567,7 +575,7 @@ public class DragonController : MonoBehaviour
         // Obtener la dirección en la que está mirando la cámara (sin afectar el eje vertical)
         Vector3 cameraForward = Camera.main.transform.forward;
 
-        //cameraForward.y = 0; // Asegurarse de que el dragón no cambie en el eje Y (vertical)
+        //cameraForward.y = 0; // Asegurarse de que el dragón no cambie en el eje Y (vertical) // probar más
         Quaternion cameraRotation = Quaternion.LookRotation(cameraForward);
 
         // Rotar el dragón para que mire en la misma dirección que la cámara
@@ -581,10 +589,35 @@ public class DragonController : MonoBehaviour
 
 
     //DISMOUNT
-    void DismountDragon()
+    void DismountJump()
     {
-        SetDragonState(DragonStates.Dismounted);
+        switch (dragonState)
+        {
+            //case DragonStates.Free:
+            //    break;
+            //case DragonStates.Called:
+            //    break;
+            case DragonStates.Mounted:
+                SetDragonState(DragonStates.Dismounted);
+                break;
+            //case DragonStates.Dismounted:
+            //    break;
+            //case DragonStates.Landing:
+            //    break;
+            //case DragonStates.Landed:
+            //    break;
+            case DragonStates.MountedLanded:
+                landedCollider.enabled = true;
+                SetDragonState(DragonStates.Landed);
+                break;
+            default:
+                break;
+        }
+        
+
+
         playerController.DismountDragon();
+        playerController.Jump();
 
         //Dragon CAM OFF
         SetDragonCamera();
@@ -592,6 +625,8 @@ public class DragonController : MonoBehaviour
     void DismountDragonOnLand()
     {
         SetDragonState(DragonStates.Landed);
+
+        playerController.gameObject.transform.position = dismountTransform.position; // muevo el player a la posición de dismount
         playerController.DismountDragon();
        
         
