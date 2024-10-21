@@ -110,7 +110,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8292211452055103296
 Transform:
   m_ObjectHideFlags: 0
@@ -354,7 +354,7 @@ MonoBehaviour:
   landingSpeedThreshold: 40
   distanceToLand: 20
   landingDebug: {fileID: 4628283897446805177}
-  landUnmountedDuration: 2
+  landUnmountedDuration: 1.2
   landedCollider: {fileID: 6130779027030264635}
   groundMask:
     serializedVersion: 2
