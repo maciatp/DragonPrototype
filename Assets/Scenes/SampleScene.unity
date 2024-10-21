@@ -250,7 +250,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 208455031}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.51763976, y: 0.31697613, z: -0.21441425, w: -0.7652463}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -991,7 +991,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 682273164}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.51763976, y: 0.31697613, z: -0.21441425, w: -0.7652463}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2093,7 +2093,7 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
-  m_UseSpriteMesh: 0
+  m_UseSpriteMesh: 1
   m_PixelsPerUnitMultiplier: 1
 --- !u!222 &1368761634
 CanvasRenderer:
@@ -2914,7 +2914,7 @@ MonoBehaviour:
   m_FillAmount: 0.384
   m_FillClockwise: 1
   m_FillOrigin: 2
-  m_UseSpriteMesh: 0
+  m_UseSpriteMesh: 1
   m_PixelsPerUnitMultiplier: 1
 --- !u!222 &2115308967
 CanvasRenderer:
@@ -2940,6 +2940,10 @@ PrefabInstance:
       propertyPath: freeLookPlayerCamera
       value: 
       objectReference: {fileID: 896707486}
+    - target: {fileID: 3733621922552275211, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
+      propertyPath: paravelaRotationSpeed
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5683126473246551016, guid: 40d1f4e96be6a5a49aa09964d193873a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 500
