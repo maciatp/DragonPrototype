@@ -155,15 +155,7 @@ public class DragonController : MonoBehaviour
         }
     }
 
-    private void TakeOff()
-    {
-        SetDragonState(DragonStates.Mounted);
-
-        //Igualo rotación del gameobject padre al interno para que el dragón despegue en la dirección que mira.
-        transform.rotation = Quaternion.Euler(0, dragonObj.rotation.eulerAngles.y, 0);
-        dragonObj.localRotation = Quaternion.Euler(0, 0, 0);
-        SetDragonCamera();
-    }
+    
 
     private void Start()
     {
@@ -179,7 +171,7 @@ public class DragonController : MonoBehaviour
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundMask);
         
-        lastPosition = transform.position;
+        lastPosition = transform.position;      
     }
     private void FixedUpdate()
     {
@@ -275,6 +267,7 @@ public class DragonController : MonoBehaviour
 
         // Mover hacia adelante con la velocidad actual
         transform.position += transform.forward * currentDragonSpeed * Time.deltaTime;
+        //Probar con DragonRb.MovePosition
     }
 
     //DISMOUNTED
@@ -457,17 +450,24 @@ public class DragonController : MonoBehaviour
         isMountable = false;
     }
 
-    private void DeactivateTriggers()
+    private void TakeOff()
     {
-        if (landedCollider.enabled)
-        {
-            landedCollider.enabled = false;
-        }
-        if (calledCollider.enabled)
-        {
-            calledCollider.enabled = false;
-        }
+        SetDragonState(DragonStates.Mounted);
+        
+        // Obtener la dirección en la que está mirando la cámara (sin afectar el eje vertical)
+        Vector3 cameraForward = Camera.main.transform.forward;
+        cameraForward.y = 0; // Asegurarse de que el dragón no cambie en el eje Y (vertical)
+        Quaternion cameraRotation = Quaternion.LookRotation(cameraForward);
+
+        // Rotar el dragón para que mire en la misma dirección que la cámara
+        transform.rotation = cameraRotation;
+
+         
+        //Igualo rotación del gameobject padre al interno para que el dragón despegue en la dirección que mira.        
+        dragonObj.localRotation = Quaternion.Euler(0, 0, 0);
+        SetDragonCamera();
     }
+
 
     //DISMOUNT
     void DismountDragon()
@@ -500,6 +500,17 @@ public class DragonController : MonoBehaviour
         dragonState = _dragonState; // Método para cambiar el estado del dragón
     }
 
+    private void DeactivateTriggers()
+    {
+        if (landedCollider.enabled)
+        {
+            landedCollider.enabled = false;
+        }
+        if (calledCollider.enabled)
+        {
+            calledCollider.enabled = false;
+        }
+    }
     //TRIGGERS
     private void OnTriggerEnter(Collider other)
     {
