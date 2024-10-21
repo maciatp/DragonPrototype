@@ -22,7 +22,7 @@ public class UIStamina : MonoBehaviour
        
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (playerTransform == null || mainCamera == null)
         {
