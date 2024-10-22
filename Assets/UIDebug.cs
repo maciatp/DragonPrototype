@@ -8,19 +8,27 @@ public class UIDebug : MonoBehaviour
    [SerializeField] TMPro.TextMeshProUGUI playerState;
    [SerializeField] TMPro.TextMeshProUGUI playerGrounded;
    [SerializeField] TMPro.TextMeshProUGUI playerVelocity;
+   [SerializeField] TMPro.TextMeshProUGUI playerKinematic;
+   [SerializeField] TMPro.TextMeshProUGUI playerGravity;
    [SerializeField] TMPro.TextMeshProUGUI dragonState;
    [SerializeField] TMPro.TextMeshProUGUI dragonGrounded;
    [SerializeField] TMPro.TextMeshProUGUI dragonVelocity;
    [SerializeField] TMPro.TextMeshProUGUI dragonAction;
+    [SerializeField] TMPro.TextMeshProUGUI dragonKinematic;
+    [SerializeField] TMPro.TextMeshProUGUI dragonGravity;
 
     PlayerController playerController;
+    Rigidbody playerRb;
     DragonController dragonController;
+    Rigidbody dragonRb;
 
     // Start is called before the first frame update
     void Start()
     {
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        playerRb = playerController.GetPlayerRB;
         dragonController = GameObject.FindGameObjectWithTag("Dragon").GetComponent<DragonController>();
+        dragonRb = dragonController.GetDragonRB;
     }
 
     // Update is called once per frame
@@ -44,6 +52,29 @@ public class UIDebug : MonoBehaviour
         }
         playerVelocity.text = playerController.GetPlayerVelocity.ToString();
 
+        //PLAYER RIGIDBODY
+        if(playerRb.isKinematic)
+        {
+            playerKinematic.text = "Kinematic";
+            playerKinematic.color = Color.white;
+        }
+        else
+        {
+            playerKinematic.text = "NOT Kinematic";
+            playerKinematic.color = Color.red;
+        }
+
+        if(playerRb.useGravity)
+        {
+            playerGravity.text = "Gravity";
+            playerGravity.color = Color.white;
+        }
+        else
+        {
+            playerGravity.text = "NOT Gravity";
+            playerGravity.color = Color.red;
+        }
+
         //DRAGON
         dragonState.text = dragonController.GetDragonState.ToString();
         if(dragonController.GetDragonState == DragonController.DragonStates.Landed || dragonController.GetDragonState == DragonController.DragonStates.MountedLanded)
@@ -66,10 +97,32 @@ public class UIDebug : MonoBehaviour
         {
             
             dragonGrounded.text = "Air";
-            dragonVelocity.text = dragonController.GetCurrentFlyingSpeed.ToString();
+            dragonVelocity.text = dragonController.GetCurrentFlyingSpeed.ToString("F0");
             dragonAction.text = dragonController.GetDragonAction();
         }
-        
+
+        //DRAGON RIGIDBODY
+        if (dragonRb.isKinematic)
+        {
+            dragonKinematic.text = "Kinematic";
+            dragonKinematic.color = Color.white;
+        }
+        else
+        {
+            dragonKinematic.text = "NOT Kinematic";
+            dragonKinematic.color = Color.red;
+        }
+
+        if (dragonRb.useGravity)
+        {
+            dragonGravity.text = "Gravity";
+            dragonGravity.color = Color.white;
+        }
+        else
+        {
+            dragonGravity.text = "NOT Gravity";
+            dragonGravity.color = Color.red;
+        }
 
     }
 }

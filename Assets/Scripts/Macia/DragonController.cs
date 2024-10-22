@@ -83,7 +83,7 @@ public class DragonController : MonoBehaviour
     [SerializeField] CinemachineFreeLook dragonLandVcam;
 
     PlayerController playerController;
-    Rigidbody dragonRB;
+   [SerializeField] Rigidbody dragonRB;
 
     [SerializeField] DragonStates dragonState;
 
@@ -216,14 +216,20 @@ public class DragonController : MonoBehaviour
 
     }
 
-
+    private void Awake()
+    {
+        if(dragonRB == null)
+        {
+            dragonRB = GetComponent<Rigidbody>(); //en awake para que los otros gameobject en start lo encuentren
+        }
+        
+    }
     private void Start()
     {
         // Guardamos la posición inicial del dragón para calcular la dirección de movimiento
         lastPosition = transform.position;
 
         playerController = playerTransform.GetComponent<PlayerController>();
-        dragonRB = GetComponent<Rigidbody>();
                        
     }
 
@@ -785,5 +791,10 @@ public class DragonController : MonoBehaviour
     public Vector3 GetCurrentDragonVelocity
     {
         get { return dragonRB.velocity; }
+    }
+
+    public Rigidbody GetDragonRB
+    {
+        get { return dragonRB; }            
     }
 }

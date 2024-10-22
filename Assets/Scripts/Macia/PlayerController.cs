@@ -550,4 +550,9 @@ public class PlayerController : MonoBehaviour
     {
         get { return playerRb.velocity; }
     }
+    public Rigidbody GetPlayerRB
+    {
+        get { return playerRb; }
+    }
+    
 }
