@@ -390,6 +390,7 @@ MonoBehaviour:
   jumpHeight: 4
   dragonFlyingVcam: {fileID: 0}
   dragonLandVcam: {fileID: 0}
+  dragonRB: {fileID: 731856674143684758}
   dragonState: 0
 --- !u!54 &731856674143684758
 Rigidbody:
