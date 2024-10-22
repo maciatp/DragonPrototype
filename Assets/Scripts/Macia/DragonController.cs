@@ -71,6 +71,11 @@ public class DragonController : MonoBehaviour
     [SerializeField] private float rotationSpeed = 20f;
     [SerializeField] Transform dragonObj;
 
+    //JUMP
+    [SerializeField] float jumpHeight = 4;
+
+ 
+
     private Vector2 moveInput; // Input del joystick izquierdo (pitch y roll)
     private float yawInput; // Input de los gatillos para el yaw
 
@@ -187,7 +192,30 @@ public class DragonController : MonoBehaviour
         }
     }
 
-    
+    //JUMP
+    public void OnDragonJump(InputAction.CallbackContext jumpContext)
+    {
+        if (jumpContext.action.triggered) //Sólo se llama una vez, cuando pulsas el botón
+        {
+            if (isGrounded && dragonState == DragonStates.MountedLanded)
+            {
+                DragonJump();
+            }
+        }
+    }
+
+    public void DragonJump()
+    {
+        // Obtener la dirección en la que mira la cámara, sin afectar el eje Y (plano horizontal)
+        Vector3 jumpDirection = (Camera.main.transform.right * moveInput.x) + (Camera.main.transform.forward * moveInput.y);
+        jumpDirection.y = 0; // Asegurarse de que la dirección sea sólo en el plano XZ
+
+
+        // Aplicar la fuerza hacia arriba
+        dragonRB.AddForce(jumpDirection * speedOnLand + Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
+
+    }
+
 
     private void Start()
     {
@@ -259,7 +287,7 @@ public class DragonController : MonoBehaviour
         }
 
         //DESPEGUE POR CAÍDA
-        if(dragonState == DragonStates.MountedLanded && dragonRB.velocity.y < -10)
+        if(dragonState == DragonStates.MountedLanded && dragonRB.velocity.y < -20 && !isGrounded)
         {
             TakeOff();
         }
@@ -442,14 +470,18 @@ public class DragonController : MonoBehaviour
             //Rotación y movimiento respecto a cámara
             Vector3 viewDir = transform.position - new Vector3(dragonLandVcam.transform.position.x, transform.position.y, dragonLandVcam.transform.position.z);
             orientation.forward = viewDir.normalized;
-            Vector3 moveDirection = (orientation.right * moveInput.x) + (orientation.forward * moveInput.y);
-            if (moveDirection != Vector3.zero)
+            if(isGrounded)
             {
-                dragonObj.forward = Vector3.Slerp(dragonObj.forward, moveDirection.normalized, Time.deltaTime * rotationSpeed);
-            }
 
-            //MovePosition Method
-            dragonRB.MovePosition(dragonRB.position + (moveDirection * speedOnLand) * Time.fixedDeltaTime);
+                Vector3 moveDirection = (orientation.right * moveInput.x) + (orientation.forward * moveInput.y);
+                if (moveDirection != Vector3.zero)
+                {
+                    dragonObj.forward = Vector3.Slerp(dragonObj.forward, moveDirection.normalized, Time.deltaTime * rotationSpeed);
+                }
+
+                //MovePosition Method
+                dragonRB.MovePosition(dragonRB.position + (moveDirection * speedOnLand) * Time.fixedDeltaTime);
+            }
             
         }
     }

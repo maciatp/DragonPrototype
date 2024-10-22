@@ -328,7 +328,7 @@ public class PlayerController : MonoBehaviour
         jumpDirection.y = 0; // Asegurarse de que la dirección sea sólo en el plano XZ
         
 
-        // Aplicar la fuerza hacia arriba y hacia adelante
+        // Aplicar la fuerza hacia arriba
         rb.AddForce(jumpDirection * moveSpeed + Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
 
     }
