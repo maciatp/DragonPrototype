@@ -74,6 +74,9 @@ public class DragonController : MonoBehaviour
     //JUMP
     [SerializeField] float jumpHeight = 4;
 
+    //MOUNT ON JUMP
+    [SerializeField] CapsuleCollider mountCollider;
+
  
 
     private Vector2 moveInput; // Input del joystick izquierdo (pitch y roll)
@@ -293,7 +296,7 @@ public class DragonController : MonoBehaviour
         }
 
         //DESPEGUE POR CAÍDA
-        if(dragonState == DragonStates.MountedLanded && dragonRB.velocity.y < -20 && !isGrounded)
+        if(dragonState == DragonStates.MountedLanded && dragonRB.velocity.y < -15 && !isGrounded)
         {
             TakeOff();
         }
@@ -686,13 +689,21 @@ public class DragonController : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, dragonObj.rotation.eulerAngles.y, 0);
         dragonObj.localRotation = Quaternion.Euler(0, 0, 0);
 
-
+        StartCoroutine(MountTriggerCoroutine());
         playerController.DismountDragon();
         playerController.Jump(7.5f);
 
         //Dragon CAM OFF
         SetDragonCamera();
     }
+    private IEnumerator MountTriggerCoroutine()
+    {
+        mountCollider.enabled = false;
+        yield return new WaitForSecondsRealtime(0.5f);
+        mountCollider.enabled = true;
+       yield return null;
+    }
+
     void DismountDragonOnLand()
     {
         SetDragonState(DragonStates.Landed);
@@ -709,6 +720,7 @@ public class DragonController : MonoBehaviour
         //Dragon CAM OFF
         SetDragonCamera();
         landedCollider.enabled = true;
+        mountCollider.enabled = true;
     }
 
     //SET DRAGON STATE
@@ -726,6 +738,10 @@ public class DragonController : MonoBehaviour
         if (calledCollider.enabled)
         {
             calledCollider.enabled = false;
+        }
+        if(mountCollider.enabled)
+        {
+            mountCollider.enabled = false;
         }
     }
     //TRIGGERS
