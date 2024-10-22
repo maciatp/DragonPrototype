@@ -469,6 +469,15 @@
                     "processors": "",
                     "interactions": "Hold",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "DragonJump",
+                    "type": "Button",
+                    "id": "1e8c4f8d-54c5-4fc8-a7f9-57255be6107a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -909,6 +918,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Dismount",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2be769a2-b031-4ca9-be78-38592cafb291",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DragonJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d5457b20-d5f5-4b73-a084-92d2e6ed6cd1",
+                    "path": "<Keyboard>/t",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DragonJump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

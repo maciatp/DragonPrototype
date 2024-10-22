@@ -491,6 +491,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Hold"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DragonJump"",
+                    ""type"": ""Button"",
+                    ""id"": ""1e8c4f8d-54c5-4fc8-a7f9-57255be6107a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -933,6 +942,28 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Dismount"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2be769a2-b031-4ca9-be78-38592cafb291"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DragonJump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d5457b20-d5f5-4b73-a084-92d2e6ed6cd1"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DragonJump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -962,6 +993,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Dragon_MoveLanded = m_Dragon.FindAction("MoveLanded", throwIfNotFound: true);
         m_Dragon_TakeOff = m_Dragon.FindAction("TakeOff", throwIfNotFound: true);
         m_Dragon_LandDragon = m_Dragon.FindAction("LandDragon", throwIfNotFound: true);
+        m_Dragon_DragonJump = m_Dragon.FindAction("DragonJump", throwIfNotFound: true);
     }
 
     ~@InputActions()
@@ -1149,6 +1181,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Dragon_MoveLanded;
     private readonly InputAction m_Dragon_TakeOff;
     private readonly InputAction m_Dragon_LandDragon;
+    private readonly InputAction m_Dragon_DragonJump;
     public struct DragonActions
     {
         private @InputActions m_Wrapper;
@@ -1163,6 +1196,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @MoveLanded => m_Wrapper.m_Dragon_MoveLanded;
         public InputAction @TakeOff => m_Wrapper.m_Dragon_TakeOff;
         public InputAction @LandDragon => m_Wrapper.m_Dragon_LandDragon;
+        public InputAction @DragonJump => m_Wrapper.m_Dragon_DragonJump;
         public InputActionMap Get() { return m_Wrapper.m_Dragon; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1202,6 +1236,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @LandDragon.started += instance.OnLandDragon;
             @LandDragon.performed += instance.OnLandDragon;
             @LandDragon.canceled += instance.OnLandDragon;
+            @DragonJump.started += instance.OnDragonJump;
+            @DragonJump.performed += instance.OnDragonJump;
+            @DragonJump.canceled += instance.OnDragonJump;
         }
 
         private void UnregisterCallbacks(IDragonActions instance)
@@ -1236,6 +1273,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @LandDragon.started -= instance.OnLandDragon;
             @LandDragon.performed -= instance.OnLandDragon;
             @LandDragon.canceled -= instance.OnLandDragon;
+            @DragonJump.started -= instance.OnDragonJump;
+            @DragonJump.performed -= instance.OnDragonJump;
+            @DragonJump.canceled -= instance.OnDragonJump;
         }
 
         public void RemoveCallbacks(IDragonActions instance)
@@ -1277,5 +1317,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnMoveLanded(InputAction.CallbackContext context);
         void OnTakeOff(InputAction.CallbackContext context);
         void OnLandDragon(InputAction.CallbackContext context);
+        void OnDragonJump(InputAction.CallbackContext context);
     }
 }
