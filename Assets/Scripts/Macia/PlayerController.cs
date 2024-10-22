@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform orientation; //transform que se usa para determinar la orientación. es hijo del gameobject que lleva este script.
     [SerializeField] CinemachineFreeLook freeLookPlayerCamera;
     float playerCameraOriginalPriority;
-    private Rigidbody rb;
+    private Rigidbody playerRb;
 
 
     //Paravela
@@ -79,7 +79,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        playerRb = GetComponent<Rigidbody>();
     }
 
     private void Start()
@@ -244,11 +244,11 @@ public class PlayerController : MonoBehaviour
                 ChargeStamina();
             }
         }
-        if(isGrounded && playerState == PlayerStates.Normal && rb.velocity.y < 0)
+        if(isGrounded && playerState == PlayerStates.Normal && playerRb.velocity.y < 0)
         {
-            rb.velocity = Vector3.zero;
+            playerRb.velocity = Vector3.zero;
         }
-        if (!isGrounded && playerState == PlayerStates.Normal && rb.velocity.y <= fallThreshold)
+        if (!isGrounded && playerState == PlayerStates.Normal && playerRb.velocity.y <= fallThreshold)
         {
             SetBigFall();
         }
@@ -272,7 +272,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Yspeed = rb.velocity.y; //DEBUG
+        Yspeed = playerRb.velocity.y; //DEBUG
 
         if (playerState == PlayerStates.Normal)
         {
@@ -310,11 +310,11 @@ public class PlayerController : MonoBehaviour
                 //MovePosition Method
                 if(!isRunning)
                 {
-                    rb.MovePosition(rb.position + moveDirection * moveSpeed * Time.fixedDeltaTime);               
+                    playerRb.MovePosition(playerRb.position + moveDirection * moveSpeed * Time.fixedDeltaTime);               
                 }
                 else
                 {
-                    rb.MovePosition(rb.position + moveDirection * runSpeed * Time.fixedDeltaTime);               
+                    playerRb.MovePosition(playerRb.position + moveDirection * runSpeed * Time.fixedDeltaTime);               
                 }
             }
         }
@@ -329,7 +329,7 @@ public class PlayerController : MonoBehaviour
         
 
         // Aplicar la fuerza hacia arriba
-        rb.AddForce(jumpDirection * moveSpeed + Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
+        playerRb.AddForce(jumpDirection * moveSpeed + Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
 
     }
     public void Jump(float forwardForce)
@@ -340,7 +340,7 @@ public class PlayerController : MonoBehaviour
 
 
         // Aplicar la fuerza hacia arriba y hacia adelante
-        rb.AddForce(jumpDirection * forwardForce + Vector3.up * Mathf.Sqrt(jumpHeight*1.5f * -2f * Physics.gravity.y), ForceMode.VelocityChange);
+        playerRb.AddForce(jumpDirection * forwardForce + Vector3.up * Mathf.Sqrt(jumpHeight*1.5f * -2f * Physics.gravity.y), ForceMode.VelocityChange);
     }
 
 
@@ -352,7 +352,7 @@ public class PlayerController : MonoBehaviour
         playerObj.localRotation = Quaternion.Euler(90f, 0f, 0f); //seteo rotación del playerObj a paralelo al suelo. TO DO: hacer que sea gradual.
         
         SetPlayerState(PlayerStates.BigFall);
-        rb.useGravity = false;
+        playerRb.useGravity = false;
         
         //DIVE DEBUG
         trail.enabled = true;
@@ -370,18 +370,18 @@ public class PlayerController : MonoBehaviour
 
         // Movimiento paralelo al suelo
         Vector3 moveDirection = (orientation.right * moveInput.x) + (orientation.forward * moveInput.y);
-        rb.MovePosition(rb.position + moveDirection * bigFallMoveSpeed * Time.fixedDeltaTime);
+        playerRb.MovePosition(playerRb.position + moveDirection * bigFallMoveSpeed * Time.fixedDeltaTime);
 
 
         //FALL VELOCITY
         float targetVelocity = isDiving ? terminalDiveVelocity : terminalVelocity;
         trail.startColor = isDiving ? diveColor : normalColor;
-        float currentYVelocity = rb.velocity.y;
+        float currentYVelocity = playerRb.velocity.y;
 
         if (currentYVelocity != targetVelocity)
         {
             float newFallSpeed = Mathf.MoveTowards(currentYVelocity, targetVelocity, diveAcceleration * Time.fixedDeltaTime);
-            rb.velocity = new Vector3(rb.velocity.x, newFallSpeed, rb.velocity.z);
+            playerRb.velocity = new Vector3(playerRb.velocity.x, newFallSpeed, playerRb.velocity.z);
         }
     }
     
@@ -393,7 +393,7 @@ public class PlayerController : MonoBehaviour
             playerObj.transform.localRotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);  // Devuelvo la rotación de Y de Player a PlayerObj    
             transform.rotation = Quaternion.identity;
             SetPlayerState(PlayerStates.Normal);
-            rb.useGravity = true;
+            playerRb.useGravity = true;
         }
 
         if(paravelaGO != null && paravelaGO.activeSelf)
@@ -425,8 +425,8 @@ public class PlayerController : MonoBehaviour
         transform.localRotation = playerPosOnDragon.localRotation;
 
         //PHYSICS and colliders
-        rb.isKinematic = true;
-        rb.useGravity = false;
+        playerRb.isKinematic = true;
+        playerRb.useGravity = false;
         CapsuleCollider playerCollider = GetComponentInChildren<CapsuleCollider>();       
         playerCollider.enabled = false;
         
@@ -448,8 +448,8 @@ public class PlayerController : MonoBehaviour
         RestorePlayerNormalState();       
 
         //PHYSICS and colliders
-        rb.isKinematic = false;
-        rb.useGravity = true;
+        playerRb.isKinematic = false;
+        playerRb.useGravity = true;
         CapsuleCollider playerCollider = GetComponentInChildren<CapsuleCollider>();
         playerCollider.enabled = true;
 
@@ -478,7 +478,7 @@ public class PlayerController : MonoBehaviour
         playerObj.localRotation = Quaternion.identity;
         
         SetPlayerState(PlayerStates.Paravela);
-        rb.useGravity = true; // para que caiga
+        playerRb.useGravity = true; // para que caiga
 
         paravelaGO.SetActive(true);
         if(trail.enabled)
@@ -495,7 +495,7 @@ public class PlayerController : MonoBehaviour
         if(playerState != PlayerStates.OnDragon)
         {
             SetPlayerState(PlayerStates.Normal);
-            rb.useGravity = true;
+            playerRb.useGravity = true;
         }
         paravelaGO.SetActive(false);
 
@@ -528,15 +528,26 @@ public class PlayerController : MonoBehaviour
 
         // Movimiento paralelo al suelo en la dirección del joystick
         Vector3 moveDirection = (orientation.right * moveInput.x) + (orientation.forward * moveInput.y);
-        rb.MovePosition(rb.position + moveDirection * paravelaMovementSpeed * Time.fixedDeltaTime);
+        playerRb.MovePosition(playerRb.position + moveDirection * paravelaMovementSpeed * Time.fixedDeltaTime);
 
         // Limitar la velocidad de caída para simular que está usando la paravela
-        rb.velocity = new Vector3(rb.velocity.x, Mathf.Max(rb.velocity.y, paravelaFallingSpeed), rb.velocity.z); // Limita la caída para que no baje rápido
+        playerRb.velocity = new Vector3(playerRb.velocity.x, Mathf.Max(playerRb.velocity.y, paravelaFallingSpeed), playerRb.velocity.z); // Limita la caída para que no baje rápido
     }
 
 
     private void SetPlayerState(PlayerStates newPlayerState)
     {
-        playerState = newPlayerState;
+        playerState = newPlayerState; 
+    }
+
+    //UI DEBUG
+
+    public bool IsPlayerGrounded
+    {
+        get { return isGrounded; }
+    }
+    public Vector3 GetPlayerVelocity
+    {
+        get { return playerRb.velocity; }
     }
 }

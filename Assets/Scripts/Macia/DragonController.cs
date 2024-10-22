@@ -756,4 +756,34 @@ public class DragonController : MonoBehaviour
         }
     }
 
+    //UIDEBUG
+    
+
+    public bool GetDragonGrounded
+    {
+        get { return isGrounded; }
+    }
+    public float GetCurrentFlyingSpeed
+    {
+        get { return currentDragonSpeed; }
+    }
+    public string GetDragonAction()
+    {
+        if(isAccelerating)
+        {
+            return new string("is Accel"); 
+        }
+        else if(isBraking)
+        {
+            return new string("is Braking");
+        }
+        else
+        {
+            return new string("is Idle");
+        }
+    }
+    public Vector3 GetCurrentDragonVelocity
+    {
+        get { return dragonRB.velocity; }
+    }
 }
