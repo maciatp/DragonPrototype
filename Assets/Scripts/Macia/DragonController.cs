@@ -9,6 +9,7 @@ using UnityEngine.InputSystem;
 
 public class DragonController : MonoBehaviour
 {
+    private float currentYVelocity; //DEBUG
     private float currentDragonSpeed; // Velocidad actual del dragón
     bool isMountable = false;
     bool isGrounded = false;
@@ -200,6 +201,9 @@ public class DragonController : MonoBehaviour
 
     private void Update()
     {
+        //DEBUG
+        currentYVelocity = dragonRB.velocity.y;
+
         isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundMask);
         
         lastPosition = transform.position;
@@ -243,6 +247,21 @@ public class DragonController : MonoBehaviour
             landingDebug.transform.localPosition = Vector3.zero;
             landingDebug.transform.localRotation = Quaternion.identity;
             landingDebug.SetActive(false);
+        }
+
+        if(dragonState == DragonStates.MountedLanded && !dragonRB.useGravity)
+        {
+            dragonRB.useGravity = true;
+        }
+        if(dragonState != DragonStates.MountedLanded &&  dragonRB.useGravity)
+        {
+            dragonRB.useGravity = false;
+        }
+
+        //DESPEGUE POR CAÍDA
+        if(dragonState == DragonStates.MountedLanded && dragonRB.velocity.y < -10)
+        {
+            TakeOff();
         }
        
     }
@@ -556,7 +575,8 @@ public class DragonController : MonoBehaviour
         SetDragonState(DragonStates.MountedLanded);
         playerController.MountDragon();
 
-        
+        //PHYSICS
+        dragonRB.useGravity = true;
 
         //Igualo rotación del gameobject padre al interno        
         dragonObj.localRotation = Quaternion.Euler(0, transform.localEulerAngles.y, 0);
