@@ -185,6 +185,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2968217381820319155}
+  - component: {fileID: 3984226180716815635}
   - component: {fileID: 5353475368085749859}
   - component: {fileID: 7210446605006281887}
   - component: {fileID: 6130779027030264635}
@@ -213,8 +214,8 @@ Transform:
   - {fileID: 8462487028544011213}
   m_Father: {fileID: 5905171915170486461}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &5353475368085749859
-CapsuleCollider:
+--- !u!65 &3984226180716815635
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -231,11 +232,32 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.35, y: 1.67, z: 3.94}
+  m_Center: {x: 0, y: -0.34, z: -0.95}
+--- !u!136 &5353475368085749859
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5402162274042228837}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.59
-  m_Height: 3.91
-  m_Direction: 2
-  m_Center: {x: 0, y: 0, z: -0.84}
+  m_Radius: 0.41
+  m_Height: 1.53
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.85, z: -0.84}
 --- !u!135 &7210446605006281887
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -276,8 +298,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 7.01, y: 2, z: 7.58}
-  m_Center: {x: 0, y: 0, z: -1.04}
+  m_Size: {x: 7.01, y: 1.67, z: 7.58}
+  m_Center: {x: 0, y: -0.32, z: -1.04}
 --- !u!1 &5590182492475420074
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,7 +366,7 @@ MonoBehaviour:
   acceleration: 40
   deceleration: 40
   maxFlyingSpeed: 100
-  minFlyingSpeed: 35
+  minFlyingSpeed: 25
   idleFlyingSpeed: 50
   idleForce: 20
   flyAwayBoost: 20
@@ -365,6 +387,7 @@ MonoBehaviour:
   orientation: {fileID: 2344993397021916337}
   rotationSpeed: 20
   dragonObj: {fileID: 2968217381820319155}
+  jumpHeight: 4
   dragonFlyingVcam: {fileID: 0}
   dragonLandVcam: {fileID: 0}
   dragonState: 0
@@ -391,7 +414,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
