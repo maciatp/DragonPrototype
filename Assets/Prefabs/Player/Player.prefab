@@ -469,6 +469,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 61957cb9-f97e-4dd5-83ea-876d9f2a4daa
     m_ActionName: Dragon/Dismount[/XInputControllerWindows/buttonEast,/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: DragonController, Assembly-CSharp
+        m_MethodName: OnDragonJump
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1e8c4f8d-54c5-4fc8-a7f9-57255be6107a
+    m_ActionName: Dragon/DragonJump[/XInputControllerWindows/buttonSouth,/Keyboard/t]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Foot
@@ -505,8 +521,8 @@ MonoBehaviour:
   playerObj: {fileID: 3690482291780504614}
   orientation: {fileID: 3149757477344715767}
   freeLookPlayerCamera: {fileID: 0}
-  paravelaMovementSpeed: 15
-  paravelaFallingSpeed: -1.5
+  paravelaMovementSpeed: 12
+  paravelaFallingSpeed: -3
   paravelaRotationSpeed: 0.5
   totalParavelaStamina: 5
   paravelaGO: {fileID: 3782575770865407869}
