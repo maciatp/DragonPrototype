@@ -251,7 +251,7 @@ public class DragonController : MonoBehaviour
             isGrounded = false;
         }
         
-        lastPosition = transform.position;
+        lastPosition = transform.position; // TO DO METER ESTA LINEA Y UPDATE EN UN SWITCH
 
         if (dragonState == DragonStates.Mounted && currentDragonSpeed <= landingSpeedThreshold && isBraking)
         {
@@ -493,7 +493,7 @@ public class DragonController : MonoBehaviour
                 Vector3 moveDirection = (orientation.right * moveInput.x) + (orientation.forward * moveInput.y);
                 if (moveDirection != Vector3.zero)
                 {
-                    dragonObj.forward = Vector3.Slerp(dragonObj.forward, moveDirection.normalized, Time.deltaTime * rotationSpeed);
+                    dragonObj.forward = Vector3.Slerp(dragonObj.forward, moveDirection, Time.deltaTime * rotationSpeed);
                 }
 
                 //MovePosition Method
