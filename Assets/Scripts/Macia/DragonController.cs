@@ -541,6 +541,7 @@ public class DragonController : MonoBehaviour
 
         SetDragonState(DragonStates.Landed); // O cualquier otro estado
         landedCollider.enabled = true;
+        dragonRB.isKinematic = true;
     }
     //LANDING MOUNTED
     private void PrepareLandingMounted()
@@ -631,6 +632,7 @@ public class DragonController : MonoBehaviour
         DeactivateTriggers();
 
         isMountable = false;
+        dragonRB.isKinematic = false;
     }
 
     private void TakeOff() //WHEN MOUNTED
@@ -679,6 +681,8 @@ public class DragonController : MonoBehaviour
             //case DragonStates.Landed:
             //    break;
             case DragonStates.MountedLanded:
+                //PHYSICS
+                dragonRB.isKinematic = true;
                 landedCollider.enabled = true;
                 SetDragonState(DragonStates.Landed);
                 break;
@@ -721,6 +725,7 @@ public class DragonController : MonoBehaviour
         SetDragonCamera();
         landedCollider.enabled = true;
         mountCollider.enabled = true;
+        dragonRB.isKinematic = true;
     }
 
     //SET DRAGON STATE
