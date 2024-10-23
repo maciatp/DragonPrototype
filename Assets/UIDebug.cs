@@ -90,7 +90,7 @@ public class UIDebug : MonoBehaviour
                 dragonGrounded.color = Color.red;
                 
             }
-                dragonVelocity.text = dragonController.GetCurrentDragonVelocity.ToString();
+                dragonVelocity.text = dragonController.GetCurrentDragonVelocity.magnitude.ToString();
                 dragonAction.text = "";
         }
         else if(dragonController.GetDragonState != DragonController.DragonStates.Landed || dragonController.GetDragonState != DragonController.DragonStates.MountedLanded)

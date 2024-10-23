@@ -15,11 +15,12 @@ public class MountTrigger : MonoBehaviour
     {
         if (other.transform.parent.tag == "Player")
         {            
-            if (dragonController.GetDragonState == DragonController.DragonStates.Free)
-            {
-                dragonController.MountDragonFlying();
-            }
-            else if(dragonController.GetDragonState == DragonController.DragonStates.Landed)
+            PlayerController playerController = other.transform.parent.GetComponent<PlayerController>();
+            //if (dragonController.GetDragonState == DragonController.DragonStates.Free) //montar al dragon en el aire, de un salto
+            //{
+            //    dragonController.MountDragonFlying();
+            //}
+            if(dragonController.GetDragonState == DragonController.DragonStates.Landed && !playerController.IsPlayerGrounded)
             {
                 dragonController.MountDragonOnLand();
             }
