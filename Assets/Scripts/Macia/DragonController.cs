@@ -241,7 +241,14 @@ public class DragonController : MonoBehaviour
         //DEBUG
         currentYVelocity = dragonRB.velocity.y;
 
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundMask);
+        if(dragonState == DragonStates.MountedLanded || dragonState == DragonStates.Landed)
+        {
+            isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundMask);
+        }
+        else
+        {
+            isGrounded = false;
+        }
         
         lastPosition = transform.position;
 
