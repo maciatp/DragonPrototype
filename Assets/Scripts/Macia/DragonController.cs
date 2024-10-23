@@ -55,6 +55,7 @@ public class DragonController : MonoBehaviour
     [SerializeField] float landMountedDuration = 2f; // Duración del aterrizaje cuando montas en el dragón
     [SerializeField] float landingSpeedThreshold = 40f; //mínima velocidad para poder aterrizar
     [SerializeField] float distanceToLand = 10f;
+    [SerializeField] float fallThreshold = -10f;
     //LANDING MOUNTED DEBUG
     [SerializeField] GameObject landingDebug;
 
@@ -303,7 +304,7 @@ public class DragonController : MonoBehaviour
         }
 
         //DESPEGUE POR CAÍDA
-        if(dragonState == DragonStates.MountedLanded && dragonRB.velocity.y < -15 && !isGrounded)
+        if(dragonState == DragonStates.MountedLanded && dragonRB.velocity.y < fallThreshold && !isGrounded)
         {
             TakeOff();
         }
