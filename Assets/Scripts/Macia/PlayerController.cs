@@ -349,7 +349,7 @@ public class PlayerController : MonoBehaviour
     {
        
         transform.rotation = Quaternion.Euler(0, playerObj.transform.eulerAngles.y, 0); //igualo la rotación del Player Padre a PlayerObj para el salto
-        playerObj.localRotation = Quaternion.Euler(90f, 0f, 0f); //seteo rotación del playerObj a paralelo al suelo. TO DO: hacer que sea gradual.
+        playerObj.localRotation = Quaternion.Euler(90f, 0f, 0f); //seteo rotación del playerObj a paralelo al suelo. TO DO: hacer que sea gradual. borrar cuando gire bien
         
         SetPlayerState(PlayerStates.BigFall);
         playerRb.useGravity = false;
@@ -359,7 +359,11 @@ public class PlayerController : MonoBehaviour
     }
 
     private void BigFallMovement()
-    {        
+    {
+        
+        //Rotación para ponerse horizontal al suelo // WIP
+        //playerObj.localRotation = Quaternion.Slerp(playerObj.rotation, Quaternion.Euler(90,0,0),  rotationSpeed);
+
         // Rotación gradual hacia la cámara
         Vector3 viewDir = transform.position - new Vector3(freeLookPlayerCamera.transform.position.x, transform.position.y, freeLookPlayerCamera.transform.position.z);
         orientation.forward = viewDir.normalized;
@@ -473,9 +477,9 @@ public class PlayerController : MonoBehaviour
         {
             //ROTATION
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, playerObj.transform.localEulerAngles.y, transform.rotation.eulerAngles.z);        
+            playerObj.localRotation = Quaternion.identity;
         }
         
-        playerObj.localRotation = Quaternion.identity;
         
         SetPlayerState(PlayerStates.Paravela);
         playerRb.useGravity = true; // para que caiga
@@ -519,6 +523,9 @@ public class PlayerController : MonoBehaviour
     }
     private void ParavelaMovement()
     {
+        //Rotación para ponerse derecho
+        playerObj.forward = Vector3.Slerp(playerObj.forward, transform.forward, Time.fixedDeltaTime * rotationSpeed);
+
         // Rotación del jugador hacia donde mira la cámara (horizontalmente)
         Vector3 viewDir = transform.position - new Vector3(freeLookPlayerCamera.transform.position.x, transform.position.y, freeLookPlayerCamera.transform.position.z);
         orientation.forward = viewDir.normalized;
