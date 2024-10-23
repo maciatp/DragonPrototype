@@ -10,6 +10,8 @@ using UnityEngine.InputSystem;
 public class DragonController : MonoBehaviour
 {
     private float currentYVelocity; //DEBUG
+    Vector3 dragonVelocity; //DEBUG
+
     private float currentDragonSpeed; // Velocidad actual del dragón
     bool isMountable = false;
     bool isGrounded = false;
@@ -86,7 +88,7 @@ public class DragonController : MonoBehaviour
     // Heavy things often require big numbers. It's nice to keep this multiplier on the
     // same scale as your mass to keep numbers small and manageable. For example, if your
     // game has mass in the hundreds, then use 100. If thousands, then 1000, etc.
-    private const float FORCE_MULT = 10.0f;
+    private const float FORCE_MULT = 1.0f;
 
     private Vector2 moveInput; // Input del joystick izquierdo (pitch y roll)
     private float yawInput; // Input de los gatillos para el yaw
@@ -249,6 +251,7 @@ public class DragonController : MonoBehaviour
     {
         //DEBUG
         currentYVelocity = dragonRB.velocity.y;
+        dragonVelocity = dragonRB.velocity;
 
         if (dragonState == DragonStates.MountedLanded || dragonState == DragonStates.Landed)
         {
@@ -311,7 +314,7 @@ public class DragonController : MonoBehaviour
         }
 
         //DESPEGUE POR CAÍDA
-        if(dragonState == DragonStates.MountedLanded && dragonRB.velocity.y < -15 && !isGrounded)
+        if(dragonState == DragonStates.MountedLanded && dragonRB.velocity.y < -10 && !isGrounded)
         {
             TakeOff();
         }
@@ -369,19 +372,19 @@ public class DragonController : MonoBehaviour
         // Aplicar las rotaciones
         transform.Rotate(pitch, yaw, -roll, Space.Self); // Invertimos el roll para que gire de manera correcta
 
-        float targetDragonSpeed;
+        float targetDragonSpeed = idleFlyingSpeed;
 
         // Actualizar la velocidad actual
         if (isAccelerating)
         {
            targetDragonSpeed =  currentDragonSpeed + (acceleration * Time.deltaTime);            
-            currentDragonSpeed = Mathf.MoveTowards(currentDragonSpeed, targetDragonSpeed , ((acceleration + deceleration) ) * Time.deltaTime);
+            
         }
         else if (isBraking)
         {
            
            targetDragonSpeed =  currentDragonSpeed - (deceleration * Time.deltaTime);            
-            currentDragonSpeed = Mathf.MoveTowards(currentDragonSpeed, targetDragonSpeed , ((acceleration + deceleration)) * Time.deltaTime);
+            
         }
         else
         {
@@ -392,7 +395,7 @@ public class DragonController : MonoBehaviour
                 if (currentDragonSpeed < idleFlyingSpeed)
                 { 
                     targetDragonSpeed = idleFlyingSpeed;
-                    currentDragonSpeed = Mathf.MoveTowards(currentDragonSpeed, targetDragonSpeed , ((acceleration + deceleration)) * Time.deltaTime);
+            
                 }
             }
             else if (currentDragonSpeed < idleFlyingSpeed)
@@ -401,10 +404,10 @@ public class DragonController : MonoBehaviour
                 if (currentDragonSpeed > idleFlyingSpeed)
                 {
                     targetDragonSpeed = idleFlyingSpeed;
-                    currentDragonSpeed = Mathf.MoveTowards(currentDragonSpeed, targetDragonSpeed , ((acceleration + deceleration)) * Time.deltaTime);
                 }
             }
         }
+        currentDragonSpeed = Mathf.MoveTowards(currentDragonSpeed, targetDragonSpeed , ((acceleration + deceleration)) * Time.deltaTime);
 
         //MIO
         // Limitar la velocidad actual entre 0 y la velocidad máxima
@@ -419,8 +422,8 @@ public class DragonController : MonoBehaviour
         // Throttle has to move slowly so that the plane still accelerates slowly using high
         // drag physics. Without them, the plane would change speed almost instantly.
         // Apply forces to the plane.
-        dragonRB.AddRelativeForce(Vector3.forward * acceleration * FORCE_MULT, ForceMode.Force);
-        dragonRB.AddRelativeTorque(new Vector3(moveInput.x * turnTorques.x , moveInput.y * turnTorques.y, yawInput * turnTorques.z), ForceMode.Force);
+        dragonRB.AddRelativeForce(Vector3.forward * dragonRB.velocity.magnitude * FORCE_MULT, ForceMode.Force);
+        dragonRB.AddRelativeTorque(new Vector3(moveInput.x*pitchSpeed * turnTorques.x , yawInput * yawSpeed* turnTorques.y, moveInput.x * rollSpeed* turnTorques.z), ForceMode.Force);
         //Debug.Log(((moveInput.x * turnTorques.x) + (moveInput.y * turnTorques.y) + (yawInput * turnTorques.z)) * FORCE_MULT);
 
         // Apply magic forces when the plane is banked because it feels good. The principle
