@@ -480,7 +480,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""id"": ""0a80c458-13dd-4679-ad2c-37cb40b9b353"",
                     ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": ""Hold"",
+                    ""interactions"": ""MultiTap(tapCount=5)"",
                     ""initialStateCheck"": false
                 },
                 {
