@@ -479,6 +479,7 @@ public class PlayerController : MonoBehaviour
         
         SetPlayerState(PlayerStates.Paravela);
         playerRb.useGravity = true; // para que caiga
+        playerRb.velocity = Vector3.zero;
 
         paravelaGO.SetActive(true);
         if(trail.enabled)
