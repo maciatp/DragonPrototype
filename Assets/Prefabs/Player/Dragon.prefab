@@ -419,7 +419,8 @@ MonoBehaviour:
   landingForwardOffset: 10
   landMountedDuration: 0.5
   landingSpeedThreshold: 40
-  distanceToLand: 20
+  distanceToLand: 30
+  fallThreshold: -10
   landingDebug: {fileID: 4628283897446805177}
   landUnmountedDuration: 1.2
   landedCollider: {fileID: 6130779027030264635}
