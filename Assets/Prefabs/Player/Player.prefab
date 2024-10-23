@@ -508,7 +508,7 @@ MonoBehaviour:
   bigFallMoveSpeed: 9
   rotationSpeed: 20
   bigFallRotationSpeed: 2
-  jumpHeight: 1.5
+  jumpHeight: 2.5
   fallThreshold: -10
   terminalVelocity: -30
   terminalDiveVelocity: -50
