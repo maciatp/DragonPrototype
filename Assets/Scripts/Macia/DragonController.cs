@@ -77,7 +77,16 @@ public class DragonController : MonoBehaviour
     //MOUNT ON JUMP
     [SerializeField] CapsuleCollider mountCollider;
 
- 
+    [Header("FLY JET")]//"X:Pitch / Y:Yaw / Z:Roll")]
+    //TEST FLY JET
+    [Tooltip("Torque used by the magic banking force that rotates the plane when the plane is banked.")]
+    public float bankTorque = 8.0f;
+    [Tooltip("How powerfully the plane can maneuver in each axis.\n\nX: Pitch\nY: Yaw\nZ: Roll")]
+    public Vector3 turnTorques = new Vector3(30.0f, 8.0f, 100.0f);
+    // Heavy things often require big numbers. It's nice to keep this multiplier on the
+    // same scale as your mass to keep numbers small and manageable. For example, if your
+    // game has mass in the hundreds, then use 100. If thousands, then 1000, etc.
+    private const float FORCE_MULT = 10.0f;
 
     private Vector2 moveInput; // Input del joystick izquierdo (pitch y roll)
     private float yawInput; // Input de los gatillos para el yaw
@@ -241,8 +250,14 @@ public class DragonController : MonoBehaviour
         //DEBUG
         currentYVelocity = dragonRB.velocity.y;
 
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundMask);
-        
+        if (dragonState == DragonStates.MountedLanded || dragonState == DragonStates.Landed)
+        {
+            isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundMask);
+        }
+        else
+        {
+            isGrounded = false;
+        }
         lastPosition = transform.position;
 
         if (dragonState == DragonStates.Mounted && currentDragonSpeed < landingSpeedThreshold && isBraking)
@@ -315,6 +330,7 @@ public class DragonController : MonoBehaviour
                 break;
             case DragonStates.Mounted:
                 Fly();
+                //FlyJet();
                 break;
             case DragonStates.Dismounted:
                 FlyAway();
@@ -333,6 +349,12 @@ public class DragonController : MonoBehaviour
 
     }
 
+    //TEST
+    void FlyJet()
+    {
+
+    }
+
 
     // Método para volar
     private void Fly()
@@ -347,14 +369,19 @@ public class DragonController : MonoBehaviour
         // Aplicar las rotaciones
         transform.Rotate(pitch, yaw, -roll, Space.Self); // Invertimos el roll para que gire de manera correcta
 
+        float targetDragonSpeed;
+
         // Actualizar la velocidad actual
         if (isAccelerating)
         {
-            currentDragonSpeed += acceleration * Time.deltaTime;            
+           targetDragonSpeed =  currentDragonSpeed + (acceleration * Time.deltaTime);            
+            currentDragonSpeed = Mathf.MoveTowards(currentDragonSpeed, targetDragonSpeed , ((acceleration + deceleration) ) * Time.deltaTime);
         }
         else if (isBraking)
         {
-            currentDragonSpeed -= deceleration * Time.deltaTime;
+           
+           targetDragonSpeed =  currentDragonSpeed - (deceleration * Time.deltaTime);            
+            currentDragonSpeed = Mathf.MoveTowards(currentDragonSpeed, targetDragonSpeed , ((acceleration + deceleration)) * Time.deltaTime);
         }
         else
         {
@@ -363,22 +390,62 @@ public class DragonController : MonoBehaviour
             {
                 currentDragonSpeed -= idleForce * Time.deltaTime;
                 if (currentDragonSpeed < idleFlyingSpeed)
-                    currentDragonSpeed = idleFlyingSpeed;
+                { 
+                    targetDragonSpeed = idleFlyingSpeed;
+                    currentDragonSpeed = Mathf.MoveTowards(currentDragonSpeed, targetDragonSpeed , ((acceleration + deceleration)) * Time.deltaTime);
+                }
             }
             else if (currentDragonSpeed < idleFlyingSpeed)
             {
                 currentDragonSpeed += idleForce * Time.deltaTime;
                 if (currentDragonSpeed > idleFlyingSpeed)
-                    currentDragonSpeed = idleFlyingSpeed;
+                {
+                    targetDragonSpeed = idleFlyingSpeed;
+                    currentDragonSpeed = Mathf.MoveTowards(currentDragonSpeed, targetDragonSpeed , ((acceleration + deceleration)) * Time.deltaTime);
+                }
             }
         }
 
+        //MIO
         // Limitar la velocidad actual entre 0 y la velocidad máxima
         currentDragonSpeed = Mathf.Clamp(currentDragonSpeed, minFlyingSpeed, maxFlyingSpeed);
 
         // Mover hacia adelante con la velocidad actual
-        transform.position += transform.forward * currentDragonSpeed * Time.deltaTime;
+        //transform.position += transform.forward * currentDragonSpeed * Time.deltaTime;
         //Probar con DragonRb.MovePosition, puede que así no cruce los colliders.
+
+
+        //TEST FLY JET
+        // Throttle has to move slowly so that the plane still accelerates slowly using high
+        // drag physics. Without them, the plane would change speed almost instantly.
+        // Apply forces to the plane.
+        dragonRB.AddRelativeForce(Vector3.forward * acceleration * FORCE_MULT, ForceMode.Force);
+        dragonRB.AddRelativeTorque(new Vector3(moveInput.x * turnTorques.x , moveInput.y * turnTorques.y, yawInput * turnTorques.z), ForceMode.Force);
+        //Debug.Log(((moveInput.x * turnTorques.x) + (moveInput.y * turnTorques.y) + (yawInput * turnTorques.z)) * FORCE_MULT);
+
+        // Apply magic forces when the plane is banked because it feels good. The principle
+        // is that the plane rotates in the direction you're banked. The more banked you are
+        // (up to a max of 90 degrees) the more it magically turns in that direction.
+
+        // This is a weird vector trick where I use the Y value of the plane's right to
+        // determine how banked it is. A value of -1/1 implies the plane is flying sideways
+        // It also automatically takes care of cases where the plane is flying straight up
+        // or down because in those situations your right would have negligible Y value.
+
+        float bankFactor = -transform.right.y;
+        
+        dragonRB.AddRelativeTorque(Vector3.up * bankFactor * bankTorque * FORCE_MULT, ForceMode.Force);
+    }
+
+    //TEST FLY JET
+    private Vector3 MultiplyByComponent(Vector3 a, Vector3 b)
+    {
+        Vector3 retVec = a;
+        retVec.x *= b.x;
+        retVec.y *= b.y;
+        retVec.z *= b.z;
+        Debug.Log(retVec);
+        return retVec;
     }
 
     //DISMOUNTED
@@ -479,7 +546,7 @@ public class DragonController : MonoBehaviour
             //Rotación y movimiento respecto a cámara
             Vector3 viewDir = transform.position - new Vector3(dragonLandVcam.transform.position.x, transform.position.y, dragonLandVcam.transform.position.z);
             orientation.forward = viewDir.normalized;
-            if(isGrounded)
+            if (isGrounded)
             {
 
                 Vector3 moveDirection = (orientation.right * moveInput.x) + (orientation.forward * moveInput.y);
@@ -491,7 +558,6 @@ public class DragonController : MonoBehaviour
                 //MovePosition Method
                 dragonRB.MovePosition(dragonRB.position + (moveDirection * speedOnLand) * Time.fixedDeltaTime);
             }
-            
         }
     }
     //LANDING UNMOUNTED
@@ -683,7 +749,7 @@ public class DragonController : MonoBehaviour
             //case DragonStates.Landed:
             //    break;
             case DragonStates.MountedLanded:
-                //PHYSICS
+                //PHYSICS  //TO DO: ARREGlar bug de dismount jump cuando acabo de saltar con el dragón. se queda congelado en el aire
                 dragonRB.isKinematic = true;
                 landedCollider.enabled = true;
                 SetDragonState(DragonStates.Landed);
