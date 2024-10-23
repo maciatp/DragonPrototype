@@ -304,7 +304,7 @@ public class PlayerController : MonoBehaviour
             {
                 if (moveDirection != Vector3.zero)
                 {
-                    playerObj.forward = Vector3.Slerp(playerObj.forward, moveDirection.normalized, Time.deltaTime * rotationSpeed);               
+                    playerObj.forward = Vector3.Slerp(playerObj.forward, moveDirection, Time.deltaTime * rotationSpeed);               
                 }
 
                 //MovePosition Method
