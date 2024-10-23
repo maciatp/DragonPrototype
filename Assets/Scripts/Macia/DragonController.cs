@@ -582,6 +582,8 @@ public class DragonController : MonoBehaviour
     {
         SetDragonState(DragonStates.Mounted);
 
+        //PHYSICS
+        dragonRB.isKinematic = false;
 
         playerController.MountDragon();
         //DRAGON CAM ON
