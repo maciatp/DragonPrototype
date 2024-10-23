@@ -253,7 +253,7 @@ public class DragonController : MonoBehaviour
         
         lastPosition = transform.position;
 
-        if (dragonState == DragonStates.Mounted && currentDragonSpeed < landingSpeedThreshold && isBraking)
+        if (dragonState == DragonStates.Mounted && currentDragonSpeed <= landingSpeedThreshold && isBraking)
         {
             // Selecciona un punto en el suelo delante del dragón.
             Vector3 forwardDirection = transform.forward;
