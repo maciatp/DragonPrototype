@@ -107,6 +107,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Hold"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pet"",
+                    ""type"": ""Button"",
+                    ""id"": ""0dcf0d5c-e882-44d2-8c3d-34251807db28"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -395,6 +404,28 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""LandDragon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""17a0da34-b59e-4716-9e61-0e7b45e53b6d"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pet"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7fc0384f-a50e-432b-ad8d-cf187841f94b"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pet"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -496,6 +527,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""name"": ""DragonJump"",
                     ""type"": ""Button"",
                     ""id"": ""1e8c4f8d-54c5-4fc8-a7f9-57255be6107a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PetDragonMounted"",
+                    ""type"": ""Button"",
+                    ""id"": ""9e20a558-a0b9-4c30-b011-40007f9a99c2"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -964,6 +1004,28 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""DragonJump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""91392c40-0fdd-4431-ba8a-5269c2d1e10e"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PetDragonMounted"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ef4cebdc-ef12-4fb7-855e-59838c3f3af9"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PetDragonMounted"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -981,6 +1043,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Foot_LookDragon = m_Foot.FindAction("LookDragon", throwIfNotFound: true);
         m_Foot_Paravela = m_Foot.FindAction("Paravela", throwIfNotFound: true);
         m_Foot_LandDragon = m_Foot.FindAction("LandDragon", throwIfNotFound: true);
+        m_Foot_Pet = m_Foot.FindAction("Pet", throwIfNotFound: true);
         // Dragon
         m_Dragon = asset.FindActionMap("Dragon", throwIfNotFound: true);
         m_Dragon_PitchRoll = m_Dragon.FindAction("PitchRoll", throwIfNotFound: true);
@@ -994,6 +1057,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Dragon_TakeOff = m_Dragon.FindAction("TakeOff", throwIfNotFound: true);
         m_Dragon_LandDragon = m_Dragon.FindAction("LandDragon", throwIfNotFound: true);
         m_Dragon_DragonJump = m_Dragon.FindAction("DragonJump", throwIfNotFound: true);
+        m_Dragon_PetDragonMounted = m_Dragon.FindAction("PetDragonMounted", throwIfNotFound: true);
     }
 
     ~@InputActions()
@@ -1070,6 +1134,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Foot_LookDragon;
     private readonly InputAction m_Foot_Paravela;
     private readonly InputAction m_Foot_LandDragon;
+    private readonly InputAction m_Foot_Pet;
     public struct FootActions
     {
         private @InputActions m_Wrapper;
@@ -1083,6 +1148,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @LookDragon => m_Wrapper.m_Foot_LookDragon;
         public InputAction @Paravela => m_Wrapper.m_Foot_Paravela;
         public InputAction @LandDragon => m_Wrapper.m_Foot_LandDragon;
+        public InputAction @Pet => m_Wrapper.m_Foot_Pet;
         public InputActionMap Get() { return m_Wrapper.m_Foot; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1119,6 +1185,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @LandDragon.started += instance.OnLandDragon;
             @LandDragon.performed += instance.OnLandDragon;
             @LandDragon.canceled += instance.OnLandDragon;
+            @Pet.started += instance.OnPet;
+            @Pet.performed += instance.OnPet;
+            @Pet.canceled += instance.OnPet;
         }
 
         private void UnregisterCallbacks(IFootActions instance)
@@ -1150,6 +1219,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @LandDragon.started -= instance.OnLandDragon;
             @LandDragon.performed -= instance.OnLandDragon;
             @LandDragon.canceled -= instance.OnLandDragon;
+            @Pet.started -= instance.OnPet;
+            @Pet.performed -= instance.OnPet;
+            @Pet.canceled -= instance.OnPet;
         }
 
         public void RemoveCallbacks(IFootActions instance)
@@ -1182,6 +1254,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Dragon_TakeOff;
     private readonly InputAction m_Dragon_LandDragon;
     private readonly InputAction m_Dragon_DragonJump;
+    private readonly InputAction m_Dragon_PetDragonMounted;
     public struct DragonActions
     {
         private @InputActions m_Wrapper;
@@ -1197,6 +1270,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @TakeOff => m_Wrapper.m_Dragon_TakeOff;
         public InputAction @LandDragon => m_Wrapper.m_Dragon_LandDragon;
         public InputAction @DragonJump => m_Wrapper.m_Dragon_DragonJump;
+        public InputAction @PetDragonMounted => m_Wrapper.m_Dragon_PetDragonMounted;
         public InputActionMap Get() { return m_Wrapper.m_Dragon; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1239,6 +1313,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @DragonJump.started += instance.OnDragonJump;
             @DragonJump.performed += instance.OnDragonJump;
             @DragonJump.canceled += instance.OnDragonJump;
+            @PetDragonMounted.started += instance.OnPetDragonMounted;
+            @PetDragonMounted.performed += instance.OnPetDragonMounted;
+            @PetDragonMounted.canceled += instance.OnPetDragonMounted;
         }
 
         private void UnregisterCallbacks(IDragonActions instance)
@@ -1276,6 +1353,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @DragonJump.started -= instance.OnDragonJump;
             @DragonJump.performed -= instance.OnDragonJump;
             @DragonJump.canceled -= instance.OnDragonJump;
+            @PetDragonMounted.started -= instance.OnPetDragonMounted;
+            @PetDragonMounted.performed -= instance.OnPetDragonMounted;
+            @PetDragonMounted.canceled -= instance.OnPetDragonMounted;
         }
 
         public void RemoveCallbacks(IDragonActions instance)
@@ -1304,6 +1384,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnLookDragon(InputAction.CallbackContext context);
         void OnParavela(InputAction.CallbackContext context);
         void OnLandDragon(InputAction.CallbackContext context);
+        void OnPet(InputAction.CallbackContext context);
     }
     public interface IDragonActions
     {
@@ -1318,5 +1399,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnTakeOff(InputAction.CallbackContext context);
         void OnLandDragon(InputAction.CallbackContext context);
         void OnDragonJump(InputAction.CallbackContext context);
+        void OnPetDragonMounted(InputAction.CallbackContext context);
     }
 }

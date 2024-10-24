@@ -85,6 +85,15 @@
                     "processors": "",
                     "interactions": "Hold",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Pet",
+                    "type": "Button",
+                    "id": "0dcf0d5c-e882-44d2-8c3d-34251807db28",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -373,6 +382,28 @@
                     "action": "LandDragon",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "17a0da34-b59e-4716-9e61-0e7b45e53b6d",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pet",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7fc0384f-a50e-432b-ad8d-cf187841f94b",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pet",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -474,6 +505,15 @@
                     "name": "DragonJump",
                     "type": "Button",
                     "id": "1e8c4f8d-54c5-4fc8-a7f9-57255be6107a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PetDragonMounted",
+                    "type": "Button",
+                    "id": "9e20a558-a0b9-4c30-b011-40007f9a99c2",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -940,6 +980,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "DragonJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "91392c40-0fdd-4431-ba8a-5269c2d1e10e",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PetDragonMounted",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ef4cebdc-ef12-4fb7-855e-59838c3f3af9",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PetDragonMounted",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
