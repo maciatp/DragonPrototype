@@ -78,6 +78,10 @@ public class DragonController : MonoBehaviour
     //MOUNT ON JUMP
     [SerializeField] CapsuleCollider mountCollider;
 
+    //PET
+    [SerializeField] SpriteRenderer heartRenderer;
+    bool isPetable = false;
+
  
 
     private Vector2 moveInput; // Input del joystick izquierdo (pitch y roll)
@@ -114,6 +118,10 @@ public class DragonController : MonoBehaviour
     public bool IsMountable
     {
         get { return isMountable; }
+    }
+    public bool IsPetable
+    {
+        get { return isPetable; }
     }
 
     // Input para mover el dragón (joystick izquierdo)
@@ -208,16 +216,15 @@ public class DragonController : MonoBehaviour
         }
     }
 
-    public void DragonJump()
+   
+
+    //PET
+    public void OnPetDragonMounted(InputAction.CallbackContext petDragonMountedContext)
     {
-        // Obtener la dirección en la que mira la cámara, sin afectar el eje Y (plano horizontal)
-        Vector3 jumpDirection = (Camera.main.transform.right * moveInput.x) + (Camera.main.transform.forward * moveInput.y);
-        jumpDirection.y = 0; // Asegurarse de que la dirección sea sólo en el plano XZ
-
-
-        // Aplicar la fuerza hacia arriba
-        dragonRB.AddForce(jumpDirection * speedOnLand + Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
-
+        if(petDragonMountedContext.action.triggered && isPetable)
+        {
+            StartCoroutine(PetDragon());
+        }
     }
 
     private void Awake()
@@ -502,6 +509,18 @@ public class DragonController : MonoBehaviour
             
         }
     }
+    //JUMP
+    public void DragonJump()
+    {
+        // Obtener la dirección en la que mira la cámara, sin afectar el eje Y (plano horizontal)
+        Vector3 jumpDirection = (Camera.main.transform.right * moveInput.x) + (Camera.main.transform.forward * moveInput.y);
+        jumpDirection.y = 0; // Asegurarse de que la dirección sea sólo en el plano XZ
+
+
+        // Aplicar la fuerza hacia arriba
+        dragonRB.AddForce(jumpDirection * speedOnLand + Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
+
+    }
     //LANDING UNMOUNTED
     public void CallDragonToLand()
     {
@@ -641,6 +660,9 @@ public class DragonController : MonoBehaviour
         //DEACTIVATE TRIGGERS
         DeactivateTriggers();
 
+        //PET
+        isPetable = true;
+
         isMountable = false;
         dragonRB.isKinematic = false;
     }
@@ -738,6 +760,18 @@ public class DragonController : MonoBehaviour
         dragonRB.isKinematic = true;
     }
 
+
+    //PET
+    public IEnumerator PetDragon()
+    {
+        isPetable = false;
+        heartRenderer.gameObject.SetActive(true);
+        yield return new WaitForSecondsRealtime(4);
+        heartRenderer.gameObject.SetActive(false);        
+        isPetable = true;
+        yield return null;
+    }
+
     //SET DRAGON STATE
     public void SetDragonState(DragonStates _dragonState)
     {
@@ -778,6 +812,7 @@ public class DragonController : MonoBehaviour
             {
                 //CAN MOUNT
                 isMountable = true;
+                isPetable = true;
             }
         }
     }
@@ -789,6 +824,7 @@ public class DragonController : MonoBehaviour
             {
                 //CAN'T MOUNT
                 isMountable = false;
+                isPetable = false;
             }
         }
     }

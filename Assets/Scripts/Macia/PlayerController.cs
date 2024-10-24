@@ -224,6 +224,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void OnPetDragon(InputAction.CallbackContext petDragonContext)
+    {
+        if(petDragonContext.action.triggered && dragonController.IsPetable)
+        {
+            StartCoroutine(dragonController.PetDragon());
+        }
+    }
+
     //UPDATE
     private void Update()
     {
