@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] CinemachineFreeLook freeLookPlayerCamera;
     float playerCameraOriginalPriority;
     private Rigidbody playerRb;
-
+    [SerializeField] ParticleSystem particles;
 
     //Paravela
     [SerializeField] float paravelaMovementSpeed = 6f;
@@ -136,13 +136,16 @@ public class PlayerController : MonoBehaviour
 
     public void OnDive(InputAction.CallbackContext diveContext) //sólo true cuando el botón está pulsado (no hold)
     {
+        ParticleSystem.TrailModule particleTrail = particles.trails;
         if (diveContext.action.IsPressed()) //mira si está presionado
         {
             isDiving = true;
+            particleTrail.ratio = 0.8f;
         }
         if (diveContext.action.WasReleasedThisFrame()) //mira si se ha soltado el botón
         {
             isDiving = false;
+            particleTrail.ratio = 0.4f;
         }
     }
 
@@ -361,7 +364,10 @@ public class PlayerController : MonoBehaviour
         
         SetPlayerState(PlayerStates.BigFall);
         playerRb.useGravity = false;
-        
+
+        //PARTICLES  TRAILS ON
+        particles.gameObject.SetActive(true);
+
         //DIVE DEBUG
         trail.enabled = true;
     }
@@ -417,6 +423,9 @@ public class PlayerController : MonoBehaviour
         {
             trail.enabled = false;
         }
+
+        //PARTICLES  TRAILS OFF
+        particles.gameObject.SetActive(false);
     }
 
     //DRAGON
@@ -448,6 +457,9 @@ public class PlayerController : MonoBehaviour
         //CAMERA CHANGE
         freeLookPlayerCamera.Priority = 0;
         dragonController.SetDragonCamera();
+
+        //PARTICLES OFF
+        particles.gameObject.SetActive(false);
 
         //DIVE TESTING
         trail.enabled = false;
@@ -487,8 +499,10 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, playerObj.transform.localEulerAngles.y, transform.rotation.eulerAngles.z);        
             playerObj.localRotation = Quaternion.identity;
         }
-        
-        
+
+        //PARTICLES  TRAILS OFF
+        particles.gameObject.SetActive(false);
+
         SetPlayerState(PlayerStates.Paravela);
         playerRb.useGravity = true; // para que caiga
         playerRb.velocity = Vector3.zero;
