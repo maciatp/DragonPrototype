@@ -556,7 +556,7 @@ MonoBehaviour:
   particles: {fileID: 5975245167065139386}
   paravelaMovementSpeed: 8
   paravelaFallingSpeed: -2.25
-  paravelaRotationSpeed: 0.5
+  paravelaRotationSpeed: 0.7
   totalParavelaStamina: 8
   paravelaGO: {fileID: 3782575770865407869}
   diveColor: {r: 1, g: 0.5280086, b: 0, a: 0.6117647}
