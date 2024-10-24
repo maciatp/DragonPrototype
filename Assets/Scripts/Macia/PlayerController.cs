@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 using Cinemachine;
 using JetBrains.Annotations;
 using UnityEditor;
-using static UnityEditor.Timeline.TimelinePlaybackControls;
+
 
 public class PlayerController : MonoBehaviour
 {
