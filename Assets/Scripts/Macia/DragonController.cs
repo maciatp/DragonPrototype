@@ -82,6 +82,8 @@ public class DragonController : MonoBehaviour
     [SerializeField] SpriteRenderer heartRenderer;
     bool isPetable = false;
 
+    //PARTICLES
+    [SerializeField] ParticleSystem dragonParticles;
  
 
     private Vector2 moveInput; // Input del joystick izquierdo (pitch y roll)
@@ -156,26 +158,33 @@ public class DragonController : MonoBehaviour
     // Input para acelerar
     public void OnAccelerate(InputAction.CallbackContext accelerateContext)
     {
+        ParticleSystem.TrailModule particleTrail = dragonParticles.trails;
         if (accelerateContext.action.IsPressed())
         {
             isAccelerating = true;
+            particleTrail.ratio = 0.8f;
+
         }
         if (accelerateContext.action.WasReleasedThisFrame())
         {
             isAccelerating = false;
+            particleTrail.ratio = 0.2f;
         }
     }
 
     // Input para frenar
     public void OnBrake(InputAction.CallbackContext brakeContext)
     {
+        ParticleSystem.TrailModule particleTrail = dragonParticles.trails;
         if (brakeContext.action.IsPressed())
         {
             isBraking = true;
+            particleTrail.ratio = 0;
         }
         if (brakeContext.action.WasReleasedThisFrame())
         {
             isBraking = false;
+            particleTrail.ratio = 0.2f;
         }
     }
 
@@ -260,6 +269,8 @@ public class DragonController : MonoBehaviour
         
         lastPosition = transform.position; // TO DO METER ESTA LINEA Y UPDATE EN UN SWITCH
 
+
+        //LANDING
         if (dragonState == DragonStates.Mounted && currentDragonSpeed <= landingSpeedThreshold && isBraking)
         {
             // Selecciona un punto en el suelo delante del dragón.
@@ -599,8 +610,15 @@ public class DragonController : MonoBehaviour
         //Igualo rotación del gameobject padre al interno        
         dragonObj.localRotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
         transform.rotation = Quaternion.Euler(0, 0, 0);
+        
+        //COLLIDERS
         landedCollider.enabled = true;
         calledCollider.enabled = false;
+
+        //PARTICLES
+        dragonParticles.gameObject.SetActive(false);
+
+        //CAMERA
         SetDragonCamera();
     }
 
@@ -618,6 +636,9 @@ public class DragonController : MonoBehaviour
 
         //DEACTIVATE TRIGGERS
         DeactivateTriggers();
+
+        //PARTICLES
+        dragonParticles.gameObject.SetActive(true);
 
     }
 
@@ -684,6 +705,10 @@ public class DragonController : MonoBehaviour
         //Igualo rotación del gameobject padre al interno para que el dragón despegue en la dirección que mira.        
         dragonObj.localRotation = Quaternion.Euler(0, 0, 0);
         SetDragonCamera();
+
+
+        //PARTICLES
+        dragonParticles.gameObject.SetActive(true);
     }
 
     public void SendTakeOff()
@@ -731,6 +756,12 @@ public class DragonController : MonoBehaviour
 
         //Dragon CAM OFF
         SetDragonCamera();
+
+        //PARTICLEs
+        if(dragonParticles.gameObject.activeSelf)
+        {
+            dragonParticles.gameObject.SetActive(false);
+        }
     }
     private IEnumerator MountTriggerCoroutine()
     {
