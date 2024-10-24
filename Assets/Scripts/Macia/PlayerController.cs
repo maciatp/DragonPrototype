@@ -545,24 +545,27 @@ public class PlayerController : MonoBehaviour
     }
     private void ParavelaMovement()
     {
-        //Rotación para ponerse derecho
+        // Rotación para ponerse derecho
         playerObj.forward = Vector3.Slerp(playerObj.forward, transform.forward, Time.fixedDeltaTime * rotationSpeed);
 
-        // Rotación del jugador hacia donde mira la cámara (horizontalmente)
+        // Dirección del joystick con respecto a la orientación de la cámara
         Vector3 viewDir = transform.position - new Vector3(freeLookPlayerCamera.transform.position.x, transform.position.y, freeLookPlayerCamera.transform.position.z);
         orientation.forward = viewDir.normalized;
-        Vector3 targetDirection = orientation.forward;
+        Vector3 moveDirection = (orientation.right * moveInput.x) + (orientation.forward * moveInput.y);
 
-        // Rotación gradual hacia la cámara
-        transform.forward = Vector3.Slerp(transform.forward, targetDirection, Time.fixedDeltaTime * paravelaRotationSpeed);
+        if (moveDirection.sqrMagnitude > 0.01f)
+        {
+            // Rotación gradual hacia la dirección de movimiento
+            transform.forward = Vector3.Slerp(transform.forward, moveDirection, Time.fixedDeltaTime * paravelaRotationSpeed);
+        }
 
         // Movimiento paralelo al suelo en la dirección del joystick
-        Vector3 moveDirection = (orientation.right * moveInput.x) + (orientation.forward * moveInput.y);
         playerRb.MovePosition(playerRb.position + moveDirection * paravelaMovementSpeed * Time.fixedDeltaTime);
 
         // Limitar la velocidad de caída para simular que está usando la paravela
         playerRb.velocity = new Vector3(playerRb.velocity.x, Mathf.Max(playerRb.velocity.y, paravelaFallingSpeed), playerRb.velocity.z); // Limita la caída para que no baje rápido
     }
+
 
 
     private void SetPlayerState(PlayerStates newPlayerState)
