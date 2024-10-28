@@ -56,6 +56,7 @@ public class PlayerController : MonoBehaviour
     Color normalColor;
     [SerializeField] Color diveColor;
 
+
     public enum PlayerStates
     {
         Normal,
@@ -229,7 +230,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnPetDragon(InputAction.CallbackContext petDragonContext)
     {
-        if(petDragonContext.action.triggered && dragonController.IsPetable)
+        if(petDragonContext.action.triggered && dragonController.IsPetable && dragonController.IsMountable)
         {
             StartCoroutine(dragonController.PetDragon());
         }
@@ -342,6 +343,8 @@ public class PlayerController : MonoBehaviour
         // Aplicar la fuerza hacia arriba
         playerRb.AddForce(jumpDirection * moveSpeed + Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
 
+        
+
     }
     public void Jump(float forwardForce)
     {
@@ -352,6 +355,8 @@ public class PlayerController : MonoBehaviour
 
         // Aplicar la fuerza hacia arriba y hacia adelante
         playerRb.AddForce(jumpDirection * forwardForce + Vector3.up * Mathf.Sqrt(jumpHeight*1.5f * -2f * Physics.gravity.y), ForceMode.VelocityChange);
+
+       
     }
 
 
