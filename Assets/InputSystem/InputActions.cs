@@ -408,7 +408,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""17a0da34-b59e-4716-9e61-0e7b45e53b6d"",
-                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -511,7 +511,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""id"": ""0a80c458-13dd-4679-ad2c-37cb40b9b353"",
                     ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": ""MultiTap(tapCount=5)"",
+                    ""interactions"": ""MultiTap(tapCount=3)"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -1008,7 +1008,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""91392c40-0fdd-4431-ba8a-5269c2d1e10e"",
-                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
