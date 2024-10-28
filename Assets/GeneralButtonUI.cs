@@ -191,6 +191,8 @@ public class GeneralButtonUI : MonoBehaviour
                             southButtonText.text = "Take-Off (Smash)";
                             southButtonText.color = availableColor;
                         }
+                        leftTriggerText.text = " ";
+                        rightTriggerText.text = " ";
                         rightTopButtonText.text = " ";
                         leftTopButtonText.text = " ";
                         break;
