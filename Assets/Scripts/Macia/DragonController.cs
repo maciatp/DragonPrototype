@@ -80,7 +80,7 @@ public class DragonController : MonoBehaviour
 
     //PET
     [SerializeField] SpriteRenderer heartRenderer;
-    bool isPetable = false;
+    bool isPetable = true;
 
     //PARTICLES
     [SerializeField] ParticleSystem dragonParticles;
@@ -125,7 +125,10 @@ public class DragonController : MonoBehaviour
     {
         get { return isPetable; }
     }
-
+    public bool CanDragonLand
+    {
+        get { return canLand; }
+    }
     // Input para mover el dragón (joystick izquierdo)
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -863,7 +866,7 @@ public class DragonController : MonoBehaviour
     //UIDEBUG
     
 
-    public bool GetDragonGrounded
+    public bool IsDragonGrounded
     {
         get { return isGrounded; }
     }

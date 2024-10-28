@@ -79,7 +79,7 @@ public class UIDebug : MonoBehaviour
         dragonState.text = dragonController.GetDragonState.ToString();
         if(dragonController.GetDragonState == DragonController.DragonStates.Landed || dragonController.GetDragonState == DragonController.DragonStates.MountedLanded)
         {
-            if(dragonController.GetDragonGrounded)
+            if(dragonController.IsDragonGrounded)
             {
                 dragonGrounded.text = "Grounded";
                 dragonGrounded.color = Color.white;
