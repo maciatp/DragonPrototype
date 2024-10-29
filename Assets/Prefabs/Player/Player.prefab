@@ -517,6 +517,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 9e20a558-a0b9-4c30-b011-40007f9a99c2
     m_ActionName: Dragon/PetDragonMounted[/XInputControllerWindows/dpad/up,/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3733621922552275211}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnWingsuit
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9e9f84f5-5460-4ddd-907d-c4ff4eae7ab6
+    m_ActionName: Foot/Wingsuit[/XInputControllerWindows/buttonSouth,/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3733621922552275211}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnWingsuitMove
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b70de538-9e78-4548-b67c-05190853e189
+    m_ActionName: Foot/WingsuitMove[/XInputControllerWindows/leftStick,/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Foot
@@ -559,6 +591,11 @@ MonoBehaviour:
   paravelaRotationSpeed: 0.7
   totalParavelaStamina: 8
   paravelaGO: {fileID: 3782575770865407869}
+  wingsuitAcceleration: 1.2
+  wingsuitDeceleration: 1
+  wingsuitTurnSpeed: 10
+  stableWingsuitSpeed: 20
+  descentThreshold: 0.001
   diveColor: {r: 1, g: 0.5280086, b: 0, a: 0.6117647}
 --- !u!54 &3669470022926248162
 Rigidbody:
