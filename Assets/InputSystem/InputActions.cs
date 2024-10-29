@@ -116,6 +116,24 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Wingsuit"",
+                    ""type"": ""Button"",
+                    ""id"": ""9e9f84f5-5460-4ddd-907d-c4ff4eae7ab6"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""WingsuitMove"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""b70de538-9e78-4548-b67c-05190853e189"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": ""InvertVector2(invertX=false),NormalizeVector2"",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -426,6 +444,138 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Pet"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2e203813-bd2d-4ae9-a512-c85fa4fa4a32"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Wingsuit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5a6f4c8a-dc71-4ec3-9744-f7cce61919ad"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Wingsuit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6c427bc9-f34a-4f50-af7d-444a2c4931dc"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WingsuitMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""7a3ea2de-f1b8-4fa9-8dfa-a0489f8bb74d"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WingsuitMove"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""7e44d2e7-e9b4-4c4b-8f8c-0d32760fb2b8"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WingsuitMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""64420d73-77e0-44ef-a31f-59496cd1d646"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WingsuitMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""73a986d5-703a-4ea0-ba82-c7a7ff420092"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WingsuitMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""23b7b2ee-3641-4578-ab54-5e1bef6cde11"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WingsuitMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""26a16b16-2f6c-42cf-9ed1-f2a7f62d6470"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WingsuitMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""9f835852-eb88-443b-9739-27a063bf85c3"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WingsuitMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""952fd30a-e478-4695-871e-9e88a0be2ee4"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WingsuitMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""bc8ec5d1-8f01-4f4d-8613-61378ffbe4c9"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WingsuitMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -1044,6 +1194,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Foot_Paravela = m_Foot.FindAction("Paravela", throwIfNotFound: true);
         m_Foot_LandDragon = m_Foot.FindAction("LandDragon", throwIfNotFound: true);
         m_Foot_Pet = m_Foot.FindAction("Pet", throwIfNotFound: true);
+        m_Foot_Wingsuit = m_Foot.FindAction("Wingsuit", throwIfNotFound: true);
+        m_Foot_WingsuitMove = m_Foot.FindAction("WingsuitMove", throwIfNotFound: true);
         // Dragon
         m_Dragon = asset.FindActionMap("Dragon", throwIfNotFound: true);
         m_Dragon_PitchRoll = m_Dragon.FindAction("PitchRoll", throwIfNotFound: true);
@@ -1135,6 +1287,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Foot_Paravela;
     private readonly InputAction m_Foot_LandDragon;
     private readonly InputAction m_Foot_Pet;
+    private readonly InputAction m_Foot_Wingsuit;
+    private readonly InputAction m_Foot_WingsuitMove;
     public struct FootActions
     {
         private @InputActions m_Wrapper;
@@ -1149,6 +1303,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Paravela => m_Wrapper.m_Foot_Paravela;
         public InputAction @LandDragon => m_Wrapper.m_Foot_LandDragon;
         public InputAction @Pet => m_Wrapper.m_Foot_Pet;
+        public InputAction @Wingsuit => m_Wrapper.m_Foot_Wingsuit;
+        public InputAction @WingsuitMove => m_Wrapper.m_Foot_WingsuitMove;
         public InputActionMap Get() { return m_Wrapper.m_Foot; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1188,6 +1344,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Pet.started += instance.OnPet;
             @Pet.performed += instance.OnPet;
             @Pet.canceled += instance.OnPet;
+            @Wingsuit.started += instance.OnWingsuit;
+            @Wingsuit.performed += instance.OnWingsuit;
+            @Wingsuit.canceled += instance.OnWingsuit;
+            @WingsuitMove.started += instance.OnWingsuitMove;
+            @WingsuitMove.performed += instance.OnWingsuitMove;
+            @WingsuitMove.canceled += instance.OnWingsuitMove;
         }
 
         private void UnregisterCallbacks(IFootActions instance)
@@ -1222,6 +1384,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Pet.started -= instance.OnPet;
             @Pet.performed -= instance.OnPet;
             @Pet.canceled -= instance.OnPet;
+            @Wingsuit.started -= instance.OnWingsuit;
+            @Wingsuit.performed -= instance.OnWingsuit;
+            @Wingsuit.canceled -= instance.OnWingsuit;
+            @WingsuitMove.started -= instance.OnWingsuitMove;
+            @WingsuitMove.performed -= instance.OnWingsuitMove;
+            @WingsuitMove.canceled -= instance.OnWingsuitMove;
         }
 
         public void RemoveCallbacks(IFootActions instance)
@@ -1385,6 +1553,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnParavela(InputAction.CallbackContext context);
         void OnLandDragon(InputAction.CallbackContext context);
         void OnPet(InputAction.CallbackContext context);
+        void OnWingsuit(InputAction.CallbackContext context);
+        void OnWingsuitMove(InputAction.CallbackContext context);
     }
     public interface IDragonActions
     {
