@@ -386,37 +386,39 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //WINGSUIT
+    //WINGSUIT    
     private void WingsuitMovement()
     {
-        // Aumenta la velocidad cuando el jugador apunta hacia abajo, reduce si intenta ganar altura
+        // Factor de descenso para controlar aceleración/desaceleración
         float descentFactor = Mathf.Clamp01(Vector3.Dot(transform.forward, Vector3.down));
-        //wingsuitSpeed += descentFactor * wingsuitAcceleration * Time.fixedDeltaTime;
 
-        // Dirección de movimiento basada en la rotación de la cámara y el input del jugador
+        // Crear la dirección de movimiento en base a la cámara y el input del jugador, con un efecto de inercia
         Vector3 moveDirection = (orientation.right * moveInput.x) + (orientation.up * moveInput.y);
+        moveDirection = Vector3.Slerp(transform.forward, moveDirection, Time.fixedDeltaTime * wingsuitTurnSpeed * 0.5f); // Añade inercia al giro
         transform.forward = Vector3.Slerp(transform.forward, moveDirection, Time.fixedDeltaTime * wingsuitTurnSpeed);
 
-        // Aplicar el movimiento
+        // Aplicar el movimiento con inercia en la velocidad
         transform.position += transform.forward * wingsuitSpeed * Time.fixedDeltaTime;
 
-        // Controla el descenso y la estabilidad
+        // Controlar la velocidad en función del ángulo de descenso
         if (descentFactor < descentThreshold)
         {
-            wingsuitSpeed = Mathf.Lerp(wingsuitSpeed, minWingsuitSpeed, Time.fixedDeltaTime * wingsuitDeceleration );// /(descentFactor*1000));
+            wingsuitSpeed = Mathf.Lerp(wingsuitSpeed, minWingsuitSpeed, Time.fixedDeltaTime * wingsuitDeceleration * 0.5f);
         }
-        else if(descentFactor > descentThreshold)
+        else if (descentFactor > descentThreshold)
         {
-            wingsuitSpeed = Mathf.Lerp(wingsuitSpeed, maxWingsuitSpeed, Time.fixedDeltaTime * wingsuitAcceleration);// /descentFactor*1000);
-
+            wingsuitSpeed = Mathf.Lerp(wingsuitSpeed, maxWingsuitSpeed, Time.fixedDeltaTime * wingsuitAcceleration * 0.7f);
         }
 
-        if(wingsuitSpeed < minWingsuitSpeed+1)
+        // Ajustar la rotación hacia abajo en bajas velocidades
+        if (wingsuitSpeed < minWingsuitSpeed + 1)
         {
-            transform.forward = Vector3.Slerp(transform.forward, Vector3.down, Time.fixedDeltaTime*wingsuitTurnSpeed);
+            transform.forward = Vector3.Slerp(transform.forward, Vector3.down, Time.fixedDeltaTime * wingsuitTurnSpeed * 0.5f);
         }
+
         wingsuitSpeed = Mathf.Clamp(wingsuitSpeed, minWingsuitSpeed, maxWingsuitSpeed);
     }
+
 
 
     //JUMP
