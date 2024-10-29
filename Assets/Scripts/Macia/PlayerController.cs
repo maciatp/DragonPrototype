@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using Cinemachine;
 using JetBrains.Annotations;
 using UnityEditor;
+using Unity.VisualScripting;
 
 
 public class PlayerController : MonoBehaviour
@@ -45,6 +46,17 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] GameObject paravelaGO;
 
+    //WINGSUIT
+    float wingsuitSpeed;
+    [SerializeField] float wingsuitAcceleration = 20f;
+    [SerializeField] float wingsuitDeceleration = 8f;
+    float minWingsuitSpeed = 5;
+    float maxWingsuitSpeed = 65f;
+    [SerializeField] float wingsuitTurnSpeed  = 1f;
+    [SerializeField] float stableWingsuitSpeed  = 20f;
+    [SerializeField] float descentThreshold = -50f;
+
+
     [Header("Dragon")]
     DragonController dragonController;
 
@@ -62,7 +74,8 @@ public class PlayerController : MonoBehaviour
         Normal,
         BigFall,
         OnDragon,
-        Paravela
+        Paravela,
+        Wingsuit
     }
     public PlayerStates GetPlayerState
     {
@@ -110,7 +123,10 @@ public class PlayerController : MonoBehaviour
     //CONTROLS
     public void OnMove(InputAction.CallbackContext movementContext) //AÑADIDO A PLAYER INPUT MEDIANTE EVENTOS
     {
-        moveInput = movementContext.ReadValue<Vector2>();
+        if(playerState != PlayerStates.Wingsuit)
+        {
+            moveInput = movementContext.ReadValue<Vector2>();
+        }
     }
 
     public void OnJump(InputAction.CallbackContext jumpContext)
@@ -236,6 +252,29 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //WINGSUIT
+    public void OnWingsuit(InputAction.CallbackContext wingsuitContext)
+    {
+        if(wingsuitContext.action.triggered && playerState == PlayerStates.BigFall)
+        {
+            EnableWingsuit();
+        }
+    }
+
+    public void OnWingsuitMove(InputAction.CallbackContext wingsuitMoveContext)
+    {
+        if(playerState == PlayerStates.Wingsuit)
+        {
+            moveInput = wingsuitMoveContext.ReadValue<Vector2>();
+        }
+    }
+
+    void EnableWingsuit()
+    {
+        Debug.Log("Wingsuit");
+        SetPlayerState(PlayerStates.Wingsuit);
+    }
+
     //UPDATE
     private void Update()
     {
@@ -286,19 +325,34 @@ public class PlayerController : MonoBehaviour
     {
         Yspeed = playerRb.velocity.y; //DEBUG
 
-        if (playerState == PlayerStates.Normal)
-        {
-            Move();
-        }
+     
 
-        if (!isGrounded && playerState == PlayerStates.BigFall)
-        {
-            BigFallMovement();
-        }
+        
 
-        if (playerState == PlayerStates.Paravela)
+        
+
+
+        switch (playerState)
         {
-            ParavelaMovement();
+            case PlayerStates.Normal:
+                Move();
+                break;
+            case PlayerStates.BigFall:
+                if(!isGrounded)
+                {  
+                    BigFallMovement(); 
+                }
+                break;
+            case PlayerStates.OnDragon:
+                break;
+            case PlayerStates.Paravela:
+                ParavelaMovement();
+                break;
+            case PlayerStates.Wingsuit:
+                WingsuitMovement();
+                break;
+            default:
+                break;
         }
     }
 
@@ -331,6 +385,39 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    //WINGSUIT
+    private void WingsuitMovement()
+    {
+        // Aumenta la velocidad cuando el jugador apunta hacia abajo, reduce si intenta ganar altura
+        float descentFactor = Mathf.Clamp01(Vector3.Dot(transform.forward, Vector3.down));
+        //wingsuitSpeed += descentFactor * wingsuitAcceleration * Time.fixedDeltaTime;
+
+        // Dirección de movimiento basada en la rotación de la cámara y el input del jugador
+        Vector3 moveDirection = (orientation.right * moveInput.x) + (orientation.up * moveInput.y);
+        transform.forward = Vector3.Slerp(transform.forward, moveDirection, Time.fixedDeltaTime * wingsuitTurnSpeed);
+
+        // Aplicar el movimiento
+        transform.position += transform.forward * wingsuitSpeed * Time.fixedDeltaTime;
+
+        // Controla el descenso y la estabilidad
+        if (descentFactor < descentThreshold)
+        {
+            wingsuitSpeed = Mathf.Lerp(wingsuitSpeed, minWingsuitSpeed, Time.fixedDeltaTime * wingsuitDeceleration );// /(descentFactor*1000));
+        }
+        else if(descentFactor > descentThreshold)
+        {
+            wingsuitSpeed = Mathf.Lerp(wingsuitSpeed, maxWingsuitSpeed, Time.fixedDeltaTime * wingsuitAcceleration);// /descentFactor*1000);
+
+        }
+
+        if(wingsuitSpeed < minWingsuitSpeed+1)
+        {
+            transform.forward = Vector3.Slerp(transform.forward, Vector3.down, Time.fixedDeltaTime*wingsuitTurnSpeed);
+        }
+        wingsuitSpeed = Mathf.Clamp(wingsuitSpeed, minWingsuitSpeed, maxWingsuitSpeed);
+    }
+
 
     //JUMP
     public void Jump()
@@ -592,5 +679,6 @@ public class PlayerController : MonoBehaviour
     {
         get { return playerRb; }
     }
-    
+
+  
 }
