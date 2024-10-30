@@ -50,8 +50,8 @@ public class PlayerController : MonoBehaviour
     float wingsuitSpeed;
     [SerializeField] float wingsuitAcceleration = 20f;
     [SerializeField] float wingsuitDeceleration = 8f;
-    float minWingsuitSpeed = 5;
-    float maxWingsuitSpeed = 65f;
+    [SerializeField] float minWingsuitSpeed = 5;
+    [SerializeField] float maxWingsuitSpeed = 65f;
     [SerializeField] float wingsuitTurnSpeed  = 1f;
     [SerializeField] float stableWingsuitSpeed  = 20f;
     [SerializeField] float descentThreshold = -50f;
@@ -271,6 +271,7 @@ public class PlayerController : MonoBehaviour
 
     void EnableWingsuit()
     {
+        wingsuitSpeed = stableWingsuitSpeed;
         Debug.Log("Wingsuit");
         SetPlayerState(PlayerStates.Wingsuit);
     }
@@ -392,23 +393,27 @@ public class PlayerController : MonoBehaviour
         // Factor de descenso para controlar aceleración/desaceleración
         float descentFactor = Mathf.Clamp01(Vector3.Dot(transform.forward, Vector3.down));
 
-        // Crear la dirección de movimiento en base a la cámara y el input del jugador, con un efecto de inercia
+        // Crear la dirección de movimiento en base a la cámara y el input del jugador
         Vector3 moveDirection = (orientation.right * moveInput.x) + (orientation.up * moveInput.y);
-        moveDirection = Vector3.Slerp(transform.forward, moveDirection, Time.fixedDeltaTime * wingsuitTurnSpeed * 0.5f); // Añade inercia al giro
+        moveDirection = Vector3.Slerp(transform.forward, moveDirection, Time.fixedDeltaTime * wingsuitTurnSpeed * 0.5f);
         transform.forward = Vector3.Slerp(transform.forward, moveDirection, Time.fixedDeltaTime * wingsuitTurnSpeed);
 
         // Aplicar el movimiento con inercia en la velocidad
         transform.position += transform.forward * wingsuitSpeed * Time.fixedDeltaTime;
 
-        // Controlar la velocidad en función del ángulo de descenso
-        if (descentFactor < descentThreshold)
+        // Determina el ángulo de ataque (pitch) y controla la velocidad
+        float angleOfAttack = Vector3.Dot(transform.forward, Vector3.up);
+
+        if (angleOfAttack > 0) // Ascenso
         {
-            wingsuitSpeed = Mathf.Lerp(wingsuitSpeed, minWingsuitSpeed, Time.fixedDeltaTime * wingsuitDeceleration * 0.5f );
+            wingsuitSpeed = Mathf.Lerp(wingsuitSpeed, minWingsuitSpeed, Time.fixedDeltaTime * wingsuitDeceleration * angleOfAttack);
         }
-        else if (descentFactor > descentThreshold)
+        else if (angleOfAttack < 0) // Descenso
         {
-            wingsuitSpeed = Mathf.Lerp(wingsuitSpeed, maxWingsuitSpeed, Time.fixedDeltaTime * wingsuitAcceleration * 0.5f * descentFactor);
+            wingsuitSpeed = Mathf.Lerp(wingsuitSpeed, maxWingsuitSpeed, Time.fixedDeltaTime * wingsuitAcceleration * Mathf.Abs(angleOfAttack));
         }
+
+        
 
         // Ajustar la rotación hacia abajo en bajas velocidades
         if (wingsuitSpeed < minWingsuitSpeed + 1)
@@ -416,8 +421,11 @@ public class PlayerController : MonoBehaviour
             transform.forward = Vector3.Slerp(transform.forward, Vector3.down, Time.fixedDeltaTime * wingsuitTurnSpeed * 0.5f);
         }
 
+        // Clampeo de velocidad
         wingsuitSpeed = Mathf.Clamp(wingsuitSpeed, minWingsuitSpeed, maxWingsuitSpeed);
     }
+
+
 
 
 
