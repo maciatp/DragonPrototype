@@ -403,11 +403,11 @@ public class PlayerController : MonoBehaviour
         // Controlar la velocidad en función del ángulo de descenso
         if (descentFactor < descentThreshold)
         {
-            wingsuitSpeed = Mathf.Lerp(wingsuitSpeed, minWingsuitSpeed, Time.fixedDeltaTime * wingsuitDeceleration * 0.5f);
+            wingsuitSpeed = Mathf.Lerp(wingsuitSpeed, minWingsuitSpeed, Time.fixedDeltaTime * wingsuitDeceleration * 0.5f );
         }
         else if (descentFactor > descentThreshold)
         {
-            wingsuitSpeed = Mathf.Lerp(wingsuitSpeed, maxWingsuitSpeed, Time.fixedDeltaTime * wingsuitAcceleration * 0.7f);
+            wingsuitSpeed = Mathf.Lerp(wingsuitSpeed, maxWingsuitSpeed, Time.fixedDeltaTime * wingsuitAcceleration * 0.5f * descentFactor);
         }
 
         // Ajustar la rotación hacia abajo en bajas velocidades
