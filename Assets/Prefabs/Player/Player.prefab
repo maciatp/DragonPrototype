@@ -592,7 +592,7 @@ MonoBehaviour:
   totalParavelaStamina: 8
   paravelaGO: {fileID: 3782575770865407869}
   wingsuitAcceleration: 1.2
-  wingsuitDeceleration: 1
+  wingsuitDeceleration: 1.5
   wingsuitTurnSpeed: 10
   stableWingsuitSpeed: 20
   descentThreshold: 0.001
